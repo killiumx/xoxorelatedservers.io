@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XOXO Discord Hub</title>
+    <title>SwiftShip Dashboard - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,378 +12,452 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #0f3a94;
+            --secondary: #0891b2;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(0, 191, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInDown 0.8s ease;
-        }
-
-        .logo {
-            font-size: 5em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FF69B4 0%, #8A2BE2 50%, #00BFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
-            margin-bottom: 10px;
-            letter-spacing: 15px;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(138, 43, 226, 0.7)); }
-        }
-
-        .subtitle {
-            font-size: 1.4em;
-            color: #fff;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .server-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-            perspective: 1000px;
-        }
-
-        .server-card {
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 40px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: fadeInUp 0.8s ease;
-            position: relative;
-            transform-style: preserve-3d;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .server-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 25px;
-            padding: 2px;
-            background: linear-gradient(135deg, #FF69B4, #8A2BE2, #00BFFF);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .server-card:hover::before {
-            opacity: 1;
-        }
-
-        .server-card:hover {
-            transform: translateY(-15px) rotateX(5deg);
-            box-shadow: 
-                0 30px 80px rgba(255, 105, 180, 0.4),
-                0 0 50px rgba(138, 43, 226, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .server-icon-container {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 25px;
-            position: relative;
-            transform-style: preserve-3d;
-        }
-
-        .server-icon {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #FF69B4, #8A2BE2);
-            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3em;
-            box-shadow: 
-                0 10px 30px rgba(255, 105, 180, 0.5),
-                inset 0 -5px 20px rgba(0, 0, 0, 0.3),
-                inset 0 5px 20px rgba(255, 255, 255, 0.2);
-            position: relative;
-            transform: translateZ(50px);
-            transition: transform 0.4s ease;
         }
 
-        .server-card:hover .server-icon {
-            transform: translateZ(80px) rotateY(10deg);
-        }
-
-        .icon-shadow {
-            position: absolute;
+        /* Login Screen */
+        .login-container {
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 105, 180, 0.6) 0%, transparent 70%);
-            bottom: -20px;
-            filter: blur(20px);
-            transform: translateZ(-50px);
-            opacity: 0.5;
+            max-width: 450px;
+            padding: 0 1.5rem;
         }
 
-        .server-title {
-            font-size: 2em;
-            background: linear-gradient(135deg, #FF69B4, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
             text-align: center;
-            margin-bottom: 15px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
         }
 
-        .server-description {
-            color: #ccc;
+        .subtitle {
             text-align: center;
-            margin-bottom: 30px;
-            line-height: 1.7;
-            font-size: 0.95em;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
         }
 
-        .join-button {
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
             display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        input {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #FF69B4, #8A2BE2, #00BFFF);
-            background-size: 200% 200%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 86, 219, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             text-align: center;
-            font-weight: 700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.4s ease;
-            box-shadow: 
-                0 10px 30px rgba(255, 105, 180, 0.4),
-                inset 0 -3px 10px rgba(0, 0, 0, 0.3),
-                inset 0 3px 10px rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(30px);
+            font-size: 0.9rem;
+            display: none;
         }
 
-        .join-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+        .error-message.show {
+            display: block;
         }
 
-        .join-button:hover {
-            background-position: 100% 0;
-            transform: translateZ(50px) scale(1.05);
-            box-shadow: 
-                0 15px 50px rgba(138, 43, 226, 0.6),
-                inset 0 -3px 10px rgba(0, 0, 0, 0.3),
-                inset 0 3px 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .join-button:hover::before {
-            width: 400px;
-            height: 400px;
-        }
-
-        footer {
+        .hint {
             text-align: center;
-            margin-top: 80px;
-            padding: 40px;
-            color: #888;
-            font-size: 0.95em;
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
         }
 
-        .xoxo-pattern {
-            font-size: 1.5em;
-            letter-spacing: 10px;
-            background: linear-gradient(90deg, #FF69B4, #8A2BE2, #00BFFF, #FF69B4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .hint strong {
+            color: var(--primary);
+        }
+
+        /* Dashboard (Hidden Until Login) */
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 1400px;
+            padding: 2rem;
+        }
+
+        .dashboard.show {
+            display: block;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 2rem;
             font-weight: 700;
+            color: var(--dark);
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .logout-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .logout-btn:hover {
+            background: var(--primary);
+            color: white;
         }
 
-        .server-card:nth-child(1) { animation-delay: 0.1s; }
-        .server-card:nth-child(2) { animation-delay: 0.2s; }
-        .server-card:nth-child(3) { animation-delay: 0.3s; }
-        .server-card:nth-child(4) { animation-delay: 0.4s; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .info-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h3 {
+            font-family: 'Sora', sans-serif;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            color: var(--gray);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-box li:last-child {
+            border-bottom: none;
+        }
 
         @media (max-width: 768px) {
-            .logo {
-                font-size: 3em;
-                letter-spacing: 8px;
-            }
-            
-            .subtitle {
-                font-size: 1em;
-            }
-            
-            .server-grid {
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        /* 3D Card Tilt Effect */
-        .server-card {
-            transform-origin: center center;
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 class="logo">XOXO</h1>
-            <p class="subtitle">Discord Community Hub</p>
-        </header>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-card">
+            <div class="logo">SwiftShip</div>
+            <p class="subtitle">Dashboard Login</p>
 
-        <div class="server-grid">
-            <div class="server-card">
-                <div class="server-icon-container">
-                    <div class="icon-shadow"></div>
-                    <div class="server-icon">⚔️</div>
-                </div>
-                <h2 class="server-title">Faction</h2>
-                <p class="server-description">Dominate the battlefield. Form strategic alliances and conquer territories in intense faction warfare.</p>
-                <a href="https://discord.gg/jzFtHzAUEB" class="join-button" target="_blank">Join Now</a>
+            <div class="error-message" id="errorMessage">
+                ✗ Incorrect password. Please try again.
             </div>
 
-            <div class="server-card">
-                <div class="server-icon-container">
-                    <div class="icon-shadow"></div>
-                    <div class="server-icon">🚑</div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
                 </div>
-                <h2 class="server-title">EMS</h2>
-                <p class="server-description">First responders unite. Professional training and life-saving emergency medical services community.</p>
-                <a href="https://discord.gg/jerCXEveYj" class="join-button" target="_blank">Join Now</a>
-            </div>
+                <button type="submit" id="loginBtn">Login to Dashboard</button>
+            </form>
 
-            <div class="server-card">
-                <div class="server-icon-container">
-                    <div class="icon-shadow"></div>
-                    <div class="server-icon">🏠</div>
-                </div>
-                <h2 class="server-title">Real Estate</h2>
-                <p class="server-description">Build your empire. Premium properties, exclusive deals, and networking with top real estate professionals.</p>
-                <a href="https://discord.gg/WGf6qQpYUJ" class="join-button" target="_blank">Join Now</a>
+            <div class="hint">
+                <strong>Demo Password:</strong> swiftship123<br>
+                (Change this in the code)
             </div>
+        </div>
+    </div>
 
-            <div class="server-card">
-                <div class="server-icon-container">
-                    <div class="icon-shadow"></div>
-                    <div class="server-icon">👮</div>
-                </div>
-                <h2 class="server-title">Police Department</h2>
-                <p class="server-description">Serve with honor. Elite law enforcement roleplay, tactical training, and justice for all.</p>
-                <a href="https://discord.gg/JkWgvWDuKQ" class="join-button" target="_blank">Join Now</a>
+    <!-- Dashboard (Shows After Login) -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-title">SwiftShip Dashboard</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Active Shipments</div>
+                <div class="stat-value">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pending Quotes</div>
+                <div class="stat-value">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Delivered Today</div>
+                <div class="stat-value">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Revenue</div>
+                <div class="stat-value">--</div>
             </div>
         </div>
 
-        <footer>
-            <p class="xoxo-pattern">XOXO XOXO XOXO</p>
-            <p style="margin-top: 15px; color: #666;">Built with style & strength</p>
-        </footer>
+        <div class="info-box">
+            <h3>📊 Dashboard Overview</h3>
+            <p>Welcome to your SwiftShip dashboard! From here you can:</p>
+            <ul>
+                <li>✅ View and manage all shipments</li>
+                <li>✅ Track pending quote requests</li>
+                <li>✅ Monitor delivery status</li>
+                <li>✅ Access your Google Sheets database</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>🔗 Quick Links</h3>
+            <p>
+                <a href="https://sheets.google.com" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                    → Open Google Sheets Database
+                </a>
+            </p>
+            <p style="margin-top: 1rem;">
+                <a href="https://sheetdb.io" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                    → Manage SheetDB API
+                </a>
+            </p>
+        </div>
+
+        <div class="info-box">
+            <h3>💡 Next Steps</h3>
+            <p>To connect this dashboard to your live data:</p>
+            <ol style="padding-left: 1.5rem; color: var(--gray); line-height: 1.8;">
+                <li>Add your SheetDB API key to this file</li>
+                <li>Fetch data from your Google Sheets</li>
+                <li>Display real-time metrics</li>
+                <li>Add shipment management features</li>
+            </ol>
+        </div>
     </div>
 
     <script>
-        // 3D Tilt Effect on Mouse Move
-        const cards = document.querySelectorAll('.server-card');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `translateY(-15px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
+        // ===================================
+        // CHANGE THIS PASSWORD
+        // ===================================
+        const DASHBOARD_PASSWORD = 'swiftship123';
+
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginBtn = document.getElementById('loginBtn');
+
+        // Check if already logged in
+        if (sessionStorage.getItem('dashboard_auth') === 'true') {
+            showDashboard();
+        }
+
+        // Handle login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
-            });
+            const password = passwordInput.value;
+            
+            if (password === DASHBOARD_PASSWORD) {
+                // Correct password
+                sessionStorage.setItem('dashboard_auth', 'true');
+                showDashboard();
+            } else {
+                // Wrong password
+                errorMessage.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 3000);
+            }
         });
+
+        function showDashboard() {
+            loginScreen.style.display = 'none';
+            dashboard.classList.add('show');
+            document.body.style.display = 'block';
+            document.body.style.alignItems = 'flex-start';
+            document.body.style.justifyContent = 'flex-start';
+            document.title = 'SwiftShip Dashboard';
+            
+            // Load dashboard data here
+            loadDashboardData();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('dashboard_auth');
+            location.reload();
+        }
+
+        // Load data from Google Sheets via SheetDB
+        async function loadDashboardData() {
+            // Replace with your SheetDB API
+            const API_URL = 'https://sheetdb.io/api/v1/wr8g8nxcnri1f';
+            
+            try {
+                // Fetch active shipments
+                const shipmentsResponse = await fetch(`${API_URL}?sheet=Active_Shipments`);
+                const shipments = await shipmentsResponse.json();
+                
+                // Fetch quotes
+                const quotesResponse = await fetch(`${API_URL}?sheet=Quote_Requests`);
+                const quotes = await quotesResponse.json();
+                
+                // Update stats
+                const activeCount = shipments.filter(s => s.current_status && s.current_status !== 'Delivered').length;
+                const pendingQuotes = quotes.filter(q => q.quote_status === 'Pending').length;
+                const deliveredToday = shipments.filter(s => {
+                    if (!s.actual_delivery) return false;
+                    const today = new Date().toLocaleDateString();
+                    const deliveryDate = new Date(s.actual_delivery).toLocaleDateString();
+                    return today === deliveryDate;
+                }).length;
+                
+                // Calculate revenue
+                const revenue = shipments.reduce((sum, s) => {
+                    const paid = parseFloat(s.customer_paid || 0);
+                    return sum + paid;
+                }, 0);
+                
+                // Update UI
+                document.querySelectorAll('.stat-value')[0].textContent = activeCount;
+                document.querySelectorAll('.stat-value')[1].textContent = pendingQuotes;
+                document.querySelectorAll('.stat-value')[2].textContent = deliveredToday;
+                document.querySelectorAll('.stat-value')[3].textContent = '$' + revenue.toFixed(2);
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                document.querySelectorAll('.stat-value').forEach(el => {
+                    el.textContent = 'Error';
+                    el.style.fontSize = '1.5rem';
+                    el.style.color = '#dc2626';
+                });
+            }
+        }
     </script>
 </body>
 </html>
