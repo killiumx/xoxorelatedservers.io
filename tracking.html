@@ -58,6 +58,21 @@
             font-size: 1.1rem;
         }
 
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
         /* Search Card */
         .search-card {
             background: white;
@@ -111,7 +126,7 @@
             gap: 0.5rem;
         }
 
-        .search-btn:hover {
+        .search-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(26, 86, 219, 0.4);
         }
@@ -125,6 +140,22 @@
             color: var(--gray);
             font-size: 0.9rem;
             margin-top: 0.75rem;
+        }
+
+        /* Debug Info */
+        .debug-info {
+            background: #1e293b;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .debug-info.show {
+            display: block;
         }
 
         /* Results Card */
@@ -200,6 +231,11 @@
         .status-out-for-delivery {
             background: #e0e7ff;
             color: #3730a3;
+        }
+
+        .status-exception {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         /* Package Info */
@@ -337,6 +373,19 @@
             display: inline-block;
         }
 
+        .search-btn.loading span:first-child {
+            display: none;
+        }
+
+        /* Empty State */
+        .empty-timeline {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+            background: var(--light);
+            border-radius: 12px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .search-card, .results-card {
@@ -360,6 +409,13 @@
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Home
+        </a>
+
         <div class="header">
             <div class="logo">SwiftShip</div>
             <p class="subtitle">Track your package in real-time</p>
@@ -372,15 +428,16 @@
                     type="text" 
                     class="search-input" 
                     id="trackingNumber" 
-                    placeholder="Enter tracking number (e.g., SS123456789)"
+                    placeholder="Enter tracking number (e.g., SS000000001)"
                     required
                 >
-                <button type="submit" class="search-btn">
+                <button type="submit" class="search-btn" id="searchBtn">
                     <span>Track Package</span>
                     <span class="spinner"></span>
                 </button>
             </form>
             <p class="hint">Enter your tracking number to view real-time shipment status and delivery updates</p>
+            <div class="debug-info" id="debugInfo"></div>
         </div>
 
         <div class="alert alert-error" id="errorAlert"></div>
@@ -389,29 +446,37 @@
             <div class="tracking-header">
                 <div>
                     <div class="tracking-label">Tracking Number</div>
-                    <div class="tracking-number" id="displayTrackingNumber">SS123456789</div>
+                    <div class="tracking-number" id="displayTrackingNumber">--</div>
                 </div>
                 <div>
-                    <span class="status-badge" id="statusBadge">In Transit</span>
+                    <span class="status-badge" id="statusBadge">--</span>
                 </div>
             </div>
 
             <div class="package-info">
                 <div class="info-item">
+                    <div class="info-label">Customer</div>
+                    <div class="info-value" id="customerName">--</div>
+                </div>
+                <div class="info-item">
                     <div class="info-label">From</div>
-                    <div class="info-value" id="fromLocation">Los Angeles, CA</div>
+                    <div class="info-value" id="fromLocation">--</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">To</div>
-                    <div class="info-value" id="toLocation">New York, NY</div>
+                    <div class="info-value" id="toLocation">--</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Service Type</div>
-                    <div class="info-value" id="serviceType">Express (2-3 days)</div>
+                    <div class="info-value" id="serviceType">--</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Estimated Delivery</div>
-                    <div class="info-value" id="estimatedDelivery">Feb 16, 2026</div>
+                    <div class="info-value" id="estimatedDelivery">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Package Type</div>
+                    <div class="info-value" id="packageType">--</div>
                 </div>
             </div>
 
@@ -423,11 +488,21 @@
     </div>
 
     <script>
+        // CONFIGURATION
+        const SHEETDB_API = 'https://sheetdb.io/api/v1/wr8g8nxcnri1f';
+
         const form = document.getElementById('trackingForm');
         const resultsCard = document.getElementById('resultsCard');
         const errorAlert = document.getElementById('errorAlert');
         const trackingInput = document.getElementById('trackingNumber');
-        const submitBtn = form.querySelector('.search-btn');
+        const submitBtn = document.getElementById('searchBtn');
+        const debugInfo = document.getElementById('debugInfo');
+
+        function showDebug(message) {
+            console.log('DEBUG:', message);
+            debugInfo.innerHTML += message + '<br>';
+            debugInfo.classList.add('show');
+        }
 
         function showError(message) {
             errorAlert.textContent = message;
@@ -440,159 +515,159 @@
         }
 
         function getStatusClass(status) {
-            const statusMap = {
-                'Delivered': 'status-delivered',
-                'In Transit': 'status-in-transit',
-                'Out for Delivery': 'status-out-for-delivery',
-                'Pending': 'status-pending'
-            };
-            return statusMap[status] || 'status-in-transit';
+            if (!status) return 'status-pending';
+            
+            const statusLower = status.toLowerCase();
+            if (statusLower.includes('delivered')) return 'status-delivered';
+            if (statusLower.includes('transit')) return 'status-in-transit';
+            if (statusLower.includes('delivery')) return 'status-out-for-delivery';
+            if (statusLower.includes('exception') || statusLower.includes('delay')) return 'status-exception';
+            return 'status-pending';
         }
 
-        function displayTrackingInfo(data) {
+        function formatDate(dateString) {
+            if (!dateString || dateString === '') return 'N/A';
+            
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString;
+                
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function displayTrackingInfo(shipment, events) {
             // Update header
-            document.getElementById('displayTrackingNumber').textContent = data.trackingNumber;
+            document.getElementById('displayTrackingNumber').textContent = shipment.tracking_number || 'N/A';
             const statusBadge = document.getElementById('statusBadge');
-            statusBadge.textContent = data.status;
-            statusBadge.className = 'status-badge ' + getStatusClass(data.status);
+            statusBadge.textContent = shipment.current_status || 'Unknown';
+            statusBadge.className = 'status-badge ' + getStatusClass(shipment.current_status);
 
             // Update package info
-            document.getElementById('fromLocation').textContent = data.from;
-            document.getElementById('toLocation').textContent = data.to;
-            document.getElementById('serviceType').textContent = data.service;
-            document.getElementById('estimatedDelivery').textContent = data.estimatedDelivery;
+            document.getElementById('customerName').textContent = shipment.customer_name || 'N/A';
+            document.getElementById('fromLocation').textContent = shipment.pickup_address || 'N/A';
+            document.getElementById('toLocation').textContent = shipment.delivery_address || 'N/A';
+            document.getElementById('serviceType').textContent = shipment.service_type || 'N/A';
+            document.getElementById('estimatedDelivery').textContent = formatDate(shipment.estimated_delivery);
+            document.getElementById('packageType').textContent = shipment.package_type || 'N/A';
 
             // Update timeline
             const timeline = document.getElementById('timeline');
-            timeline.innerHTML = data.events.map(event => `
-                <div class="timeline-item">
-                    <div class="timeline-dot ${event.active ? 'active' : ''}"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-time">${event.time}</div>
-                        <div class="timeline-status">${event.status}</div>
-                        <div class="timeline-location">${event.location}</div>
+            
+            if (events.length === 0) {
+                timeline.innerHTML = `
+                    <div class="empty-timeline">
+                        <p>No tracking events yet. Check back soon for updates!</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            } else {
+                // Sort events by timestamp (newest first)
+                events.sort((a, b) => {
+                    const dateA = new Date(a.event_timestamp);
+                    const dateB = new Date(b.event_timestamp);
+                    return dateB - dateA;
+                });
+
+                timeline.innerHTML = events.map((event, index) => `
+                    <div class="timeline-item">
+                        <div class="timeline-dot ${index === 0 ? 'active' : ''}"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">${formatDate(event.event_timestamp)}</div>
+                            <div class="timeline-status">${event.event_status || 'Status Update'}</div>
+                            ${event.event_location ? `<div class="timeline-location">📍 ${event.event_location}</div>` : ''}
+                            ${event.event_description ? `<div class="timeline-location">${event.event_description}</div>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
 
             // Show results
             resultsCard.classList.add('show');
             errorAlert.classList.remove('show');
+            
+            // Scroll to results
+            resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         async function trackPackage(trackingNumber) {
             try {
-                // Clean up the input tracking number
+                debugInfo.innerHTML = '';
                 const cleanTrackingNumber = trackingNumber.trim().toUpperCase();
                 
-                console.log('=== SEARCHING FOR SHIPMENT ===');
-                console.log('Input:', trackingNumber);
-                console.log('Clean:', cleanTrackingNumber);
+                showDebug(`Searching for: ${cleanTrackingNumber}`);
+                showDebug(`API URL: ${SHEETDB_API}`);
                 
-                // Fetch ALL shipments from Active_Shipments tab
-                const shipmentResponse = await fetch(
-                    `https://sheetdb.io/api/v1/wr8g8nxcnri1f?sheet=Active_Shipments`
-                );
+                // Fetch shipments
+                showDebug('Fetching Active_Shipments...');
+                const shipmentResponse = await fetch(`${SHEETDB_API}?sheet=Active_Shipments`);
+                
+                showDebug(`Response status: ${shipmentResponse.status}`);
                 
                 if (!shipmentResponse.ok) {
-                    throw new Error('Failed to fetch shipment data');
+                    throw new Error(`HTTP error! status: ${shipmentResponse.status}`);
                 }
                 
                 const allShipments = await shipmentResponse.json();
-                console.log('Total shipments:', allShipments.length);
+                showDebug(`Found ${allShipments.length} total shipments`);
                 
-                // Show all tracking numbers
-                allShipments.forEach((s, i) => {
-                    console.log(`Shipment ${i}: "${s.tracking_number}" (${s.customer_name})`);
-                });
+                // List all tracking numbers
+                if (allShipments.length > 0) {
+                    showDebug('Available tracking numbers:');
+                    allShipments.forEach((s, i) => {
+                        showDebug(`  ${i + 1}. "${s.tracking_number}" (${s.customer_name || 'No name'})`);
+                    });
+                }
                 
-                // Find exact match for tracking number
+                // Find exact match
                 const shipment = allShipments.find(s => {
                     if (!s.tracking_number) return false;
                     const cleanShipmentNumber = s.tracking_number.toString().trim().toUpperCase();
-                    const matches = cleanShipmentNumber === cleanTrackingNumber;
-                    console.log(`  Comparing "${cleanShipmentNumber}" === "${cleanTrackingNumber}": ${matches}`);
-                    return matches;
+                    return cleanShipmentNumber === cleanTrackingNumber;
                 });
                 
-                console.log('Found shipment:', shipment ? shipment.customer_name : 'NONE');
-                
                 if (!shipment) {
-                    throw new Error('Tracking number not found. Please check and try again.');
+                    showDebug(`❌ No match found for "${cleanTrackingNumber}"`);
+                    throw new Error(`Tracking number "${trackingNumber}" not found. Please check and try again.`);
                 }
                 
-                // Fetch ALL tracking events from Tracking_Events tab
-                const eventsResponse = await fetch(
-                    `https://sheetdb.io/api/v1/wr8g8nxcnri1f?sheet=Tracking_Events`
-                );
+                showDebug(`✓ Found shipment for: ${shipment.customer_name}`);
                 
+                // Fetch tracking events
                 let events = [];
-                if (eventsResponse.ok) {
-                    const allEvents = await eventsResponse.json();
+                try {
+                    showDebug('Fetching Tracking_Events...');
+                    const eventsResponse = await fetch(`${SHEETDB_API}?sheet=Tracking_Events`);
                     
-                    console.log('=== DEBUGGING TRACKING ===');
-                    console.log('Searching for:', cleanTrackingNumber);
-                    console.log('Total events in sheet:', allEvents.length);
-                    
-                    // Show all tracking numbers in the data
-                    allEvents.forEach((e, index) => {
-                        console.log(`Event ${index}: tracking_number = "${e.tracking_number}"`);
-                    });
-                    
-                    // Filter events for this specific tracking number (exact match)
-                    events = allEvents.filter(e => {
-                        // Skip if no tracking number
-                        if (!e.tracking_number) {
-                            console.log('Skipping event with no tracking number');
-                            return false;
-                        }
+                    if (eventsResponse.ok) {
+                        const allEvents = await eventsResponse.json();
+                        showDebug(`Found ${allEvents.length} total events`);
                         
-                        // Skip if tracking number is empty or just whitespace
-                        const cleanEventNumber = e.tracking_number.toString().trim();
-                        if (cleanEventNumber === '') {
-                            console.log('Skipping event with empty tracking number');
-                            return false;
-                        }
+                        events = allEvents.filter(e => {
+                            if (!e.tracking_number) return false;
+                            const cleanEventNumber = e.tracking_number.toString().trim().toUpperCase();
+                            return cleanEventNumber === cleanTrackingNumber;
+                        });
                         
-                        // Compare uppercase versions
-                        const matches = cleanEventNumber.toUpperCase() === cleanTrackingNumber;
-                        console.log(`Comparing "${cleanEventNumber}" with "${cleanTrackingNumber}": ${matches}`);
-                        return matches;
-                    });
-                    
-                    console.log('Filtered events count:', events.length);
-                    console.log('=== END DEBUGGING ===');
-                    
-                    // Sort events by timestamp (newest first)
-                    events.sort((a, b) => {
-                        // Handle invalid dates
-                        const dateA = new Date(a.event_timestamp);
-                        const dateB = new Date(b.event_timestamp);
-                        if (isNaN(dateA) || isNaN(dateB)) return 0;
-                        return dateB - dateA;
-                    });
+                        showDebug(`✓ Found ${events.length} events for this shipment`);
+                    }
+                } catch (eventError) {
+                    showDebug(`⚠ Could not fetch events: ${eventError.message}`);
                 }
                 
-                // Format data for display
-                const trackingData = {
-                    trackingNumber: shipment.tracking_number,
-                    status: shipment.current_status || 'Unknown',
-                    from: shipment.pickup_address || 'N/A',
-                    to: shipment.delivery_address || 'N/A',
-                    service: shipment.service_type || 'N/A',
-                    estimatedDelivery: shipment.estimated_delivery || 'N/A',
-                    events: events.map(e => ({
-                        time: e.event_timestamp,
-                        status: e.event_status,
-                        location: e.event_location,
-                        active: e.event_status === shipment.current_status
-                    }))
-                };
-                
-                displayTrackingInfo(trackingData);
+                // Display the tracking info
+                displayTrackingInfo(shipment, events);
                 
             } catch (error) {
-                throw new Error(error.message || 'Failed to track package. Please try again.');
+                showDebug(`❌ ERROR: ${error.message}`);
+                throw error;
             }
         }
 
@@ -612,7 +687,7 @@
             try {
                 await trackPackage(trackingNumber);
             } catch (error) {
-                showError(error.message);
+                showError(error.message || 'Failed to track package. Please try again.');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
