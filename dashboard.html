@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwiftShip Dashboard - Login</title>
+    <title>SwiftShip Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -30,6 +30,117 @@
             color: var(--dark);
             background: var(--light);
             line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            margin: 0 1rem;
+        }
+
+        .login-logo {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .login-input {
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 86, 219, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 0.875rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            display: none;
+        }
+
+        .dashboard-content.show {
+            display: block;
         }
 
         /* Sidebar */
@@ -70,6 +181,7 @@
             color: #94a3b8;
             text-decoration: none;
             transition: all 0.2s;
+            cursor: pointer;
         }
 
         .nav-link:hover,
@@ -278,39 +390,14 @@
             color: #92400e;
         }
 
-        .badge-in-transit {
+        .badge-responded {
             background: #dbeafe;
             color: #1e40af;
         }
 
-        .badge-delivered {
+        .badge-completed {
             background: #d1fae5;
             color: #065f46;
-        }
-
-        .badge-out-delivery {
-            background: #e0e7ff;
-            color: #3730a3;
-        }
-
-        .badge-exception {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .badge-paid {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-unpaid {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .badge-overdue {
-            background: #fee2e2;
-            color: #991b1b;
         }
 
         .action-btn {
@@ -328,36 +415,55 @@
             background: #e2e8f0;
         }
 
-        /* Charts Section */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
         }
 
-        .chart-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        .spinner-large {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
         }
 
-        .chart-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            stroke: var(--gray);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Section Views */
+        .section-view {
+            display: none;
+        }
+
+        .section-view.active {
+            display: block;
         }
 
         /* Responsive */
         @media (max-width: 1200px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .charts-grid {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -380,116 +486,6 @@
                 align-items: flex-start;
             }
         }
-
-        /* Login Screen Styles */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .login-overlay.hidden {
-            display: none;
-        }
-
-        .login-card {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 400px;
-            margin: 0 1rem;
-        }
-
-        .login-logo {
-            font-family: 'Sora', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .login-subtitle {
-            text-align: center;
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .login-input {
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .login-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
-        }
-
-        .login-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 1rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(26, 86, 219, 0.4);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .login-error {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 0.875rem;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .login-error.show {
-            display: block;
-        }
-
-        .dashboard-content {
-            display: none;
-        }
-
-        .dashboard-content.show {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -497,7 +493,7 @@
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
             <div class="login-logo">SwiftShip</div>
-            <p class="login-subtitle">Dashboard Login</p>
+            <p class="login-subtitle">Employee Dashboard Login</p>
             
             <div class="login-error" id="loginError">Invalid password. Please try again.</div>
             
@@ -514,301 +510,461 @@
             </form>
             
             <p style="text-align: center; color: var(--gray); font-size: 0.85rem; margin-top: 1.5rem;">
-                For demonstration: password is <strong>swiftship123</strong>
+                Demo password: <strong>swiftship123</strong>
             </p>
         </div>
     </div>
 
-    <!-- Dashboard Content (Hidden Until Login) -->
+    <!-- Dashboard Content -->
     <div class="dashboard-content" id="dashboardContent">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">SwiftShip</div>
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#" class="nav-link active">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                    </svg>
-                    Active Shipments
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                    </svg>
-                    Quote Requests
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
-                    Customers
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    Financials
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                    Analytics
-                </a>
-            </li>
-        </ul>
-    </aside>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">SwiftShip</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link active" data-section="overview">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-section="quotes">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        Quote Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="logout()">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Header -->
-        <div class="header">
-            <h1>Dashboard Overview</h1>
-            <div class="header-actions">
-                <button class="btn btn-secondary">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <div class="section-view active" id="overviewSection">
+                <div class="header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshData()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Quotes</div>
+                        <div class="stat-value" id="totalQuotes">--</div>
+                        <div class="stat-change">Loading...</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-label">Pending Quotes</div>
+                        <div class="stat-value" id="pendingQuotes">--</div>
+                        <div class="stat-change">Need response</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-label">Responded</div>
+                        <div class="stat-value" id="respondedQuotes">--</div>
+                        <div class="stat-change">This week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Today's Requests</div>
+                        <div class="stat-value" id="todayQuotes">--</div>
+                        <div class="stat-change">Last 24 hours</div>
+                    </div>
+                </div>
+
+                <!-- Recent Quotes Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Recent Quote Requests</div>
+                        <div class="table-filters">
+                            <button class="btn btn-secondary" onclick="viewAllQuotes()">View All</button>
+                        </div>
+                    </div>
+                    <div id="recentQuotesTable">
+                        <div class="loading">
+                            <div class="spinner-large"></div>
+                            <p>Loading quote requests...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quotes Section -->
+            <div class="section-view" id="quotesSection">
+                <div class="header">
+                    <h1>All Quote Requests</h1>
+                    <div class="header-actions">
+                        <select class="filter-select" id="statusFilter" onchange="filterQuotes()">
+                            <option value="all">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Responded">Responded</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="refreshData()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div id="allQuotesTable">
+                        <div class="loading">
+                            <div class="spinner-large"></div>
+                            <p>Loading all quotes...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ===================================
+        // CONFIGURATION
+        // ===================================
+        const DASHBOARD_PASSWORD = 'swiftship123';
+        const SHEETDB_API = 'https://sheetdb.io/api/v1/wr8g8nxcnri1f';
+        
+        // Global data storage
+        let quotesData = [];
+
+        // ===================================
+        // LOGIN FUNCTIONALITY
+        // ===================================
+        const loginOverlay = document.getElementById('loginOverlay');
+        const dashboardContent = document.getElementById('dashboardContent');
+        const loginForm = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginError = document.getElementById('loginError');
+
+        // Check if already logged in
+        if (sessionStorage.getItem('dashboard_auth') === 'true') {
+            showDashboard();
+        }
+
+        // Handle login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const password = passwordInput.value;
+            
+            if (password === DASHBOARD_PASSWORD) {
+                sessionStorage.setItem('dashboard_auth', 'true');
+                showDashboard();
+            } else {
+                loginError.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                setTimeout(() => {
+                    loginError.classList.remove('show');
+                }, 3000);
+            }
+        });
+
+        function showDashboard() {
+            loginOverlay.classList.add('hidden');
+            dashboardContent.classList.add('show');
+            loadDashboardData();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('dashboard_auth');
+            location.reload();
+        }
+
+        // ===================================
+        // NAVIGATION
+        // ===================================
+        document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                switchSection(section);
+            });
+        });
+
+        function switchSection(sectionName) {
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${sectionName}"]`)?.classList.add('active');
+
+            // Update sections
+            document.querySelectorAll('.section-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(`${sectionName}Section`).classList.add('active');
+
+            // Load data for section
+            if (sectionName === 'quotes') {
+                renderAllQuotes();
+            }
+        }
+
+        function viewAllQuotes() {
+            switchSection('quotes');
+        }
+
+        // ===================================
+        // DATA LOADING
+        // ===================================
+        async function loadDashboardData() {
+            try {
+                showLoadingState();
+                
+                // Fetch data from Google Sheets via SheetDB
+                const response = await fetch(SHEETDB_API);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                
+                quotesData = await response.json();
+                
+                // Update dashboard
+                updateStats();
+                renderRecentQuotes();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showErrorState();
+            }
+        }
+
+        function showLoadingState() {
+            document.getElementById('totalQuotes').textContent = '--';
+            document.getElementById('pendingQuotes').textContent = '--';
+            document.getElementById('respondedQuotes').textContent = '--';
+            document.getElementById('todayQuotes').textContent = '--';
+        }
+
+        function showErrorState() {
+            document.getElementById('totalQuotes').textContent = 'Error';
+            document.getElementById('pendingQuotes').textContent = 'Error';
+            document.getElementById('respondedQuotes').textContent = 'Error';
+            document.getElementById('todayQuotes').textContent = 'Error';
+            
+            document.getElementById('recentQuotesTable').innerHTML = `
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Export Data
-                </button>
-                <button class="btn btn-primary">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    New Shipment
-                </button>
-            </div>
-        </div>
+                    <p>Failed to load data. Please check your API connection.</p>
+                </div>
+            `;
+        }
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Active Shipments</div>
-                <div class="stat-value">23</div>
-                <div class="stat-change positive">
-                    ↑ 12% from last week
-                </div>
-            </div>
-            <div class="stat-card warning">
-                <div class="stat-label">Pending Quotes</div>
-                <div class="stat-value">12</div>
-                <div class="stat-change negative">
-                    5 need response today
-                </div>
-            </div>
-            <div class="stat-card success">
-                <div class="stat-label">Delivered Today</div>
-                <div class="stat-value">8</div>
-                <div class="stat-change positive">
-                    ↑ 100% on-time rate
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Revenue (This Month)</div>
-                <div class="stat-value">$12.5K</div>
-                <div class="stat-change positive">
-                    ↑ 23% from last month
-                </div>
-            </div>
-        </div>
+        // ===================================
+        // STATS CALCULATION
+        // ===================================
+        function updateStats() {
+            const total = quotesData.length;
+            const pending = quotesData.filter(q => !q.quote_status || q.quote_status === 'Pending').length;
+            const responded = quotesData.filter(q => q.quote_status === 'Responded').length;
+            
+            // Get today's quotes
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const todayCount = quotesData.filter(q => {
+                if (!q.timestamp) return false;
+                const quoteDate = new Date(q.timestamp);
+                quoteDate.setHours(0, 0, 0, 0);
+                return quoteDate.getTime() === today.getTime();
+            }).length;
+            
+            document.getElementById('totalQuotes').textContent = total;
+            document.getElementById('pendingQuotes').textContent = pending;
+            document.getElementById('respondedQuotes').textContent = responded;
+            document.getElementById('todayQuotes').textContent = todayCount;
+        }
 
-        <!-- Charts -->
-        <div class="charts-grid">
-            <div class="chart-card">
-                <div class="chart-title">Shipments This Week</div>
-                <svg viewBox="0 0 600 250" style="width: 100%; height: 250px;">
-                    <!-- Simple bar chart visualization -->
-                    <rect x="50" y="200" width="60" height="30" fill="#1a56db" opacity="0.8"/>
-                    <rect x="130" y="170" width="60" height="60" fill="#1a56db" opacity="0.8"/>
-                    <rect x="210" y="140" width="60" height="90" fill="#1a56db" opacity="0.8"/>
-                    <rect x="290" y="120" width="60" height="110" fill="#1a56db" opacity="0.8"/>
-                    <rect x="370" y="100" width="60" height="130" fill="#1a56db"/>
-                    <rect x="450" y="80" width="60" height="150" fill="#1a56db"/>
-                    <rect x="530" y="50" width="60" height="180" fill="#0891b2"/>
-                    
-                    <text x="80" y="245" font-size="12" fill="#64748b">Mon</text>
-                    <text x="160" y="245" font-size="12" fill="#64748b">Tue</text>
-                    <text x="240" y="245" font-size="12" fill="#64748b">Wed</text>
-                    <text x="320" y="245" font-size="12" fill="#64748b">Thu</text>
-                    <text x="400" y="245" font-size="12" fill="#64748b">Fri</text>
-                    <text x="480" y="245" font-size="12" fill="#64748b">Sat</text>
-                    <text x="560" y="245" font-size="12" fill="#64748b">Sun</text>
-                </svg>
-            </div>
-            <div class="chart-card">
-                <div class="chart-title">Shipment Status</div>
-                <div style="padding: 1rem 0;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                        <span style="color: #64748b;">In Transit</span>
-                        <span style="font-weight: 600;">15 (65%)</span>
+        // ===================================
+        // TABLE RENDERING
+        // ===================================
+        function renderRecentQuotes() {
+            const recentQuotes = quotesData.slice(-10).reverse(); // Last 10 quotes
+            
+            if (recentQuotes.length === 0) {
+                document.getElementById('recentQuotesTable').innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p>No quote requests yet</p>
                     </div>
-                    <div style="height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 1.5rem;">
-                        <div style="height: 100%; width: 65%; background: #1a56db; border-radius: 4px;"></div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                        <span style="color: #64748b;">Out for Delivery</span>
-                        <span style="font-weight: 600;">5 (22%)</span>
-                    </div>
-                    <div style="height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 1.5rem;">
-                        <div style="height: 100%; width: 22%; background: #0891b2; border-radius: 4px;"></div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                        <span style="color: #64748b;">Pending Pickup</span>
-                        <span style="font-weight: 600;">3 (13%)</span>
-                    </div>
-                    <div style="height: 8px; background: #e2e8f0; border-radius: 4px;">
-                        <div style="height: 100%; width: 13%; background: #f59e0b; border-radius: 4px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                `;
+                return;
+            }
+            
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Contact</th>
+                            <th>Route</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${recentQuotes.map(quote => `
+                            <tr>
+                                <td><small>${formatDate(quote.timestamp)}</small></td>
+                                <td>
+                                    <strong>${quote.name || 'N/A'}</strong>
+                                    ${quote.company ? `<br><small style="color: var(--gray);">${quote.company}</small>` : ''}
+                                </td>
+                                <td>
+                                    <small>${quote.contact_methods || 'N/A'}</small><br>
+                                    <small style="color: var(--gray);">${quote.phone || 'N/A'}</small>
+                                </td>
+                                <td><small>${quote.pickup_address || 'N/A'} → ${quote.delivery_address || 'N/A'}</small></td>
+                                <td>${quote.shipping_service || 'N/A'}</td>
+                                <td>${getStatusBadge(quote.quote_status)}</td>
+                                <td>
+                                    <button class="action-btn" onclick="viewQuoteDetails(${quotesData.indexOf(quote)})">View</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('recentQuotesTable').innerHTML = tableHTML;
+        }
 
-        <!-- Active Shipments Table -->
-        <div class="table-container">
-            <div class="table-header">
-                <div class="table-title">Active Shipments</div>
-                <div class="table-filters">
-                    <select class="filter-select">
-                        <option>All Status</option>
-                        <option>In Transit</option>
-                        <option>Out for Delivery</option>
-                        <option>Pending</option>
-                    </select>
-                    <select class="filter-select">
-                        <option>All Services</option>
-                        <option>Express</option>
-                        <option>Standard</option>
-                        <option>Overnight</option>
-                    </select>
-                </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tracking #</th>
-                        <th>Customer</th>
-                        <th>From → To</th>
-                        <th>Service</th>
-                        <th>Status</th>
-                        <th>Est. Delivery</th>
-                        <th>Payment</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>SS000000023</strong></td>
-                        <td>John Doe<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f49e9b9c9ab49199959d98da979b99">[email&#160;protected]</a></small></td>
-                        <td><small>Los Angeles, CA → New York, NY</small></td>
-                        <td>Express</td>
-                        <td><span class="badge badge-in-transit">In Transit</span></td>
-                        <td>Feb 16, 2026</td>
-                        <td><span class="badge badge-paid">Paid</span></td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Update</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SS000000022</strong></td>
-                        <td>Jane Smith<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5dfd4dbd0f5d6dad8c5d4dbcc9bd6dad8">[email&#160;protected]</a></small></td>
-                        <td><small>Miami, FL → Boston, MA</small></td>
-                        <td>Standard</td>
-                        <td><span class="badge badge-out-delivery">Out for Delivery</span></td>
-                        <td>Feb 15, 2026</td>
-                        <td><span class="badge badge-paid">Paid</span></td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Update</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SS000000021</strong></td>
-                        <td>Bob Johnson<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aac8c5c8eadecfc9c284c9c5c7">[email&#160;protected]</a></small></td>
-                        <td><small>Austin, TX → Seattle, WA</small></td>
-                        <td>Overnight</td>
-                        <td><span class="badge badge-pending">Pending Pickup</span></td>
-                        <td>Feb 15, 2026</td>
-                        <td><span class="badge badge-unpaid">Pending</span></td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Update</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SS000000020</strong></td>
-                        <td>Sarah Williams<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="52213320333a12373f333b3e7c313d3f">[email&#160;protected]</a></small></td>
-                        <td><small>Chicago, IL → Denver, CO</small></td>
-                        <td>Express</td>
-                        <td><span class="badge badge-in-transit">In Transit</span></td>
-                        <td>Feb 17, 2026</td>
-                        <td><span class="badge badge-paid">Paid</span></td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Update</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SS000000019</strong></td>
-                        <td>Mike Davis<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="721f1b191732010613000607025c111d1f">[email&#160;protected]</a></small></td>
-                        <td><small>San Francisco, CA → Portland, OR</small></td>
-                        <td>Standard</td>
-                        <td><span class="badge badge-exception">Exception</span></td>
-                        <td>Feb 15, 2026</td>
-                        <td><span class="badge badge-overdue">Overdue</span></td>
-                        <td>
-                            <button class="action-btn">View</button>
-                            <button class="action-btn">Update</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        function renderAllQuotes(filterStatus = 'all') {
+            let filteredQuotes = quotesData;
+            
+            if (filterStatus !== 'all') {
+                filteredQuotes = quotesData.filter(q => 
+                    (q.quote_status || 'Pending') === filterStatus
+                );
+            }
+            
+            if (filteredQuotes.length === 0) {
+                document.getElementById('allQuotesTable').innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p>No quotes found with this filter</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Route</th>
+                            <th>Package</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredQuotes.reverse().map(quote => `
+                            <tr>
+                                <td><small>${formatDate(quote.timestamp)}</small></td>
+                                <td>
+                                    <strong>${quote.name || 'N/A'}</strong>
+                                    ${quote.company ? `<br><small style="color: var(--gray);">${quote.company}</small>` : ''}
+                                </td>
+                                <td><small>${quote.email || 'N/A'}</small></td>
+                                <td><small>${quote.phone || 'N/A'}</small></td>
+                                <td><small>${quote.pickup_address || 'N/A'} → ${quote.delivery_address || 'N/A'}</small></td>
+                                <td>${quote.package_type || 'N/A'} ${quote.weight ? `(${quote.weight}kg)` : ''}</td>
+                                <td><small>${quote.shipping_service || 'N/A'}</small></td>
+                                <td>${getStatusBadge(quote.quote_status)}</td>
+                                <td>
+                                    <button class="action-btn" onclick="viewQuoteDetails(${quotesData.indexOf(quote)})">View</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('allQuotesTable').innerHTML = tableHTML;
+        }
 
-        <!-- Pending Quotes Table -->
-        <div class="table-container">
-            <div class="table-header">
-                <div class="table-title">Pending Quote Requests</div>
-                <div class="table-filters">
-                    <span style="color: #64748b; font-size: 0.9rem;">5 need response today</span>
-                </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Contact</th>
-                        <th>Route</th>
-                        <th>Service Requested</th>
-                        <th>Submitted</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="background: #fef3c7;">
-                        <td><strong>Alice Cooper</strong></td>
-                        <td>Email, WhatsApp<br><small style="color: #64748b;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c3cecbc1c7e2c7cfc3cbce8cc1cdcf">[email&#160;protected]</a></small></td>
-                        <td><small>Dallas, TX → Atlanta, GA</small></td>
-                        <td>Express (2-3 days)</td>
-                        <td>12 hours ago</td>
-                        <td>
-                            <button class="action-btn" style="background: #1a56db; color: wh
+        // ===================================
+        // HELPER FUNCTIONS
+        // ===================================
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            
+            return date.toLocaleDateString();
+        }
+
+        function getStatusBadge(status) {
+            const statusMap = {
+                'Pending': 'badge-pending',
+                'Responded': 'badge-responded',
+                'Completed': 'badge-completed'
+            };
+            
+            const displayStatus = status || 'Pending';
+            const badgeClass = statusMap[displayStatus] || 'badge-pending';
+            
+            return `<span class="badge ${badgeClass}">${displayStatus}</span>`;
+        }
+
+        function viewQuoteDetails(index) {
+            const quote = quotesData[index];
+            alert(`Quote Details:\n\nCustomer: ${quote.name}\nEmail: ${quote.email}\nPhone: ${quote.phone}\nFrom: ${quote.pickup_address}\nTo: ${quote.delivery_address}\nService: ${quote.shipping_service}\nPackage: ${quote.package_type}\nWeight: ${quote.weight}kg\nNotes: ${quote.notes || 'None'}`);
+            // You can replace this with a modal or detailed view
+        }
+
+        function filterQuotes() {
+            const filterValue = document.getElementById('statusFilter').value;
+            renderAllQuotes(filterValue);
+        }
+
+        function refreshData() {
+            loadDashboardData();
+        }
+    </script>
+</body>
+</html>
