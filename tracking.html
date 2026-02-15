@@ -126,7 +126,7 @@
             gap: 0.5rem;
         }
 
-        .search-btn:hover {
+        .search-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(26, 86, 219, 0.4);
         }
@@ -140,6 +140,22 @@
             color: var(--gray);
             font-size: 0.9rem;
             margin-top: 0.75rem;
+        }
+
+        /* Debug Info */
+        .debug-info {
+            background: #1e293b;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .debug-info.show {
+            display: block;
         }
 
         /* Results Card */
@@ -357,6 +373,10 @@
             display: inline-block;
         }
 
+        .search-btn.loading span:first-child {
+            display: none;
+        }
+
         /* Empty State */
         .empty-timeline {
             text-align: center;
@@ -411,12 +431,13 @@
                     placeholder="Enter tracking number (e.g., SS000000001)"
                     required
                 >
-                <button type="submit" class="search-btn">
+                <button type="submit" class="search-btn" id="searchBtn">
                     <span>Track Package</span>
                     <span class="spinner"></span>
                 </button>
             </form>
             <p class="hint">Enter your tracking number to view real-time shipment status and delivery updates</p>
+            <div class="debug-info" id="debugInfo"></div>
         </div>
 
         <div class="alert alert-error" id="errorAlert"></div>
@@ -467,16 +488,21 @@
     </div>
 
     <script>
-        // ===================================
-        // CONFIGURATION - UPDATE THIS
-        // ===================================
+        // CONFIGURATION
         const SHEETDB_API = 'https://sheetdb.io/api/v1/wr8g8nxcnri1f';
 
         const form = document.getElementById('trackingForm');
         const resultsCard = document.getElementById('resultsCard');
         const errorAlert = document.getElementById('errorAlert');
         const trackingInput = document.getElementById('trackingNumber');
-        const submitBtn = form.querySelector('.search-btn');
+        const submitBtn = document.getElementById('searchBtn');
+        const debugInfo = document.getElementById('debugInfo');
+
+        function showDebug(message) {
+            console.log('DEBUG:', message);
+            debugInfo.innerHTML += message + '<br>';
+            debugInfo.classList.add('show');
+        }
 
         function showError(message) {
             errorAlert.textContent = message;
@@ -573,24 +599,34 @@
 
         async function trackPackage(trackingNumber) {
             try {
-                // Clean up the tracking number
+                debugInfo.innerHTML = '';
                 const cleanTrackingNumber = trackingNumber.trim().toUpperCase();
                 
-                console.log('Searching for tracking number:', cleanTrackingNumber);
+                showDebug(`Searching for: ${cleanTrackingNumber}`);
+                showDebug(`API URL: ${SHEETDB_API}`);
                 
-                // Fetch shipment from Active_Shipments tab
-                const shipmentResponse = await fetch(
-                    `${SHEETDB_API}?sheet=Active_Shipments`
-                );
+                // Fetch shipments
+                showDebug('Fetching Active_Shipments...');
+                const shipmentResponse = await fetch(`${SHEETDB_API}?sheet=Active_Shipments`);
+                
+                showDebug(`Response status: ${shipmentResponse.status}`);
                 
                 if (!shipmentResponse.ok) {
-                    throw new Error('Failed to fetch shipment data from Google Sheets');
+                    throw new Error(`HTTP error! status: ${shipmentResponse.status}`);
                 }
                 
                 const allShipments = await shipmentResponse.json();
-                console.log('Total shipments found:', allShipments.length);
+                showDebug(`Found ${allShipments.length} total shipments`);
                 
-                // Find exact match for tracking number
+                // List all tracking numbers
+                if (allShipments.length > 0) {
+                    showDebug('Available tracking numbers:');
+                    allShipments.forEach((s, i) => {
+                        showDebug(`  ${i + 1}. "${s.tracking_number}" (${s.customer_name || 'No name'})`);
+                    });
+                }
+                
+                // Find exact match
                 const shipment = allShipments.find(s => {
                     if (!s.tracking_number) return false;
                     const cleanShipmentNumber = s.tracking_number.toString().trim().toUpperCase();
@@ -598,41 +634,39 @@
                 });
                 
                 if (!shipment) {
+                    showDebug(`❌ No match found for "${cleanTrackingNumber}"`);
                     throw new Error(`Tracking number "${trackingNumber}" not found. Please check and try again.`);
                 }
                 
-                console.log('Found shipment:', shipment.customer_name);
+                showDebug(`✓ Found shipment for: ${shipment.customer_name}`);
                 
-                // Fetch tracking events from Tracking_Events tab
+                // Fetch tracking events
                 let events = [];
                 try {
-                    const eventsResponse = await fetch(
-                        `${SHEETDB_API}?sheet=Tracking_Events`
-                    );
+                    showDebug('Fetching Tracking_Events...');
+                    const eventsResponse = await fetch(`${SHEETDB_API}?sheet=Tracking_Events`);
                     
                     if (eventsResponse.ok) {
                         const allEvents = await eventsResponse.json();
-                        console.log('Total events found:', allEvents.length);
+                        showDebug(`Found ${allEvents.length} total events`);
                         
-                        // Filter events for this tracking number
                         events = allEvents.filter(e => {
                             if (!e.tracking_number) return false;
                             const cleanEventNumber = e.tracking_number.toString().trim().toUpperCase();
                             return cleanEventNumber === cleanTrackingNumber;
                         });
                         
-                        console.log('Events for this shipment:', events.length);
+                        showDebug(`✓ Found ${events.length} events for this shipment`);
                     }
                 } catch (eventError) {
-                    console.warn('Could not fetch tracking events:', eventError);
-                    // Continue anyway - we can still show shipment info
+                    showDebug(`⚠ Could not fetch events: ${eventError.message}`);
                 }
                 
                 // Display the tracking info
                 displayTrackingInfo(shipment, events);
                 
             } catch (error) {
-                console.error('Tracking error:', error);
+                showDebug(`❌ ERROR: ${error.message}`);
                 throw error;
             }
         }
