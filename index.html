@@ -253,6 +253,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 .doc-sheet{background:#fff;max-width:780px;margin:0 auto;border:1px solid #ccc;font-family:'Georgia',serif;color:#1a1209;position:relative;}
 .doc-close{position:absolute;top:14px;right:18px;background:var(--bark);color:var(--cream);border:none;border-radius:3px;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;z-index:10;}
 .doc-print{position:absolute;top:14px;right:120px;background:var(--clay);color:var(--cream);border:none;border-radius:3px;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;z-index:10;}
+.doc-img{position:absolute;top:14px;right:268px;background:var(--green);color:var(--cream);border:none;border-radius:3px;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;z-index:10;}
 
 /* DOC INTERNALS */
 .doc-header{background:#4A3728;padding:32px 40px 24px;display:flex;align-items:center;justify-content:space-between;}
@@ -720,10 +721,12 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 <div class="doc-overlay" id="docOverlay">
   <div class="doc-sheet" id="docSheet">
     <button class="doc-print" onclick="window.print()">⎙ Print / Save PDF</button>
+    <button class="doc-img" id="docImgBtn" onclick="copyDocImage()">⧉ Copy as Image</button>
     <button class="doc-close" onclick="document.getElementById('docOverlay').classList.remove('on')">✕ Close</button>
     <div id="docContent"></div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
 var G={tier:1,iName:'Standard',iPrice:0,stat:'av',saleType:'Purchase',expText:'',tier1:1526300};
@@ -1000,6 +1003,47 @@ function generateDoc(){
   document.getElementById('docContent').innerHTML = p.join('');
   document.getElementById('docOverlay').classList.add('on');
   document.getElementById('docOverlay').scrollTop = 0;
+}
+
+function copyDocImage(){
+  var btn = document.getElementById('docImgBtn');
+  btn.textContent = 'Rendering...';
+  btn.disabled = true;
+  var sheet = document.getElementById('docContent');
+  html2canvas(sheet, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: '#ffffff',
+    logging: false
+  }).then(function(canvas){
+    canvas.toBlob(function(blob){
+      if(!blob){ btn.textContent = 'Failed'; btn.disabled = false; return; }
+      if(navigator.clipboard && window.ClipboardItem){
+        var item = new ClipboardItem({'image/png': blob});
+        navigator.clipboard.write([item]).then(function(){
+          btn.textContent = '✓ Copied!';
+          setTimeout(function(){ btn.textContent = '\u29ed Copy as Image'; btn.disabled = false; }, 2500);
+        }).catch(function(){
+          fallbackDownload(canvas, btn);
+        });
+      } else {
+        fallbackDownload(canvas, btn);
+      }
+    }, 'image/png');
+  }).catch(function(){
+    btn.textContent = 'Error'; btn.disabled = false;
+  });
+}
+
+function fallbackDownload(canvas, btn){
+  var a = document.createElement('a');
+  a.download = 'XOXO-Realestate-Agreement.png';
+  a.href = canvas.toDataURL('image/png');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  btn.textContent = '⬇ Downloaded!';
+  setTimeout(function(){ btn.textContent = '\u29ed Copy as Image'; btn.disabled = false; }, 2500);
 }
 
 // Init
