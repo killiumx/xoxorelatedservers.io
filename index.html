@@ -1,1093 +1,1012 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwiftShip Logistics - Global Shipping Excellence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1a56db;
-            --primary-dark: #0f3a94;
-            --secondary: #0891b2;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --border: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--dark);
-            line-height: 1.6;
-            background: #ffffff;
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .track-btn {
-            background: var(--primary);
-            color: white;
-            padding: 0.625rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .track-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 8rem 0 6rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(26, 86, 219, 0.2), transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            font-family: 'Sora', sans-serif;
-            font-size: 3.75rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        .hero-content p {
-            font-size: 1.25rem;
-            color: #94a3b8;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat {
-            text-align: left;
-        }
-
-        .stat-number {
-            font-family: 'Sora', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--secondary);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-top: 0.5rem;
-        }
-
-        .hero-image {
-            position: relative;
-        }
-
-        .hero-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tracking-form {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .tracking-form input {
-            flex: 1;
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 1rem;
-        }
-
-        .tracking-form input::placeholder {
-            color: #94a3b8;
-        }
-
-        .tracking-form button {
-            padding: 1rem 2rem;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tracking-form button:hover {
-            background: #0e7490;
-        }
-
-        /* Services Section */
-        .services {
-            padding: 6rem 0;
-            background: var(--light);
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            color: var(--primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.875rem;
-        }
-
-        .section-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-top: 1rem;
-            color: var(--dark);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-icon svg {
-            width: 32px;
-            height: 32px;
-            stroke: white;
-            fill: none;
-        }
-
-        .service-card h3 {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .service-card p {
-            color: var(--gray);
-            line-height: 1.8;
-        }
-
-        /* Quote Form Section */
-        .quote-section {
-            padding: 6rem 0;
-            background: white;
-        }
-
-        .form-container {
-            max-width: 800px;
-            margin: 3rem auto 0;
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
-
-        .alert.show {
-            display: block;
-        }
-
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .form-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-            font-size: 0.9rem;
-        }
-
-        .required {
-            color: #dc2626;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .contact-methods {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .contact-method {
-            position: relative;
-        }
-
-        .contact-method input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .contact-method label {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .contact-method input[type="checkbox"]:checked + label {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .contact-method label svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 1.25rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
-            position: relative;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(26, 86, 219, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .submit-btn.loading span:first-child {
-            opacity: 0;
-        }
-
-        .spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            opacity: 0;
-        }
-
-        .submit-btn.loading .spinner {
-            opacity: 1;
-        }
-
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Employee Login Section */
-        .employee-section {
-            padding: 5rem 0;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .employee-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></svg>');
-            opacity: 0.5;
-        }
-
-        .employee-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .employee-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .employee-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-        }
-
-        .employee-icon svg {
-            width: 40px;
-            height: 40px;
-            stroke: white;
-            fill: none;
-        }
-
-        .employee-card h2 {
-            font-family: 'Sora', sans-serif;
-            font-size: 2rem;
-            color: white;
-            margin-bottom: 0.75rem;
-        }
-
-        .employee-card p {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .employee-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: white;
-            color: var(--primary);
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .employee-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
-        }
-
-        .employee-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-        }
-
-        .employee-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-            text-align: left;
-        }
-
-        .employee-feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .feature-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--secondary);
-            fill: none;
-        }
-
-        .feature-text {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: #94a3b8;
-            text-align: center;
-            padding: 2rem 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-methods {
-                grid-template-columns: 1fr;
-            }
-
-            .employee-features {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .tracking-form {
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XOXO Realestate · Agent Console</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#F7F3ED;--parch:#EDE6DC;--blush:#E8C9B4;
+  --clay:#C28B6E;--clay2:#A3705A;--bark:#4A3728;
+  --ink:#1C1410;--muted:#9C8678;
+  --white:#FFFFFF;--green:#3D6B4F;--red:#7A3232;--gold:#C49A5A;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font-size:13px;min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--bark);border-bottom:2px solid var(--clay);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--cream);}
+.logo em{color:var(--clay);font-style:italic;}
+.logo-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(247,243,237,0.4);margin-top:1px;}
+
+/* ── TABS ── */
+.tabs{background:var(--bark);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;flex-wrap:wrap;position:sticky;top:54px;z-index:199;}
+.tab{padding:11px 22px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,237,0.38);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;white-space:nowrap;}
+.tab:hover{color:var(--blush);}
+.tab.active{color:var(--clay);border-bottom-color:var(--clay);}
+.tab-badge{display:inline-block;background:rgba(194,139,110,0.2);color:var(--clay);font-size:8px;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;}
+
+/* ── VIEWS ── */
+.view{display:none;padding:24px;}
+.view.active{display:block;}
+
+/* ── HELPERS ── */
+.row{display:grid;gap:12px;}
+.r2{grid-template-columns:1fr 1fr;}
+.r3{grid-template-columns:1fr 1fr 1fr;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+.field input,.field select,.field textarea{background:var(--cream);border:1px solid rgba(74,55,40,0.15);border-radius:4px;color:var(--ink);font-family:'Jost',sans-serif;font-size:13px;padding:9px 12px;outline:none;transition:border-color 0.15s;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--clay);}
+.field select option{background:var(--white);}
+.field textarea{resize:vertical;min-height:60px;line-height:1.5;}
+
+.card{background:var(--white);border:1px solid rgba(74,55,40,0.1);border-radius:6px;overflow:hidden;box-shadow:0 1px 6px rgba(74,55,40,0.06);}
+.card-head{padding:10px 16px;border-bottom:1px solid rgba(74,55,40,0.08);display:flex;align-items:center;gap:8px;background:var(--cream);}
+.card-head .orn{font-family:'Playfair Display',serif;font-size:14px;color:var(--clay);}
+.card-head h3{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bark);}
+.card-body{padding:16px;}
+.gap16{display:flex;flex-direction:column;gap:16px;}
+.gap12{display:flex;flex-direction:column;gap:12px;}
+
+.section-label{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(74,55,40,0.1);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;}
+.btn-bark{background:var(--bark);color:var(--cream);}
+.btn-bark:hover{background:var(--clay2);}
+.btn-clay{background:var(--clay);color:var(--cream);}
+.btn-clay:hover{background:var(--clay2);}
+.btn-outline{background:transparent;border:1px solid rgba(74,55,40,0.2);color:var(--bark);}
+.btn-outline:hover{border-color:var(--clay);color:var(--clay);}
+.btn-green{background:rgba(61,107,79,0.1);border:1px solid rgba(61,107,79,0.3);color:var(--green);}
+.btn-green:hover{background:rgba(61,107,79,0.18);}
+.btn-ghost{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(247,243,237,0.5);}
+.btn-ghost:hover{color:var(--cream);}
+.btn-full{width:100%;}
+
+/* ══ HOME ══ */
+.hero{background:var(--bark);border-radius:8px;overflow:hidden;display:grid;grid-template-columns:1fr 180px;margin-bottom:24px;}
+.hero-body{padding:38px 40px 34px;}
+.hero-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--clay);margin-bottom:14px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,44px);font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:14px;}
+.hero-title em{color:var(--clay);font-style:italic;}
+.hero-desc{font-size:13px;font-weight:300;line-height:1.8;color:rgba(247,243,237,0.55);max-width:500px;margin-bottom:26px;}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-stats{display:flex;gap:32px;margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.08);}
+.hstat-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--clay);}
+.hstat-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,237,0.35);margin-top:2px;}
+.hero-deco{background:var(--clay2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.hero-deco::before{content:'';position:absolute;inset:0;opacity:0.12;background:repeating-linear-gradient(45deg,var(--cream) 0,var(--cream) 1px,transparent 0,transparent 50%) 0/18px 18px;}
+.hero-deco-text{position:relative;font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:rgba(247,243,237,0.15);line-height:1;text-align:center;}
+
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+.svc{background:var(--white);border:1px solid rgba(74,55,40,0.1);border-radius:6px;padding:22px 20px;box-shadow:0 1px 4px rgba(74,55,40,0.05);}
+.svc-icon{font-size:20px;margin-bottom:10px;}
+.svc-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--bark);margin-bottom:6px;}
+.svc-desc{font-size:12px;font-weight:300;line-height:1.7;color:var(--muted);}
+
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.step{background:var(--white);border:1px solid rgba(74,55,40,0.08);border-radius:6px;padding:18px 16px;}
+.step-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--blush);margin-bottom:8px;}
+.step-title{font-size:12px;font-weight:600;color:var(--bark);margin-bottom:4px;}
+.step-desc{font-size:11px;color:var(--muted);line-height:1.6;font-weight:300;}
+
+.notice{background:rgba(74,55,40,0.06);border:1px solid rgba(74,55,40,0.1);border-radius:6px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;}
+.notice p{font-size:12px;line-height:1.6;color:var(--bark);}
+
+/* ══ LISTINGS ══ */
+.legend-bar{background:var(--bark);border-radius:6px;padding:12px 20px;display:flex;gap:24px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.leg-item{display:flex;align-items:center;gap:7px;}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.leg-label{font-size:11px;color:rgba(247,243,237,0.6);}
+.leg-label strong{color:var(--cream);}
+
+.zone-section{margin-bottom:26px;}
+.zone-section-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.zone-section-head h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--bark);}
+.zone-chip{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:2px;}
+.chip-b{background:rgba(74,55,40,0.1);color:var(--bark);}
+.chip-s{background:rgba(194,139,110,0.18);color:var(--clay2);}
+.chip-p{background:rgba(196,154,90,0.2);color:#8B6914;}
+.chip-l{background:var(--bark);color:var(--cream);}
+
+.zone-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.zone-grid.col3{grid-template-columns:repeat(3,1fr);}
+.zc{background:var(--white);border:1px solid rgba(74,55,40,0.1);border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(74,55,40,0.04);}
+.zc-head{padding:10px 13px;border-bottom:1px solid rgba(74,55,40,0.07);}
+.zc-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--bark);}
+.zc-mult{font-size:10px;color:var(--muted);margin-top:1px;}
+.zc-body{padding:10px 13px;display:flex;flex-direction:column;gap:6px;}
+.zt-row{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;background:var(--parch);border-radius:3px;}
+.zt-left{display:flex;flex-direction:column;gap:1px;}
+.badge{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:2px;}
+.b1{background:rgba(74,55,40,0.1);color:var(--bark);}
+.b2{background:rgba(194,139,110,0.18);color:var(--clay2);}
+.b3{background:rgba(196,154,90,0.2);color:#8B6914;}
+.b4{background:var(--bark);color:var(--cream);}
+.zt-desc{font-size:9px;color:var(--muted);margin-top:1px;}
+.zt-price{font-size:13px;font-weight:600;color:var(--bark);}
+
+/* Interiors */
+.int-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.ic{background:var(--white);border:1px solid rgba(74,55,40,0.1);border-radius:6px;overflow:hidden;}
+.ic-head{background:var(--bark);padding:11px 13px;}
+.ic-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--cream);}
+.ic-price{font-size:11px;color:var(--clay);margin-top:3px;}
+.ic-body{padding:11px 13px;}
+.ic-desc{font-size:11px;color:var(--muted);line-height:1.6;font-weight:300;}
+.ic-tiers{margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;}
+.tp{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;border:1px solid rgba(74,55,40,0.12);color:var(--muted);}
+
+/* ══ CALCULATOR ══ */
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.sum-box{background:var(--bark);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:14px;position:sticky;top:120px;}
+.prop-plate{background:rgba(247,243,237,0.06);border:1px solid rgba(247,243,237,0.1);border-radius:5px;padding:12px;}
+.prop-plate .pt{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:5px;}
+.prop-plate .pa{font-family:'Playfair Display',serif;font-size:15px;color:var(--cream);margin-bottom:3px;word-break:break-word;}
+.prop-plate .pm{font-size:11px;color:rgba(247,243,237,0.4);line-height:1.5;}
+.bk-line{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.bk-line:last-child{border-bottom:none;}
+.bk-line .bl{font-size:11px;color:rgba(247,243,237,0.45);display:flex;align-items:center;gap:6px;}
+.bk-line .br{font-size:12px;font-weight:500;color:var(--cream);}
+.bk-total{border-top:1px solid rgba(194,139,110,0.3);padding-top:11px;margin-top:4px;}
+.bk-total .bl{color:var(--clay);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.bk-total .br{font-family:'Playfair Display',serif;font-size:22px;color:var(--blush);}
+.mpill{background:rgba(194,139,110,0.15);border:1px solid rgba(194,139,110,0.25);color:var(--clay);font-size:10px;font-weight:600;padding:1px 6px;border-radius:2px;}
+.disc-val{color:#8FCF9F;}
+.export-pre{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.07);border-radius:4px;padding:10px;font-size:10px;line-height:1.8;color:rgba(247,243,237,0.5);white-space:pre-wrap;font-family:'Consolas',monospace;display:none;max-height:180px;overflow-y:auto;}
+.export-pre.on{display:block;}
+.sum-btns{display:flex;flex-direction:column;gap:6px;}
+
+.tier-sel-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.t-sel{background:var(--cream);border:1.5px solid rgba(74,55,40,0.1);border-radius:5px;padding:11px 13px;cursor:pointer;transition:all 0.15s;}
+.t-sel:hover{border-color:var(--clay);}
+.t-sel.on{background:var(--bark);border-color:var(--bark);}
+.t-sel .tb{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.t-sel.on .tb{color:rgba(247,243,237,0.5);}
+.t-sel .tn{font-family:'Playfair Display',serif;font-size:14px;color:var(--bark);}
+.t-sel.on .tn{color:var(--cream);}
+.t-sel .tp2{font-size:11px;color:var(--muted);margin-top:2px;}
+.t-sel.on .tp2{color:var(--clay);}
+
+.int-sel-g{display:flex;flex-direction:column;gap:5px;}
+.i-sel{background:var(--cream);border:1px solid rgba(74,55,40,0.1);border-radius:4px;padding:9px 12px;cursor:pointer;transition:all 0.15s;display:flex;justify-content:space-between;align-items:center;}
+.i-sel:hover{border-color:var(--clay);background:var(--parch);}
+.i-sel.on{background:var(--bark);border-color:var(--bark);}
+.i-sel .in{font-size:13px;color:var(--bark);font-weight:500;}
+.i-sel.on .in{color:var(--cream);}
+.i-sel .idesc{font-size:10px;color:var(--muted);margin-top:1px;}
+.i-sel.on .idesc{color:rgba(247,243,237,0.4);}
+.i-sel .ip{font-size:11px;color:var(--muted);white-space:nowrap;}
+.i-sel.on .ip{color:var(--clay);}
+
+.status-row{display:flex;gap:7px;}
+.st-btn{flex:1;padding:8px 4px;background:var(--cream);border:1px solid rgba(74,55,40,0.12);border-radius:4px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.st-btn.on.av{background:rgba(61,107,79,0.1);border-color:var(--green);color:var(--green);}
+.st-btn.on.rs{background:rgba(196,154,90,0.12);border-color:var(--gold);color:var(--gold);}
+.st-btn.on.sl{background:rgba(122,50,50,0.1);border-color:var(--red);color:var(--red);}
+
+/* ══ ECONOMY ══ */
+.eco-layout{display:grid;grid-template-columns:1fr 270px;gap:18px;align-items:start;}
+.eco-sidebar{background:var(--bark);border-radius:6px;padding:18px;position:sticky;top:120px;display:flex;flex-direction:column;gap:14px;}
+.eco-sidebar h3{font-family:'Playfair Display',serif;font-size:15px;color:var(--cream);}
+.eco-sidebar p{font-size:11px;font-weight:300;line-height:1.7;color:rgba(247,243,237,0.45);}
+.hbar-wrap{background:rgba(255,255,255,0.06);border-radius:2px;height:6px;margin:5px 0 3px;}
+.hbar{height:6px;border-radius:2px;background:var(--clay);transition:width 0.4s;}
+.hlabel{font-size:12px;color:var(--clay);font-weight:600;}
+.dial-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px;}
+.dial-item:last-child{border-bottom:none;}
+.dial-item .di-n{color:rgba(247,243,237,0.4);}
+.dial-item .di-v{color:var(--clay);font-weight:600;}
+.dial-item.di-on .di-n{color:var(--cream);}
+.dial-item.di-on .di-v{color:var(--gold);}
+
+.eco-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.eco-num{background:var(--parch);border:1px solid rgba(74,55,40,0.1);border-radius:5px;padding:12px 14px;}
+.eco-num.hi{background:var(--bark);border-color:var(--clay);}
+.en-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.eco-num.hi .en-l{color:rgba(247,243,237,0.4);}
+.en-v{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--bark);}
+.eco-num.hi .en-v{color:var(--clay);}
+.en-s{font-size:10px;color:var(--muted);margin-top:2px;}
+.eco-num.hi .en-s{color:rgba(247,243,237,0.35);}
+
+.tier-ref-table{width:100%;border-collapse:collapse;}
+.tier-ref-table th{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:7px 10px;text-align:left;border-bottom:1px solid rgba(74,55,40,0.1);}
+.tier-ref-table td{padding:9px 10px;border-bottom:1px solid rgba(74,55,40,0.06);font-size:13px;}
+.tier-ref-table tr:last-child td{border-bottom:none;}
+.tr-badge{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:2px;}
+.tr1{background:rgba(74,55,40,0.08);color:var(--bark);}
+.tr2{background:rgba(194,139,110,0.15);color:var(--clay2);}
+.tr3{background:rgba(196,154,90,0.18);color:#8B6914;}
+.tr4{background:var(--bark);color:var(--cream);}
+.tr-price{font-weight:600;color:var(--bark);font-size:14px;}
+.zr-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.zr{background:var(--parch);border:1px solid rgba(74,55,40,0.08);border-radius:4px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;}
+.zr-n{font-size:12px;color:var(--bark);}
+.zr-m{font-size:10px;color:var(--muted);}
+.zr-p{font-size:13px;font-weight:600;color:var(--clay2);}
+
+.realtor-banner{background:rgba(74,55,40,0.07);border:1px solid rgba(74,55,40,0.15);border-radius:5px;padding:11px 16px;display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.realtor-banner span{font-size:11px;color:var(--bark);}
+
+.formula-box{background:var(--parch);border:1px solid rgba(74,55,40,0.1);border-radius:5px;padding:13px;}
+.formula-box .fl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.formula-box .ff{font-family:'Playfair Display',serif;font-size:15px;color:var(--bark);}
+.formula-box .ff em{color:var(--clay);font-style:normal;}
+.formula-box .fd{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6;}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--bark);border:1px solid var(--clay);color:var(--cream);font-size:11px;font-weight:600;letter-spacing:1px;padding:10px 22px;border-radius:4px;transition:transform 0.3s;pointer-events:none;z-index:999;}
+.toast.on{transform:translateX(-50%) translateY(0);}
+
+/* SALE TYPE */
+.sale-row{display:flex;gap:6px;}
+.sale-btn{flex:1;padding:9px 4px;background:var(--cream);border:1px solid rgba(74,55,40,0.12);border-radius:4px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.sale-btn.on{background:var(--bark);border-color:var(--bark);color:var(--cream);}
+
+/* DOC OVERLAY */
+.doc-overlay{display:none;position:fixed;inset:0;background:rgba(28,20,16,0.82);z-index:500;overflow-y:auto;padding:32px 20px;}
+.doc-overlay.on{display:block;}
+.doc-sheet{background:#fff;max-width:780px;margin:0 auto;border:1px solid #ccc;font-family:'Georgia',serif;color:#1a1209;position:relative;}
+.doc-close{position:absolute;top:14px;right:18px;background:var(--bark);color:var(--cream);border:none;border-radius:3px;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;z-index:10;}
+.doc-print{position:absolute;top:14px;right:120px;background:var(--clay);color:var(--cream);border:none;border-radius:3px;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;z-index:10;}
+
+/* DOC INTERNALS */
+.doc-header{background:#4A3728;padding:32px 40px 24px;display:flex;align-items:center;justify-content:space-between;}
+.doc-logo-wrap{}
+.doc-logo{font-family:'Georgia',serif;font-size:28px;font-weight:700;color:#F7F3ED;letter-spacing:-0.5px;}
+.doc-logo em{color:#C28B6E;font-style:italic;}
+.doc-logo-sub{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(247,243,237,0.45);margin-top:3px;}
+.doc-header-right{text-align:right;}
+.doc-ref{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,237,0.45);}
+.doc-ref strong{font-size:14px;color:#C28B6E;display:block;margin-top:2px;letter-spacing:1px;}
+.doc-date{font-size:11px;color:rgba(247,243,237,0.4);margin-top:6px;}
+
+.doc-type-banner{background:#C28B6E;padding:9px 40px;font-family:'Georgia',serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;text-align:center;}
+
+.doc-body{padding:32px 40px;}
+.doc-section{margin-bottom:24px;}
+.doc-section-title{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#9C8678;border-bottom:1px solid #E8C9B4;padding-bottom:6px;margin-bottom:12px;}
+.doc-2col{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.doc-field{margin-bottom:8px;}
+.doc-field .df-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#9C8678;margin-bottom:2px;}
+.doc-field .df-val{font-size:14px;color:#1a1209;font-weight:700;border-bottom:1px solid #D4C4B8;padding-bottom:4px;}
+.doc-field .df-val.big{font-size:18px;color:#4A3728;}
+
+.doc-price-table{width:100%;border-collapse:collapse;margin-bottom:4px;}
+.doc-price-table th{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9C8678;padding:7px 10px;text-align:left;border-bottom:2px solid #E8C9B4;}
+.doc-price-table td{padding:9px 10px;border-bottom:1px solid #F0E8DF;font-size:13px;color:#1a1209;}
+.doc-price-table tr.total-row td{border-top:2px solid #4A3728;border-bottom:none;font-weight:700;font-size:15px;padding-top:11px;}
+.doc-price-table tr.total-row td:last-child{color:#4A3728;font-size:17px;}
+.doc-price-table td.disc{color:#3D6B4F;}
+
+.doc-terms{background:#F7F3ED;border:1px solid #E8C9B4;border-radius:3px;padding:16px;}
+.doc-terms p{font-family:'Jost',sans-serif;font-size:11px;font-weight:300;line-height:1.8;color:#6B5A4E;margin-bottom:6px;}
+.doc-terms p:last-child{margin-bottom:0;}
+.doc-terms strong{font-weight:600;color:#4A3728;}
+
+.doc-sigs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:8px;}
+.doc-sig{border-top:1px solid #1a1209;padding-top:8px;}
+.doc-sig .sig-name{font-size:13px;font-weight:700;color:#1a1209;}
+.doc-sig .sig-role{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9C8678;margin-top:2px;}
+.doc-sig .sig-date{font-size:11px;color:#9C8678;margin-top:2px;}
+
+.doc-stamp{text-align:center;padding:16px 0 8px;border-top:1px solid #E8C9B4;margin-top:8px;}
+.doc-stamp .st-text{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9C8678;}
+.doc-stamp .st-logo{font-family:'Georgia',serif;font-size:20px;color:#E8C9B4;margin-top:4px;}
+.doc-stamp .st-logo em{color:#C28B6E;}
+.doc-num{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1px;color:#C0B0A0;margin-top:4px;}
+
+.doc-status-stamp{display:inline-block;border:3px solid;border-radius:4px;padding:4px 14px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transform:rotate(-4deg);margin-top:4px;}
+.doc-status-stamp.av{border-color:#3D6B4F;color:#3D6B4F;}
+.doc-status-stamp.sl{border-color:#7A3232;color:#7A3232;}
+.doc-status-stamp.rs{border-color:#C49A5A;color:#C49A5A;}
+
+@media print{
+  .doc-close,.doc-print{display:none!important;}
+  .doc-overlay{position:static;background:none;padding:0;}
+  .doc-sheet{border:none;max-width:100%;box-shadow:none;}
+  body > *:not(.doc-overlay){display:none!important;}
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">SwiftShip</div>
-            <div class="nav-links">
-                <a href="#services">Services</a>
-                <a href="#quote">Get Quote</a>
-                <a href="#employee">Employee Login</a>
-                <a href="tracking.html" class="track-btn">Track Package</a>
-               
+
+<div class="topbar">
+  <div>
+    <div class="logo">xoxo <em>realestate</em></div>
+    <div class="logo-sub">Premier Real Estate · Los Santos</div>
+  </div>
+  <div style="font-size:10px;letter-spacing:1px;color:rgba(247,243,237,0.3);">Est. 2021 · All Districts</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="go('home',this)">🏠 Welcome</div>
+  <div class="tab" onclick="go('listings',this)">🗂 Listings & Pricing</div>
+  <div class="tab" onclick="go('interiors',this)">🛋️ Interior Packages</div>
+  <div class="tab" onclick="go('calc',this)">🧮 Property Calculator</div>
+  <div class="tab" onclick="go('eco',this)">📊 Economy<span class="tab-badge">Realtor</span></div>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-body">
+      <div class="hero-tag">✦ Los Santos Premier Real Estate Agency</div>
+      <h1 class="hero-title">Welcome to<br>xoxo <em>realestate</em></h1>
+      <p class="hero-desc">We connect discerning clients with exceptional properties across every district of Los Santos and Blaine County. From budget starter homes in Chamberlain Hills to elite estates in Richman — our licensed agents handle everything.</p>
+      <div class="hero-btns">
+        <button class="btn btn-clay" onclick="go('listings',document.querySelectorAll('.tab')[1])">Browse All Zones</button>
+        <button class="btn btn-outline" style="border-color:rgba(247,243,237,0.2);color:rgba(247,243,237,0.65);" onclick="go('calc',document.querySelectorAll('.tab')[3])">Get a Quote</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hstat-num">28</div><div class="hstat-lbl">Zones Covered</div></div>
+        <div><div class="hstat-num">4</div><div class="hstat-lbl">Property Tiers</div></div>
+        <div><div class="hstat-num">7</div><div class="hstat-lbl">Interior Packages</div></div>
+        <div><div class="hstat-num">100%</div><div class="hstat-lbl">Legitimate</div></div>
+      </div>
+    </div>
+    <div class="hero-deco"><div class="hero-deco-text">xo<br>xo</div></div>
+  </div>
+
+  <div class="section-label">What We Offer</div>
+  <div class="svc-grid">
+    <div class="svc"><div class="svc-icon">🏡</div><div class="svc-title">Buy a Property</div><div class="svc-desc">Browse 28 zones across Los Santos and Blaine County. Every property is priced against the live economy each month. Tier 1 through 4 available by zone.</div></div>
+    <div class="svc"><div class="svc-icon">🛋️</div><div class="svc-title">Interior Packages</div><div class="svc-desc">Upgrade your new property with a curated interior package — from a clean standard fitout all the way to a bespoke penthouse suite. Prices are fixed and transparent.</div></div>
+    <div class="svc"><div class="svc-icon">👤</div><div class="svc-title">Agent Assisted</div><div class="svc-desc">Every purchase is handled by a licensed XOXO Realestate agent in-character. They confirm availability, post the listing, and walk you through the transaction.</div></div>
+  </div>
+
+  <div class="section-label">How It Works</div>
+  <div class="steps-row">
+    <div class="step"><div class="step-num">01</div><div class="step-title">Choose a Zone</div><div class="step-desc">Head to Listings. Each zone shows its available tiers and current prices — updated monthly against the economy.</div></div>
+    <div class="step"><div class="step-num">02</div><div class="step-title">Select Your Tier</div><div class="step-desc">Budget zones offer Tier 1 only. Luxury zones open up Tier 3–4. Premium areas sit in between.</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-title">Pick an Interior</div><div class="step-desc">Optional upgrade. Choose from 7 interior packages. Each has a fixed price added on top of the property base.</div></div>
+    <div class="step"><div class="step-num">04</div><div class="step-title">Contact an Agent</div><div class="step-desc">DM a licensed XOXO Realestate agent. They generate your official quote and confirm the slot is available.</div></div>
+  </div>
+
+  <div class="notice"><div style="font-size:16px;flex-shrink:0;">📌</div><p><strong>Prices update every month.</strong> House prices are recalculated against active server cash and player count to stay fair. All figures on this console reflect the current month's pricing. Speak to an agent to lock in your purchase before next month's update.</p></div>
+</div>
+
+<!-- ══════════ LISTINGS ══════════ -->
+<div class="view" id="view-listings">
+
+  <div class="legend-bar">
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(247,243,237,0.25);border:1px solid rgba(247,243,237,0.3);"></div><div class="leg-label"><strong>Budget</strong> — Tier 1 only</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--clay);"></div><div class="leg-label"><strong>Standard</strong> — Tier 1 &amp; 2</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gold);"></div><div class="leg-label"><strong>Premium</strong> — Tier 2 &amp; 3</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blush);"></div><div class="leg-label"><strong>Luxury</strong> — Tier 3 &amp; 4</div></div>
+    <div style="margin-left:auto;font-size:10px;color:rgba(247,243,237,0.3);">Base prices shown · interior add-ons separate</div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="zone-section">
+    <div class="zone-section-head"><h2>Budget Areas</h2><span class="zone-chip chip-b">×0.60 – 0.75</span></div>
+    <div class="zone-grid">
+      <div class="zc"><div class="zc-head"><div class="zc-name">Cypress Flats</div><div class="zc-mult">×0.60</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-cypress-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Banning</div><div class="zc-mult">×0.62</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-banning-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Elysian Island</div><div class="zc-mult">×0.65</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-elysian-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">La Puerta</div><div class="zc-mult">×0.68</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-lapuerta-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Murrieta Heights</div><div class="zc-mult">×0.70</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-murrieta-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">El Burro Heights</div><div class="zc-mult">×0.70</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-elburro-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Chamberlain Hills</div><div class="zc-mult">×0.72</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-chamberlain-1">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Palomino Highlands</div><div class="zc-mult">×0.75</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-palomino-1">—</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- STANDARD -->
+  <div class="zone-section">
+    <div class="zone-section-head"><h2>Standard Areas</h2><span class="zone-chip chip-s">×0.78 – 1.05</span></div>
+    <div class="zone-grid">
+      <div class="zc"><div class="zc-head"><div class="zc-name">Davis</div><div class="zc-mult">×0.78</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-davis-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-davis-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Rancho</div><div class="zc-mult">×0.80</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-rancho-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-rancho-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Strawberry</div><div class="zc-mult">×0.84</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-straw-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-straw-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">La Mesa</div><div class="zc-mult">×0.87</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-lamesa-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-lamesa-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci Beach</div><div class="zc-mult">×0.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vbeach-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vbeach-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci</div><div class="zc-mult">×0.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vespucci-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vespucci-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci Canals</div><div class="zc-mult">×0.95</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vcanals-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vcanals-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Mission Row</div><div class="zc-mult">×0.95</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-mission-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-mission-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Textile City</div><div class="zc-mult">×0.97</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-textile-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-textile-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Pillbox Hill</div><div class="zc-mult">×1.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-pillbox-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-pillbox-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Little Seoul</div><div class="zc-mult">×1.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-seoul-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-seoul-2">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Morningwood</div><div class="zc-mult">×1.05</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-morningwood-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-morningwood-2">—</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- PREMIUM -->
+  <div class="zone-section">
+    <div class="zone-section-head"><h2>Premium Areas</h2><span class="zone-chip chip-p">×1.10 – 1.55</span></div>
+    <div class="zone-grid">
+      <div class="zc"><div class="zc-head"><div class="zc-name">Mirror Park</div><div class="zc-mult">×1.10</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-mirrorpark-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-mirrorpark-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Alta</div><div class="zc-mult">×1.15</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-alta-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-alta-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Burton</div><div class="zc-mult">×1.20</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-burton-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-burton-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Hawick</div><div class="zc-mult">×1.25</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-hawick-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-hawick-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Richards Majestic</div><div class="zc-mult">×1.28</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-richards-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richards-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">East Vinewood</div><div class="zc-mult">×1.30</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-evinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-evinewood-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">West Vinewood</div><div class="zc-mult">×1.38</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-wvinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-wvinewood-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Downtown Vinewood</div><div class="zc-mult">×1.40</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-dtvinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-dtvinewood-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Del Perro</div><div class="zc-mult">×1.45</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-delperro-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-delperro-3">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Rockford Hills</div><div class="zc-mult">×1.55</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-rockford-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-rockford-3">—</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- LUXURY -->
+  <div class="zone-section">
+    <div class="zone-section-head"><h2>Luxury Areas</h2><span class="zone-chip chip-l">×1.65 – 2.60</span></div>
+    <div class="zone-grid">
+      <div class="zc"><div class="zc-head"><div class="zc-name">Del Perro Beach</div><div class="zc-mult">×1.65</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-dpbeach-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-dpbeach-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Pacific Bluffs</div><div class="zc-mult">×1.75</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-pacific-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-pacific-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">GWC &amp; Golf Society</div><div class="zc-mult">×1.80</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-gwc-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-gwc-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Banham Canyon</div><div class="zc-mult">×1.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-banham-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-banham-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Chumash</div><div class="zc-mult">×2.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-chumash-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-chumash-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Richman Glen</div><div class="zc-mult">×2.15</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richmanglen-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-richmanglen-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Vinewood Hills</div><div class="zc-mult">×2.30</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-vhills-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-vhills-4">—</div></div></div></div>
+      <div class="zc"><div class="zc-head"><div class="zc-name">Richman</div><div class="zc-mult">×2.60</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richman-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-richman-4">—</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ INTERIORS ══════════ -->
+<div class="view" id="view-interiors">
+  <p style="font-size:13px;font-weight:300;line-height:1.8;color:var(--muted);margin-bottom:20px;max-width:700px;">Interior packages are optional upgrades added on top of your property price. The prices below are fixed regardless of zone or tier. Speak to your agent to include one in your purchase quote.</p>
+  <div class="int-grid">
+    <div class="ic"><div class="ic-head"><div class="ic-name">Standard</div><div class="ic-price">Included Free</div></div><div class="ic-body"><div class="ic-desc">Base unfurnished fitout. Clean, functional, and ready to move in. Included with every property at no extra cost.</div><div class="ic-tiers"><span class="tp">All Tiers</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Modern Apartment</div><div class="ic-price">+ $125,000</div></div><div class="ic-body"><div class="ic-desc">Clean contemporary lines, fitted kitchen, recessed lighting, neutral palette. Perfect for city apartments and starter homes.</div><div class="ic-tiers"><span class="tp">Tier 1</span><span class="tp">Tier 2</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Open Plan Loft</div><div class="ic-price">+ $200,000</div></div><div class="ic-body"><div class="ic-desc">High ceilings, open layout, exposed brick and steel. Industrial-chic aesthetic with premium lighting and fixtures throughout.</div><div class="ic-tiers"><span class="tp">Tier 1</span><span class="tp">Tier 2</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Contemporary</div><div class="ic-price">+ $375,000</div></div><div class="ic-body"><div class="ic-desc">Designer furnishings throughout. Curated art pieces, marble surfaces, walk-in wardrobe, premium bathroom fitout.</div><div class="ic-tiers"><span class="tp">Tier 2</span><span class="tp">Tier 3</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Luxury Modern</div><div class="ic-price">+ $550,000</div></div><div class="ic-body"><div class="ic-desc">Premium imported materials, full smart home integration, private bar, cinema room, and heated bathroom floors.</div><div class="ic-tiers"><span class="tp">Tier 2</span><span class="tp">Tier 3</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Grand Estate</div><div class="ic-price">+ $850,000</div></div><div class="ic-body"><div class="ic-desc">Bespoke handcrafted interiors. Statement art collection, private gym, wine cellar, chef's kitchen, staff quarters.</div><div class="ic-tiers"><span class="tp">Tier 3</span><span class="tp">Tier 4</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Penthouse Suite</div><div class="ic-price">+ $1,100,000</div></div><div class="ic-body"><div class="ic-desc">Full sky-level penthouse package. Rooftop terrace, infinity pool access, private elevator, panoramic glazing, 24hr concierge setup.</div><div class="ic-tiers"><span class="tp">Tier 4</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Custom Package</div><div class="ic-price">Agent Quoted</div></div><div class="ic-body"><div class="ic-desc">Fully bespoke design and sourcing. Speak directly to your XOXO Realestate agent for a tailored interior quote.</div><div class="ic-tiers"><span class="tp">All Tiers</span></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════ CALCULATOR ══════════ -->
+<div class="view" id="view-calc">
+  <div class="calc-layout">
+    <div class="gap16">
+      <div class="card">
+        <div class="card-head"><span class="orn">§</span><h3>Property Details</h3></div>
+        <div class="card-body gap12">
+          <div class="row r2">
+            <div class="field"><label>Street Address</label><input type="text" id="cAddr" placeholder="e.g. 2 Alta Street" oninput="liveCalc()"></div>
+            <div class="field"><label>Postal Code</label><input type="text" id="cPostal" placeholder="e.g. 0523" oninput="liveCalc()"></div>
+          </div>
+          <div class="row r2">
+            <div class="field"><label>Agent Name</label><input type="text" id="cAgent" placeholder="Your realtor name" oninput="liveCalc()"></div>
+            <div class="field"><label>Agent Contact #</label><input type="text" id="cContact" placeholder="In-game number" oninput="liveCalc()"></div>
+          </div>
+          <div class="field"><label>Property Features / Notes</label><textarea id="cNotes" placeholder="e.g. 3 bed, 2 bath, pool, furnished, garage, ocean view..." oninput="liveCalc()"></textarea></div>
+          <div class="field"><label>Availability Status</label>
+            <div class="status-row">
+              <button class="st-btn av on" onclick="setStat('av',this)">Available</button>
+              <button class="st-btn rs" onclick="setStat('rs',this)">Reserved</button>
+              <button class="st-btn sl" onclick="setStat('sl',this)">Sold</button>
             </div>
+          </div>
         </div>
-    </nav>
+      </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>Global Shipping Made Simple</h1>
-                <p>Fast, reliable, and cost-effective shipping solutions for businesses worldwide. Track your packages in real-time and get instant quotes.</p>
-                
-                <div class="cta-buttons">
-                    <a href="#quote" class="btn btn-primary">Get Instant Quote</a>
-                    <a href="#services" class="btn btn-secondary">Our Services</a>
-                </div>
-
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">150+</span>
-                        <span class="stat-label">Countries Served</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">50K+</span>
-                        <span class="stat-label">Happy Customers</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">99.8%</span>
-                        <span class="stat-label">On-Time Delivery</span>
-                    </div>
-                </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">✐</span><h3>Buyer Details</h3></div>
+        <div class="card-body gap12">
+          <div class="row r3">
+            <div class="field"><label>Buyer Full Name</label><input type="text" id="bName" placeholder="e.g. Michael De Santa" oninput="liveCalc()"></div>
+            <div class="field"><label>Citizen ID / SSN</label><input type="text" id="bCitizen" placeholder="e.g. #304827" oninput="liveCalc()"></div>
+            <div class="field"><label>Buyer Contact #</label><input type="text" id="bContact" placeholder="In-game number" oninput="liveCalc()"></div>
+          </div>
+          <div class="field"><label>Sale Type</label>
+            <div class="sale-row">
+              <button class="sale-btn on" onclick="setSaleType('Purchase',this)">Purchase</button>
+              <button class="sale-btn" onclick="setSaleType('Lease',this)">Lease</button>
+              <button class="sale-btn" onclick="setSaleType('Transfer',this)">Transfer</button>
             </div>
-
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-label">What We Offer</div>
-                <h2 class="section-title">Comprehensive Shipping Solutions</h2>
-            </div>
-
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                        </svg>
-                    </div>
-                    <h3>Express Delivery</h3>
-                    <p>Lightning-fast shipping for urgent packages. Get your items delivered within 1-3 business days anywhere in the world.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12 6 12 12 16 14"/>
-                        </svg>
-                    </div>
-                    <h3>Real-Time Tracking</h3>
-                    <p>Monitor your shipments every step of the way with our advanced GPS tracking system and instant notifications.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                            <line x1="12" y1="22.08" x2="12" y2="12"/>
-                        </svg>
-                    </div>
-                    <h3>Secure Packaging</h3>
-                    <p>Professional packaging services to ensure your items arrive safely. We handle fragile and valuable goods with extra care.</p>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">◉</span><h3>Zone</h3></div>
+        <div class="card-body gap12">
+          <div class="field"><label>Select Zone</label>
+            <select id="cZone" onchange="handleZone();liveCalc()">
+              <optgroup label="── Budget ──">
+                <option value="0.60" data-n="Cypress Flats">Cypress Flats ×0.60</option>
+                <option value="0.62" data-n="Banning">Banning ×0.62</option>
+                <option value="0.65" data-n="Elysian Island">Elysian Island ×0.65</option>
+                <option value="0.68" data-n="La Puerta">La Puerta ×0.68</option>
+                <option value="0.70" data-n="Murrieta Heights">Murrieta Heights ×0.70</option>
+                <option value="0.70" data-n="El Burro Heights">El Burro Heights ×0.70</option>
+                <option value="0.72" data-n="Chamberlain Hills">Chamberlain Hills ×0.72</option>
+                <option value="0.75" data-n="Palomino Highlands">Palomino Highlands ×0.75</option>
+              </optgroup>
+              <optgroup label="── Standard ──">
+                <option value="0.78" data-n="Davis">Davis ×0.78</option>
+                <option value="0.80" data-n="Rancho">Rancho ×0.80</option>
+                <option value="0.84" data-n="Strawberry">Strawberry ×0.84</option>
+                <option value="0.87" data-n="La Mesa">La Mesa ×0.87</option>
+                <option value="0.90" data-n="Vespucci Beach">Vespucci Beach ×0.90</option>
+                <option value="0.90" data-n="Vespucci">Vespucci ×0.90</option>
+                <option value="0.95" data-n="Vespucci Canals">Vespucci Canals ×0.95</option>
+                <option value="0.95" data-n="Mission Row">Mission Row ×0.95</option>
+                <option value="0.97" data-n="Textile City">Textile City ×0.97</option>
+                <option value="1.00" data-n="Pillbox Hill" selected>Pillbox Hill ×1.00</option>
+                <option value="1.00" data-n="Little Seoul">Little Seoul ×1.00</option>
+                <option value="1.05" data-n="Morningwood">Morningwood ×1.05</option>
+              </optgroup>
+              <optgroup label="── Premium ──">
+                <option value="1.10" data-n="Mirror Park">Mirror Park ×1.10</option>
+                <option value="1.15" data-n="Alta">Alta ×1.15</option>
+                <option value="1.20" data-n="Burton">Burton ×1.20</option>
+                <option value="1.25" data-n="Hawick">Hawick ×1.25</option>
+                <option value="1.28" data-n="Richards Majestic">Richards Majestic ×1.28</option>
+                <option value="1.30" data-n="East Vinewood">East Vinewood ×1.30</option>
+                <option value="1.38" data-n="West Vinewood">West Vinewood ×1.38</option>
+                <option value="1.40" data-n="Downtown Vinewood">Downtown Vinewood ×1.40</option>
+                <option value="1.45" data-n="Del Perro">Del Perro ×1.45</option>
+                <option value="1.55" data-n="Rockford Hills">Rockford Hills ×1.55</option>
+              </optgroup>
+              <optgroup label="── Luxury ──">
+                <option value="1.65" data-n="Del Perro Beach">Del Perro Beach ×1.65</option>
+                <option value="1.75" data-n="Pacific Bluffs">Pacific Bluffs ×1.75</option>
+                <option value="1.80" data-n="GWC and Golfing Society">GWC &amp; Golf Society ×1.80</option>
+                <option value="1.90" data-n="Banham Canyon">Banham Canyon ×1.90</option>
+                <option value="2.00" data-n="Chumash">Chumash ×2.00</option>
+                <option value="2.15" data-n="Richman Glen">Richman Glen ×2.15</option>
+                <option value="2.30" data-n="Vinewood Hills">Vinewood Hills ×2.30</option>
+                <option value="2.60" data-n="Richman">Richman ×2.60</option>
+                <option value="custom" data-n="Custom Zone">⚙ Custom Zone</option>
+              </optgroup>
+            </select>
+          </div>
+          <div id="customZW" style="display:none;" class="row r2">
+            <div class="field"><label>Zone Name</label><input type="text" id="cZN" placeholder="Zone name" oninput="liveCalc()"></div>
+            <div class="field"><label>Multiplier</label><input type="number" id="cZM" placeholder="e.g. 1.35" step="0.05" oninput="liveCalc()"></div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Quote Form Section -->
-    <section id="quote" class="quote-section">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-label">Get Started</div>
-                <h2 class="section-title">Request a Shipping Quote</h2>
-            </div>
-
-            <div class="form-container">
-                <div id="alert" class="alert"></div>
-
-                <form id="shippingForm" class="form-grid">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Full Name <span class="required">*</span></label>
-                            <input type="text" name="name" id="name" required placeholder="John Doe">
-                        </div>
-                        <div class="form-group">
-                            <label>Company Name</label>
-                            <input type="text" name="company" id="company" placeholder="Company Inc.">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Email Address <span class="required">*</span></label>
-                            <input type="email" name="email" id="email" required placeholder="john@company.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number <span class="required">*</span></label>
-                            <input type="tel" name="phone" id="phone" required placeholder="+1 (555) 123-4567">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" name="whatsapp" id="whatsapp" placeholder="+1 (555) 123-4567">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Preferred Contact Method(s) <span class="required">*</span></label>
-                        <div class="contact-methods">
-                            <div class="contact-method">
-                                <input type="checkbox" id="contact_email" name="contact_method" value="Email">
-                                <label for="contact_email">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                        <polyline points="22,6 12,13 2,6"/>
-                                    </svg>
-                                    <span>Email</span>
-                                </label>
-                            </div>
-                            <div class="contact-method">
-                                <input type="checkbox" id="contact_phone" name="contact_method" value="Phone">
-                                <label for="contact_phone">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                                    </svg>
-                                    <span>Phone</span>
-                                </label>
-                            </div>
-                            <div class="contact-method">
-                                <input type="checkbox" id="contact_whatsapp" name="contact_method" value="WhatsApp">
-                                <label for="contact_whatsapp">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                                    </svg>
-                                    <span>WhatsApp</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Pickup Address <span class="required">*</span></label>
-                            <input type="text" name="pickup_address" id="pickup_address" required placeholder="123 Main St, City, State, ZIP">
-                        </div>
-                        <div class="form-group">
-                            <label>Delivery Address <span class="required">*</span></label>
-                            <input type="text" name="delivery_address" id="delivery_address" required placeholder="456 Oak Ave, City, State, ZIP">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Package Type <span class="required">*</span></label>
-                            <select name="package_type" id="package_type" required>
-                                <option value="">Select package type</option>
-                                <option value="Document">Document</option>
-                                <option value="Small Package">Small Package (< 5kg)</option>
-                                <option value="Medium Package">Medium Package (5-20kg)</option>
-                                <option value="Large Package">Large Package (> 20kg)</option>
-                                <option value="Fragile">Fragile Item</option>
-                                <option value="Pallet">Pallet</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Estimated Weight (kg)</label>
-                            <input type="number" name="weight" id="weight" placeholder="5.0" step="0.1" min="0">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Shipping Service <span class="required">*</span></label>
-                        <select name="shipping_service" id="shipping_service" required>
-                            <option value="">Select shipping service</option>
-                            <option value="Economy (7-10 days)">Economy (7-10 days)</option>
-                            <option value="Standard (5-7 days)">Standard (5-7 days)</option>
-                            <option value="Express (2-3 days)">Express (2-3 days)</option>
-                            <option value="Overnight">Overnight</option>
-                            <option value="International Standard">International Standard</option>
-                            <option value="International Express">International Express</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Additional Notes or Special Requirements</label>
-                        <textarea name="notes" id="notes" placeholder="Please provide any special instructions, handling requirements, or questions..."></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <span>Get Quote</span>
-                        <span class="spinner"></span>
-                    </button>
-                </form>
-            </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">◆</span><h3>House Tier</h3></div>
+        <div class="card-body gap12">
+          <div class="tier-sel-g">
+            <div class="t-sel on" onclick="setTier(1,this)"><div class="tb">Tier 1</div><div class="tn">Standard</div><div class="tp2" id="ct1">—</div></div>
+            <div class="t-sel" onclick="setTier(2,this)"><div class="tb">Tier 2</div><div class="tn">Premium</div><div class="tp2" id="ct2">—</div></div>
+            <div class="t-sel" onclick="setTier(3,this)"><div class="tb">Tier 3</div><div class="tn">Luxury</div><div class="tp2" id="ct3">—</div></div>
+            <div class="t-sel" onclick="setTier(4,this)"><div class="tb">Tier 4</div><div class="tn">Elite</div><div class="tp2" id="ct4">—</div></div>
+          </div>
+          <div class="row r2">
+            <div class="field"><label>Tier 1 Base This Month ($)</label><input type="number" id="cBase" value="1526300" oninput="updateTiers();liveCalc()"></div>
+            <div class="field"><label>Manual Price Override</label><input type="number" id="cManual" placeholder="Overrides tier calc" oninput="liveCalc()"></div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Employee Login Section -->
-    <section id="employee" class="employee-section">
-        <div class="employee-container">
-            <div class="employee-card">
-                <div class="employee-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </div>
-                
-                <h2>Employee Portal</h2>
-                <p>Access your dashboard to manage shipments, quotes, and customer data</p>
-                
-                <a href="dashboard.html" class="employee-btn">
-                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="9" y1="3" x2="9" y2="21"/>
-                    </svg>
-                    Login to Dashboard
-                </a>
-
-                <div class="employee-features">
-                    <div class="employee-feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">Real-time analytics and metrics</div>
-                    </div>
-                    
-                    <div class="employee-feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7m16 0v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5m16 0h-2.586a1 1 0 0 0-.707.293l-2.414 2.414a1 1 0 0 1-.707.293h-3.172a1 1 0 0 1-.707-.293l-2.414-2.414A1 1 0 0 0 6.586 13H4"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">Manage all shipments</div>
-                    </div>
-                    
-                    <div class="employee-feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">Track revenue & payments</div>
-                    </div>
-                    
-                    <div class="employee-feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 20h9"/>
-                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">Respond to quote requests</div>
-                    </div>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">✦</span><h3>Interior Package</h3></div>
+        <div class="card-body">
+          <div class="int-sel-g">
+            <div class="i-sel on" onclick="setInt('Standard',0,this)"><div><div class="in">Standard</div><div class="idesc">Base fitout, included free</div></div><div class="ip">Included</div></div>
+            <div class="i-sel" onclick="setInt('Modern Apartment',125000,this)"><div><div class="in">Modern Apartment</div><div class="idesc">Fitted kitchen, clean lines</div></div><div class="ip">+$125,000</div></div>
+            <div class="i-sel" onclick="setInt('Open Plan Loft',200000,this)"><div><div class="in">Open Plan Loft</div><div class="idesc">High ceilings, exposed brick</div></div><div class="ip">+$200,000</div></div>
+            <div class="i-sel" onclick="setInt('Contemporary',375000,this)"><div><div class="in">Contemporary</div><div class="idesc">Designer furnishings</div></div><div class="ip">+$375,000</div></div>
+            <div class="i-sel" onclick="setInt('Luxury Modern',550000,this)"><div><div class="in">Luxury Modern</div><div class="idesc">Smart home, premium materials</div></div><div class="ip">+$550,000</div></div>
+            <div class="i-sel" onclick="setInt('Grand Estate',850000,this)"><div><div class="in">Grand Estate</div><div class="idesc">Bespoke handcrafted</div></div><div class="ip">+$850,000</div></div>
+            <div class="i-sel" onclick="setInt('Penthouse Suite',1100000,this)"><div><div class="in">Penthouse Suite</div><div class="idesc">Full sky penthouse package</div></div><div class="ip">+$1,100,000</div></div>
+            <div class="i-sel" onclick="openCustomI(this)"><div><div class="in">Custom</div><div class="idesc">Set your own price</div></div><div class="ip" id="cIL">—</div></div>
+          </div>
+          <div id="cIW" style="display:none;margin-top:10px;" class="row r2">
+            <div class="field"><label>Interior Name</label><input type="text" id="cIN" placeholder="e.g. Bespoke" oninput="syncCI();liveCalc()"></div>
+            <div class="field"><label>Price ($)</label><input type="number" id="cIP" placeholder="e.g. 700000" oninput="syncCI();liveCalc()"></div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 SwiftShip Logistics. All rights reserved. | Privacy Policy | Terms of Service</p>
-        <div style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.3;">
-            <a href="dashboard.html" style="color: #94a3b8; text-decoration: none;">Portal</a>
+      <div class="card">
+        <div class="card-head"><span class="orn">%</span><h3>Discount (Optional)</h3></div>
+        <div class="card-body">
+          <div class="row r2">
+            <div class="field"><label>Discount %</label><input type="number" id="cDisc" placeholder="e.g. 5" min="0" max="50" oninput="liveCalc()"></div>
+            <div class="field"><label>Reason</label><input type="text" id="cDR" placeholder="e.g. Loyal client" oninput="liveCalc()"></div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
 
-    <script>
-        const form = document.getElementById('shippingForm');
-        const alertBox = document.getElementById('alert');
-        const submitButton = form.querySelector('.submit-btn');
+    <!-- Summary -->
+    <div>
+      <div class="sum-box">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);">Price Summary</div>
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,237,0.3);margin-top:2px;">Live calculation</div>
+        </div>
+        <div class="prop-plate">
+          <div class="pt">✦ Property</div>
+          <div class="pa" id="sumAddr">—</div>
+          <div class="pm" id="sumMeta">Fill in the form to begin</div>
+        </div>
+        <div>
+          <div class="bk-line"><span class="bl">Tier Base</span><span class="br" id="bkBase">—</span></div>
+          <div class="bk-line"><span class="bl">Zone <span class="mpill" id="bkZP">×1.00</span></span><span class="br" id="bkZone">—</span></div>
+          <div class="bk-line"><span class="bl">Interior</span><span class="br" id="bkInt">Included</span></div>
+          <div class="bk-line" id="bkDRow" style="display:none;"><span class="bl">Discount</span><span class="br disc-val" id="bkDisc">—</span></div>
+          <div class="bk-line bk-total"><span class="bl">Total Price</span><span class="br" id="bkTotal">—</span></div>
+        </div>
+        <div class="export-pre" id="expPre"></div>
+        <div class="sum-btns">
+          <button class="btn btn-clay btn-full" onclick="liveCalc()">⚡ Calculate</button>
+          <button class="btn btn-green btn-full" onclick="buildPost()">📋 Generate Chat Post</button>
+          <button class="btn btn-bark btn-full" onclick="generateDoc()">📄 Export Official Agreement</button>
+          <button class="btn btn-ghost btn-full" onclick="doCopy()">⧉ Copy Post to Clipboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        function showAlert(message, type) {
-            alertBox.textContent = message;
-            alertBox.className = `alert alert-${type} show`;
-            
-            setTimeout(() => {
-                alertBox.classList.remove('show');
-            }, 5000);
-        }
+<!-- ══════════ ECONOMY ══════════ -->
+<div class="view" id="view-eco">
+  <div class="realtor-banner"><span>🔒</span><span><strong>Realtor Access Only.</strong> This section is for authorised XOXO Realestate agents to set monthly pricing. Do not share until confirmed by management.</span></div>
+  <div class="eco-layout">
+    <div class="gap16">
+      <div class="card">
+        <div class="card-head"><span class="orn">§</span><h3>Monthly Economy Input</h3></div>
+        <div class="card-body gap12">
+          <p style="font-size:12px;color:var(--muted);line-height:1.7;">Pull these figures from the server database at month end. The calculator clamps the result between $800K and $3M to protect against economy extremes.</p>
+          <div class="row r3">
+            <div class="field"><label>Cash in Circulation ($)</label><input type="number" id="eMoney" value="11600000" oninput="calcEco()"></div>
+            <div class="field"><label>Active Players</label><input type="number" id="ePlayers" value="152" oninput="calcEco()"></div>
+            <div class="field"><label>Multiplier (default 20)</label><input type="number" id="eMult" value="20" min="10" max="35" oninput="calcEco()"></div>
+          </div>
+          <div class="formula-box">
+            <div class="fl">Formula</div>
+            <div class="ff">Tier 1 = (Cash ÷ Players) × <em id="eMultD">20</em></div>
+            <div class="fd">Lower multiplier = cheaper houses (casual). Higher = harder to afford (grindy). Safety cap: $800K minimum, $3M maximum.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">◆</span><h3>Results — This Month</h3></div>
+        <div class="card-body gap12">
+          <div class="eco-results">
+            <div class="eco-num"><div class="en-l">Cash Per Player</div><div class="en-v" id="eLiquid">$76,315</div><div class="en-s">liquidity per player</div></div>
+            <div class="eco-num"><div class="en-l">Raw Tier 1</div><div class="en-v" id="eRaw">$1,526,300</div><div class="en-s">before safety cap</div></div>
+            <div class="eco-num hi"><div class="en-l">✦ Tier 1 Base</div><div class="en-v" id="eClamped">$1,526,300</div><div class="en-s">use this in calculator</div></div>
+            <div class="eco-num"><div class="en-l">Economy Health</div><div class="en-v" id="eHealth" style="font-size:16px;">Balanced</div><div class="en-s" id="eHealthS">multiplier healthy</div></div>
+          </div>
+          <table class="tier-ref-table">
+            <thead><tr><th>Tier</th><th>Name</th><th>Multiplier</th><th>Price This Month</th></tr></thead>
+            <tbody id="eTierBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="orn">◉</span><h3>All Zone Prices — Tier 1 Reference</h3></div>
+        <div class="card-body"><div class="zr-grid" id="eZoneGrid"></div></div>
+      </div>
+      <button class="btn btn-bark btn-full" onclick="applyEco()" style="font-size:11px;padding:13px;">✦ Apply These Prices to Calculator &amp; Listings</button>
+    </div>
+    <div class="eco-sidebar">
+      <div><div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--cream);">Difficulty Dial</div><p style="margin-top:4px;">Tune the multiplier to control how hard it is to afford housing.</p></div>
+      <div>
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,237,0.3);margin-bottom:5px;">Economy Health</div>
+        <div class="hbar-wrap"><div class="hbar" id="eHBar" style="width:60%;"></div></div>
+        <div class="hlabel" id="eHLabel">Balanced</div>
+      </div>
+      <div>
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,237,0.3);margin-bottom:8px;">Multiplier Guide</div>
+        <div id="eDial">
+          <div class="dial-item"><span class="di-n">10–15×  Very Easy</span><span class="di-v">Casual</span></div>
+          <div class="dial-item"><span class="di-n">16–18×  Easy</span><span class="di-v">Budget</span></div>
+          <div class="dial-item di-on"><span class="di-n">19–21×  Balanced ★</span><span class="di-v">Yours</span></div>
+          <div class="dial-item"><span class="di-n">22–25×  Hard</span><span class="di-v">Grindy</span></div>
+          <div class="dial-item"><span class="di-n">26–30×  Very Hard</span><span class="di-v">Tough</span></div>
+          <div class="dial-item"><span class="di-n">31–35×  Hardcore</span><span class="di-v">Elite</span></div>
+        </div>
+      </div>
+      <div style="background:rgba(247,243,237,0.05);border:1px solid rgba(247,243,237,0.07);border-radius:5px;padding:12px;">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,237,0.3);margin-bottom:6px;">When to adjust</div>
+        <p>Cash flooding in → raise to <span style="color:var(--clay);">22–25</span><br>Economy struggling → drop to <span style="color:var(--clay);">15–18</span><br>Player boom → hold or reduce<br>Player drop → raise slightly</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-        function getSelectedContactMethods() {
-            const checkboxes = document.querySelectorAll('input[name="contact_method"]:checked');
-            return Array.from(checkboxes).map(cb => cb.value).join(', ');
-        }
+<div class="toast" id="toast">✓ Copied to clipboard</div>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Validate at least one contact method is selected
-            const contactMethods = getSelectedContactMethods();
-            if (!contactMethods) {
-                showAlert('Please select at least one preferred contact method.', 'error');
-                return;
-            }
-            
-            submitButton.disabled = true;
-            submitButton.classList.add('loading');
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                company: document.getElementById('company').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                whatsapp: document.getElementById('whatsapp').value,
-                contact_methods: contactMethods,
-                pickup_address: document.getElementById('pickup_address').value,
-                delivery_address: document.getElementById('delivery_address').value,
-                package_type: document.getElementById('package_type').value,
-                weight: document.getElementById('weight').value,
-                shipping_service: document.getElementById('shipping_service').value,
-                notes: document.getElementById('notes').value,
-                timestamp: new Date().toLocaleString()
-            };
+<!-- DOCUMENT OVERLAY -->
+<div class="doc-overlay" id="docOverlay">
+  <div class="doc-sheet" id="docSheet">
+    <button class="doc-print" onclick="window.print()">⎙ Print / Save PDF</button>
+    <button class="doc-close" onclick="document.getElementById('docOverlay').classList.remove('on')">✕ Close</button>
+    <div id="docContent"></div>
+  </div>
+</div>
 
-            try {
-                const response = await fetch('https://sheetdb.io/api/v1/wr8g8nxcnri1f', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ data: [formData] })
-                });
+<script>
+var G={tier:1,iName:'Standard',iPrice:0,stat:'av',saleType:'Purchase',expText:'',tier1:1526300};
+var TM={1:1,2:2.2,3:4.5,4:9};
+var TN={1:'Standard',2:'Premium',3:'Luxury',4:'Elite'};
 
-                const result = await response.json();
-                console.log('API Response:', result);
+// All zones: id, name, multiplier, tiers available
+var ZONES=[
+  {id:'cypress',n:'Cypress Flats',m:0.60,t:[1]},
+  {id:'banning',n:'Banning',m:0.62,t:[1]},
+  {id:'elysian',n:'Elysian Island',m:0.65,t:[1]},
+  {id:'lapuerta',n:'La Puerta',m:0.68,t:[1]},
+  {id:'murrieta',n:'Murrieta Heights',m:0.70,t:[1]},
+  {id:'elburro',n:'El Burro Heights',m:0.70,t:[1]},
+  {id:'chamberlain',n:'Chamberlain Hills',m:0.72,t:[1]},
+  {id:'palomino',n:'Palomino Highlands',m:0.75,t:[1]},
+  {id:'davis',n:'Davis',m:0.78,t:[1,2]},
+  {id:'rancho',n:'Rancho',m:0.80,t:[1,2]},
+  {id:'straw',n:'Strawberry',m:0.84,t:[1,2]},
+  {id:'lamesa',n:'La Mesa',m:0.87,t:[1,2]},
+  {id:'vbeach',n:'Vespucci Beach',m:0.90,t:[1,2]},
+  {id:'vespucci',n:'Vespucci',m:0.90,t:[1,2]},
+  {id:'vcanals',n:'Vespucci Canals',m:0.95,t:[1,2]},
+  {id:'mission',n:'Mission Row',m:0.95,t:[1,2]},
+  {id:'textile',n:'Textile City',m:0.97,t:[1,2]},
+  {id:'pillbox',n:'Pillbox Hill',m:1.00,t:[1,2]},
+  {id:'seoul',n:'Little Seoul',m:1.00,t:[1,2]},
+  {id:'morningwood',n:'Morningwood',m:1.05,t:[1,2]},
+  {id:'mirrorpark',n:'Mirror Park',m:1.10,t:[2,3]},
+  {id:'alta',n:'Alta',m:1.15,t:[2,3]},
+  {id:'burton',n:'Burton',m:1.20,t:[2,3]},
+  {id:'hawick',n:'Hawick',m:1.25,t:[2,3]},
+  {id:'richards',n:'Richards Majestic',m:1.28,t:[2,3]},
+  {id:'evinewood',n:'East Vinewood',m:1.30,t:[2,3]},
+  {id:'wvinewood',n:'West Vinewood',m:1.38,t:[2,3]},
+  {id:'dtvinewood',n:'Downtown Vinewood',m:1.40,t:[2,3]},
+  {id:'delperro',n:'Del Perro',m:1.45,t:[2,3]},
+  {id:'rockford',n:'Rockford Hills',m:1.55,t:[2,3]},
+  {id:'dpbeach',n:'Del Perro Beach',m:1.65,t:[3,4]},
+  {id:'pacific',n:'Pacific Bluffs',m:1.75,t:[3,4]},
+  {id:'gwc',n:'GWC & Golfing Society',m:1.80,t:[3,4]},
+  {id:'banham',n:'Banham Canyon',m:1.90,t:[3,4]},
+  {id:'chumash',n:'Chumash',m:2.00,t:[3,4]},
+  {id:'richmanglen',n:'Richman Glen',m:2.15,t:[3,4]},
+  {id:'vhills',n:'Vinewood Hills',m:2.30,t:[3,4]},
+  {id:'richman',n:'Richman',m:2.60,t:[3,4]}
+];
 
-                if (response.ok && result.created) {
-                    showAlert('✓ Quote request submitted successfully! We\'ll contact you via your preferred method within 2 hours.', 'success');
-                    form.reset();
-                } else {
-                    throw new Error(result.message || 'Failed to submit form');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('✗ Failed to submit request. Please try again or contact us directly at support@swiftship.com', 'error');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.classList.remove('loading');
-            }
-        });
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US');}
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+function go(id,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('view-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function updateListings(base){
+  ZONES.forEach(function(z){
+    z.t.forEach(function(tier){
+      var el=document.getElementById('z-'+z.id+'-'+tier);
+      if(el) el.textContent=fmt(base*TM[tier]*z.m);
+    });
+  });
+}
+
+function calcEco(){
+  var money=parseFloat(document.getElementById('eMoney').value)||0;
+  var players=parseFloat(document.getElementById('ePlayers').value)||1;
+  var mult=parseFloat(document.getElementById('eMult').value)||20;
+  document.getElementById('eMultD').textContent=mult;
+  var liq=money/players, raw=liq*mult;
+  var c=Math.min(Math.max(raw,800000),3000000);
+  document.getElementById('eLiquid').textContent=fmt(liq);
+  document.getElementById('eRaw').textContent=fmt(raw);
+  document.getElementById('eClamped').textContent=fmt(c);
+  G.tier1=c;
+  var h,hs,bw,di;
+  if(mult<=15){h='Very Easy';hs='consider raising';bw=15;di=0;}
+  else if(mult<=18){h='Easy';hs='casual server';bw=30;di=1;}
+  else if(mult<=21){h='Balanced';hs='multiplier healthy';bw=55;di=2;}
+  else if(mult<=25){h='Hard';hs='grindy economy';bw=72;di=3;}
+  else if(mult<=30){h='Very Hard';hs='high effort';bw=88;di=4;}
+  else{h='Hardcore';hs='extreme grind';bw=100;di=5;}
+  document.getElementById('eHealth').textContent=h;
+  document.getElementById('eHealthS').textContent=hs;
+  document.getElementById('eHBar').style.width=bw+'%';
+  document.getElementById('eHLabel').textContent=h;
+  document.querySelectorAll('.dial-item').forEach(function(r,i){r.classList.toggle('di-on',i===di);});
+  var tbody=document.getElementById('eTierBody');
+  tbody.innerHTML='';
+  var bgs=['tr1','tr2','tr3','tr4'],ms=[1,2.2,4.5,9],ml=['Base','×2.2','×4.5','×9'];
+  for(var i=1;i<=4;i++){tbody.innerHTML+='<tr><td><span class="tr-badge '+bgs[i-1]+'">Tier '+i+'</span></td><td style="color:var(--bark);font-weight:500;">'+TN[i]+'</td><td style="color:var(--muted);">'+ml[i-1]+'</td><td class="tr-price">'+fmt(c*ms[i-1])+'</td></tr>';}
+  var grid=document.getElementById('eZoneGrid');
+  grid.innerHTML='';
+  ZONES.forEach(function(z){grid.innerHTML+='<div class="zr"><div><div class="zr-n">'+z.n+'</div><div class="zr-m">×'+z.m.toFixed(2)+'</div></div><div class="zr-p">'+fmt(c*z.m)+'</div></div>';});
+}
+
+function applyEco(){
+  var c=G.tier1;
+  document.getElementById('cBase').value=Math.round(c);
+  updateTiers();liveCalc();updateListings(c);
+  go('listings',document.querySelectorAll('.tab')[1]);
+}
+
+function setTier(n,el){G.tier=n;document.querySelectorAll('.t-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cManual').value='';liveCalc();}
+function handleZone(){var v=document.getElementById('cZone').value;document.getElementById('customZW').style.display=(v==='custom')?'grid':'none';}
+function setInt(name,price,el){G.iName=name;G.iPrice=price;document.querySelectorAll('.i-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cIW').style.display='none';liveCalc();}
+function openCustomI(el){document.querySelectorAll('.i-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cIW').style.display='grid';syncCI();liveCalc();}
+function syncCI(){G.iName=document.getElementById('cIN').value||'Custom Interior';G.iPrice=parseFloat(document.getElementById('cIP').value)||0;document.getElementById('cIL').textContent=G.iPrice?fmt(G.iPrice):'—';}
+function setStat(val,el){G.stat=val;document.querySelectorAll('.st-btn').forEach(function(b){b.classList.remove('on','av','rs','sl');});el.classList.add('on',val);}
+
+function updateTiers(){
+  var base=parseFloat(document.getElementById('cBase').value)||1526300;
+  var c=Math.min(Math.max(base,800000),3000000);
+  document.getElementById('ct1').textContent=fmt(c);
+  document.getElementById('ct2').textContent=fmt(c*2.2);
+  document.getElementById('ct3').textContent=fmt(c*4.5);
+  document.getElementById('ct4').textContent=fmt(c*9);
+}
+
+function getZone(){
+  var sel=document.getElementById('cZone');
+  if(sel.value==='custom'){return{m:parseFloat(document.getElementById('cZM').value)||1.0,n:document.getElementById('cZN').value||'Custom Zone'};}
+  return{m:parseFloat(sel.value),n:sel.options[sel.selectedIndex].getAttribute('data-n')};
+}
+
+function getCalc(){
+  var base=parseFloat(document.getElementById('cBase').value)||1526300;
+  var cl=Math.min(Math.max(base,800000),3000000);
+  var manual=parseFloat(document.getElementById('cManual').value);
+  var tb=isNaN(manual)?cl*TM[G.tier]:manual;
+  var zone=getZone(),zp=tb*zone.m;
+  var sub=zp+G.iPrice,dp=parseFloat(document.getElementById('cDisc').value)||0;
+  var disc=sub*(dp/100),total=sub-disc;
+  return{tb,zone,zp,sub,dp,disc,total};
+}
+
+function liveCalc(){
+  var addr=document.getElementById('cAddr').value.trim();
+  var postal=document.getElementById('cPostal').value.trim();
+  var c=getCalc();
+  document.getElementById('sumAddr').textContent=addr||'—';
+  var parts=[];
+  if(postal)parts.push('Postal '+postal);
+  parts.push(c.zone.n);parts.push('Tier '+G.tier+' · '+TN[G.tier]);parts.push(G.iName);
+  document.getElementById('sumMeta').textContent=parts.join(' · ');
+  document.getElementById('bkBase').textContent=fmt(c.tb);
+  document.getElementById('bkZP').textContent='×'+c.zone.m.toFixed(2);
+  document.getElementById('bkZone').textContent=fmt(c.zp);
+  document.getElementById('bkInt').textContent=G.iPrice?'+'+fmt(G.iPrice):'Included';
+  document.getElementById('bkTotal').textContent=fmt(c.total);
+  if(c.disc>0){document.getElementById('bkDRow').style.display='flex';document.getElementById('bkDisc').textContent='-'+fmt(c.disc)+' ('+c.dp+'%)';}
+  else{document.getElementById('bkDRow').style.display='none';}
+}
+
+function buildPost(){
+  var addr=document.getElementById('cAddr').value.trim()||'N/A';
+  var postal=document.getElementById('cPostal').value.trim()||'N/A';
+  var agent=document.getElementById('cAgent').value.trim()||'XOXO Agent';
+  var contact=document.getElementById('cContact').value.trim()||'N/A';
+  var notes=document.getElementById('cNotes').value.trim();
+  var dr=document.getElementById('cDR').value.trim();
+  var c=getCalc();
+  var sl={av:'🟢 AVAILABLE',rs:'🟡 RESERVED',sl:'🔴 SOLD / TAKEN'}[G.stat];
+  var t='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏠  XOXO REALESTA — PROPERTY LISTING\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  t+='📍  Address:    '+addr+'\n📮  Postal:     '+postal+'\n🗺️  Zone:       '+c.zone.n+'  (×'+c.zone.m.toFixed(2)+')\n';
+  t+='🏡  Tier:       Tier '+G.tier+' — '+TN[G.tier]+'\n🛋️  Interior:   '+G.iName+(G.iPrice?'  (+'+fmt(G.iPrice)+')':'')+'\n📊  Status:     '+sl+'\n\n';
+  t+='── PRICING ─────────────────────────\n';
+  t+='   Tier Base:      '+fmt(c.tb)+'\n   Zone Price:     '+fmt(c.zp)+'\n   Interior:       '+(G.iPrice?fmt(G.iPrice):'Included')+'\n';
+  if(c.disc>0)t+='   Discount ('+c.dp+'%): -'+fmt(c.disc)+(dr?'  ['+dr+']':'')+'\n';
+  t+='   ─────────────────────────────\n   TOTAL:          '+fmt(c.total)+'\n\n';
+  if(notes)t+='📝  '+notes+'\n\n';
+  t+='── AGENT ───────────────────────────\n👤  '+agent+'\n📞  '+contact+'\n\nDM to arrange a viewing! 🏡\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+  G.expText=t;
+  var ep=document.getElementById('expPre');ep.textContent=t;ep.classList.add('on');
+}
+
+function doCopy(){
+  if(!G.expText)buildPost();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(G.expText).then(showToast).catch(function(){fb(G.expText);});}else{fb(G.expText);}
+}
+function fb(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');showToast();}catch(e){}document.body.removeChild(ta);}
+function showToast(){var t=document.getElementById('toast');t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
+
+function setSaleType(val,el){G.saleType=val;document.querySelectorAll('.sale-btn').forEach(function(b){b.classList.remove('on');});el.classList.add('on');}
+
+function generateDoc(){
+  var addr     = document.getElementById('cAddr').value.trim()    || 'N/A';
+  var postal   = document.getElementById('cPostal').value.trim()  || 'N/A';
+  var agent    = document.getElementById('cAgent').value.trim()   || 'XOXO Realestate Agent';
+  var aContact = document.getElementById('cContact').value.trim() || 'N/A';
+  var notes    = document.getElementById('cNotes').value.trim();
+  var bName    = document.getElementById('bName').value.trim()    || 'N/A';
+  var bCitizen = document.getElementById('bCitizen').value.trim() || 'N/A';
+  var bContact = document.getElementById('bContact').value.trim() || 'N/A';
+  var dr       = document.getElementById('cDR').value.trim();
+  var c        = getCalc();
+  var now      = new Date();
+  var dateStr  = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var refNum   = 'XR-' + now.getFullYear() + '-' + String(Math.floor(Math.random()*90000)+10000);
+  var statLabels = {av:'Available for Purchase',rs:'Reserved',sl:'Sold - Transfer of Deed'};
+  var statLabel  = statLabels[G.stat];
+  var statClass  = {av:'av',rs:'rs',sl:'sl'}[G.stat];
+  var saleTypeLabel = G.saleType.toUpperCase() + ' AGREEMENT';
+  var discRow = '';
+  if(c.disc > 0){
+    var drNote = dr ? ' [' + dr + ']' : '';
+    discRow = '<tr><td>Agreed Discount (' + c.dp + '%)' + drNote + '</td><td></td><td class="disc">-' + fmt(c.disc) + '</td></tr>';
+  }
+  var intLabel = G.iPrice > 0 ? G.iName : 'Standard';
+  var intAmt   = G.iPrice > 0 ? fmt(G.iPrice) : 'Included';
+  var intBasis = G.iPrice > 0 ? 'Fixed package pricing' : 'Included';
+  var intRow   = '<tr><td>Interior Package - ' + intLabel + '</td><td>' + intBasis + '</td><td>' + intAmt + '</td></tr>';
+  var notesHtml = '';
+  if(notes){
+    notesHtml = '<div class="doc-section"><div class="doc-section-title">Property Description</div><div class="doc-field"><div class="df-val" style="font-size:13px;font-weight:400;line-height:1.7;border-bottom:none;">' + notes + '</div></div></div>';
+  }
+  var p = [];
+  p.push('<div class="doc-header">');
+  p.push('<div class="doc-logo-wrap"><div class="doc-logo">xoxo <em>realestate</em></div><div class="doc-logo-sub">Premier Real Estate &middot; Los Santos</div></div>');
+  p.push('<div class="doc-header-right"><div class="doc-ref">Reference No.<strong>' + refNum + '</strong></div><div class="doc-date">' + dateStr + '</div></div>');
+  p.push('</div>');
+  p.push('<div class="doc-type-banner">' + saleTypeLabel + '</div>');
+  p.push('<div class="doc-body">');
+  p.push('<div class="doc-section"><div class="doc-section-title">Property Information</div>');
+  p.push('<div class="doc-2col"><div>');
+  p.push('<div class="doc-field"><div class="df-label">Street Address</div><div class="df-val big">' + addr + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Postal Code</div><div class="df-val">' + postal + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Zone / District</div><div class="df-val">' + c.zone.n + '</div></div>');
+  p.push('</div><div>');
+  p.push('<div class="doc-field"><div class="df-label">Property Tier</div><div class="df-val">Tier ' + G.tier + ' &ndash; ' + TN[G.tier] + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Interior Package</div><div class="df-val">' + G.iName + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Listing Status</div><div class="df-val"><span class="doc-status-stamp ' + statClass + '">' + statLabel + '</span></div></div>');
+  p.push('</div></div></div>');
+  p.push('<div class="doc-section"><div class="doc-section-title">Parties to the Agreement</div>');
+  p.push('<div class="doc-2col"><div>');
+  p.push('<div class="doc-field"><div class="df-label">Buyer / Lessee</div><div class="df-val big">' + bName + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Citizen ID / SSN</div><div class="df-val">' + bCitizen + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Contact Number</div><div class="df-val">' + bContact + '</div></div>');
+  p.push('</div><div>');
+  p.push('<div class="doc-field"><div class="df-label">Selling Agent</div><div class="df-val big">' + agent + '</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Agency</div><div class="df-val">XOXO Realestate</div></div>');
+  p.push('<div class="doc-field"><div class="df-label">Agent Contact</div><div class="df-val">' + aContact + '</div></div>');
+  p.push('</div></div></div>');
+  if(notesHtml){ p.push(notesHtml); }
+  p.push('<div class="doc-section"><div class="doc-section-title">Pricing Breakdown</div>');
+  p.push('<table class="doc-price-table">');
+  p.push('<thead><tr><th>Item</th><th>Basis</th><th>Amount</th></tr></thead>');
+  p.push('<tbody>');
+  p.push('<tr><td>Tier ' + G.tier + ' Property &ndash; ' + TN[G.tier] + '</td><td>Tier base price</td><td>' + fmt(c.tb) + '</td></tr>');
+  p.push('<tr><td>Zone Adjustment &ndash; ' + c.zone.n + '</td><td>&times;' + c.zone.m.toFixed(2) + ' location multiplier</td><td>' + fmt(c.zp) + '</td></tr>');
+  p.push(intRow);
+  p.push(discRow);
+  p.push('</tbody>');
+  p.push('<tfoot><tr class="total-row"><td colspan="2">Total Agreed Sale Price</td><td>' + fmt(c.total) + '</td></tr></tfoot>');
+  p.push('</table></div>');
+  p.push('<div class="doc-section"><div class="doc-section-title">Terms &amp; Conditions</div><div class="doc-terms">');
+  p.push('<p><strong>1. Transfer of Ownership.</strong> Upon full payment of the agreed sale price, all rights, title, and interest in the above-described property shall transfer from the Seller (XOXO Realestate on behalf of the current title holder) to the named Buyer, effective from the date of this agreement.</p>');
+  p.push('<p><strong>2. Payment.</strong> Payment is due in full in-game at the time of handover. No partial payments are accepted unless a separate Lease Agreement has been issued. Cash, bank transfer, or equivalent in-game currency accepted.</p>');
+  p.push('<p><strong>3. Interior Package.</strong> If an interior package has been selected, it will be fitted prior to handover. The buyer acknowledges the interior is sold as-is and no further modifications are included in this price.</p>');
+  p.push('<p><strong>4. Non-Refundable.</strong> Once the deed has been transferred and keys handed over, the sale is final. XOXO Realestate accepts no liability for post-sale disputes regarding the property condition.</p>');
+  p.push('<p><strong>5. Price Validity.</strong> Pricing is valid for the current calendar month only. XOXO Realestate reserves the right to revise pricing at the monthly economy update. This agreement locks in the price quoted above once signed.</p>');
+  p.push('<p><strong>6. Agent Authority.</strong> The selling agent named above is a licensed representative of XOXO Realestate and is authorised to complete this transaction on behalf of the agency.</p>');
+  p.push('</div></div>');
+  p.push('<div class="doc-section"><div class="doc-section-title">Signatures</div><div class="doc-sigs">');
+  p.push('<div class="doc-sig"><div class="sig-name">' + bName + '</div><div class="sig-role">Buyer / Lessee</div><div class="sig-date">Date: _______________</div></div>');
+  p.push('<div class="doc-sig"><div class="sig-name">' + agent + '</div><div class="sig-role">XOXO Realestate &ndash; Selling Agent</div><div class="sig-date">Date: ' + dateStr + '</div></div>');
+  p.push('<div class="doc-sig"><div class="sig-name">XOXO Realestate</div><div class="sig-role">Agency Authorisation</div><div class="sig-date">Ref: ' + refNum + '</div></div>');
+  p.push('</div></div>');
+  p.push('<div class="doc-stamp"><div class="st-text">Issued by</div><div class="st-logo">xoxo <em>realestate</em></div><div class="doc-num">' + refNum + ' &middot; ' + dateStr + ' &middot; Los Santos, San Andreas &middot; All rights reserved.</div></div>');
+  p.push('</div>');
+  document.getElementById('docContent').innerHTML = p.join('');
+  document.getElementById('docOverlay').classList.add('on');
+  document.getElementById('docOverlay').scrollTop = 0;
+}
+
+// Init
+calcEco();
+updateTiers();
+updateListings(G.tier1);
+liveCalc();
+</script>
 </body>
 </html>
