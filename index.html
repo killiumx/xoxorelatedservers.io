@@ -306,8 +306,20 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 .doc-status-stamp.sl{border-color:#7A3232;color:#7A3232;}
 .doc-status-stamp.rs{border-color:#C49A5A;color:#C49A5A;}
 
+.webhook-bar{background:#F7F3ED;border-top:2px solid #E8C9B4;padding:16px 40px 20px;}
+.wh-label{font-family:'Jost',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9C8678;margin-bottom:8px;}
+.wh-row{display:flex;gap:8px;align-items:center;}
+.wh-input{flex:1;font-family:'Jost',sans-serif;font-size:12px;padding:9px 12px;border:1px solid #D4C4B8;border-radius:4px;background:#fff;color:#1a1209;outline:none;}
+.wh-input:focus{border-color:#C28B6E;}
+.wh-btn{background:#4A3728;color:#F7F3ED;border:none;border-radius:4px;padding:9px 18px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background 0.15s;}
+.wh-btn:hover{background:#C28B6E;}
+.wh-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.wh-status{font-family:'Jost',sans-serif;font-size:11px;margin-top:8px;min-height:16px;font-weight:500;}
+.wh-status.ok{color:#3D6B4F;}
+.wh-status.err{color:#7A3232;}
+.wh-status.pending{color:#9C8678;}
 @media print{
-  .doc-close,.doc-print{display:none!important;}
+  .doc-close,.doc-print,.doc-img,.webhook-bar{display:none!important;}
   .doc-overlay{position:static;background:none;padding:0;}
   .doc-sheet{border:none;max-width:100%;box-shadow:none;}
   body > *:not(.doc-overlay){display:none!important;}
@@ -724,6 +736,14 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
     <button class="doc-img" id="docImgBtn" onclick="copyDocImage()">⧉ Copy as Image</button>
     <button class="doc-close" onclick="document.getElementById('docOverlay').classList.remove('on')">✕ Close</button>
     <div id="docContent"></div>
+    <div class="webhook-bar">
+      <div class="wh-label">Discord Webhook</div>
+      <div class="wh-row">
+        <input type="text" id="whUrl" placeholder="https://discord.com/api/webhooks/..." class="wh-input" value="https://discord.com/api/webhooks/1491115181302878362/qQYxce4E4qA0aZbN0kJL9EwjcBOHfBUCHarDMpr0a-Rg_WBj36sphiwBawpl209qWm7r">
+        <button class="wh-btn" id="whBtn" onclick="sendWebhook()">Send to Discord</button>
+      </div>
+      <div class="wh-status" id="whStatus"></div>
+    </div>
   </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1044,6 +1064,76 @@ function fallbackDownload(canvas, btn){
   document.body.removeChild(a);
   btn.textContent = '⬇ Downloaded!';
   setTimeout(function(){ btn.textContent = '\u29ed Copy as Image'; btn.disabled = false; }, 2500);
+}
+
+function sendWebhook(){
+  var url = document.getElementById('whUrl').value.trim();
+  var btn = document.getElementById('whBtn');
+  var status = document.getElementById('whStatus');
+  if(!url){
+    status.className = 'wh-status err';
+    status.textContent = 'Please enter a Discord webhook URL.';
+    return;
+  }
+  if(url.indexOf('discord.com/api/webhooks') === -1 && url.indexOf('discordapp.com/api/webhooks') === -1){
+    status.className = 'wh-status err';
+    status.textContent = 'That does not look like a valid Discord webhook URL.';
+    return;
+  }
+  btn.disabled = true;
+  status.className = 'wh-status pending';
+  status.textContent = 'Rendering document...';
+  var sheet = document.getElementById('docContent');
+  html2canvas(sheet, {scale:2, useCORS:true, backgroundColor:'#ffffff', logging:false}).then(function(canvas){
+    status.textContent = 'Uploading to Discord...';
+    canvas.toBlob(function(blob){
+      if(!blob){
+        status.className = 'wh-status err';
+        status.textContent = 'Failed to render image.';
+        btn.disabled = false;
+        return;
+      }
+      var addr = document.getElementById('cAddr').value.trim() || 'Property';
+      var refEl = document.getElementById('docContent').querySelector('.doc-ref strong');
+      var ref = refEl ? refEl.textContent : 'XR-REF';
+      var now = new Date();
+      var dateStr = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+      var fd = new FormData();
+      fd.append('file', blob, ref + '.png');
+      var payload = {
+        username: 'XOXO Realestate',
+        embeds:[{
+          title: 'Property Agreement — ' + addr,
+          description: 'Reference: **' + ref + '**\nIssued: ' + dateStr + '\n\nSee the attached agreement image below.',
+          color: 4934440,
+          footer:{text:'XOXO Realestate · Los Santos, San Andreas'}
+        }]
+      };
+      fd.append('payload_json', JSON.stringify(payload));
+      fetch(url, {method:'POST', body:fd})
+        .then(function(r){
+          if(r.ok){
+            status.className = 'wh-status ok';
+            status.textContent = 'Sent to Discord successfully!';
+          } else {
+            r.text().then(function(t){
+              status.className = 'wh-status err';
+              status.textContent = 'Discord error ' + r.status + ': ' + t.substring(0,80);
+            });
+          }
+          btn.disabled = false;
+        })
+        .catch(function(e){
+          status.className = 'wh-status err';
+          status.textContent = 'Network error: ' + e.message;
+          btn.disabled = false;
+        });
+    }, 'image/png');
+  }).catch(function(e){
+    status.className = 'wh-status err';
+    status.textContent = 'Render error: ' + e.message;
+    btn.disabled = false;
+  });
 }
 
 // Init
