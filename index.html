@@ -45,7 +45,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 .field textarea{resize:vertical;min-height:60px;line-height:1.5;}
 
 .card{background:var(--white);border:1px solid rgba(74,55,40,0.1);border-radius:6px;overflow:hidden;box-shadow:0 1px 6px rgba(74,55,40,0.06);}
-.card-head{padding:10px 16px;border-bottom:1px solid rgba(74,55,40,0.08);display:flex;align-items:center;gap:8px;background:var(--cream);}
+.card-head{padding:10px 16px;border-bottom:1px solid rgba(74,55,40,0.08);display:flex;align-items:center;gap:8px;background:var(--cream);border-radius:6px 6px 0 0;}
 .card-head .orn{font-family:'Playfair Display',serif;font-size:14px;color:var(--clay);}
 .card-head h3{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bark);}
 .card-body{padding:16px;}
@@ -128,6 +128,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 .b4{background:var(--bark);color:var(--cream);}
 .zt-desc{font-size:9px;color:var(--muted);margin-top:1px;}
 .zt-price{font-size:13px;font-weight:600;color:var(--bark);}
+.zc-base-price{font-size:16px;font-weight:700;color:var(--clay2);padding:12px 4px;text-align:center;}
 
 /* Interiors */
 .int-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
@@ -181,6 +182,38 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 .i-sel.on .idesc{color:rgba(247,243,237,0.4);}
 .i-sel .ip{font-size:11px;color:var(--muted);white-space:nowrap;}
 .i-sel.on .ip{color:var(--clay);}
+.i-grp{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);padding:8px 0 3px;border-bottom:1px solid rgba(74,55,40,0.1);margin-bottom:2px;}
+.tp-apt{background:rgba(194,139,110,0.15);color:var(--clay2);}
+.tp-house{background:rgba(61,107,79,0.1);color:var(--green);}
+.tp-town{background:rgba(196,154,90,0.15);color:#8B6914;}
+
+/* ══ ZONE SEARCH PICKER ══ */
+.zone-pick-wrap{position:relative;}
+.zone-pick-display{background:var(--cream);border:1px solid rgba(74,55,40,0.15);border-radius:4px;color:var(--ink);font-family:'Jost',sans-serif;font-size:13px;padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:border-color 0.15s;}
+.zone-pick-display:hover,.zone-pick-display.open{border-color:var(--clay);}
+.zone-pick-caret{font-size:9px;color:var(--muted);transition:transform 0.15s;}
+.zone-pick-display.open .zone-pick-caret{transform:rotate(180deg);}
+.zone-drop{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--white);border:1px solid rgba(74,55,40,0.15);border-radius:4px;max-height:250px;overflow-y:auto;z-index:200;box-shadow:0 6px 20px rgba(74,55,40,0.14);display:none;}
+.zone-drop.open{display:block;}
+.zone-search-box{padding:8px 10px;border-bottom:1px solid rgba(74,55,40,0.08);position:sticky;top:0;background:var(--white);z-index:1;}
+.zone-search-box input{width:100%;background:var(--parch);border:1px solid rgba(74,55,40,0.12);border-radius:3px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+.zone-search-box input:focus{border-color:var(--clay);}
+.zd-grp-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:7px 12px 4px;background:var(--cream);}
+.zd-row{padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.1s;}
+.zd-row:hover{background:var(--parch);}
+.zd-row.zd-sel{background:var(--bark);}
+.zd-row .zdn{font-size:12px;color:var(--bark);}
+.zd-row.zd-sel .zdn{color:var(--cream);}
+.zd-row .zdm{font-size:10px;color:var(--muted);font-weight:600;}
+.zd-row.zd-sel .zdm{color:var(--clay);}
+.zd-row.zd-hidden{display:none;}
+.zd-grp-label.zd-hidden{display:none;}
+
+/* ══ INTERIOR SEARCH ══ */
+.int-search-box{margin-bottom:8px;}
+.int-search-box input{width:100%;background:var(--parch);border:1px solid rgba(74,55,40,0.12);border-radius:3px;padding:7px 10px;font-family:'Jost',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+.int-search-box input:focus{border-color:var(--clay);}
+.i-grp.int-grp-hidden{display:none;}
 
 .status-row{display:flex;gap:7px;}
 .st-btn{flex:1;padding:8px 4px;background:var(--cream);border:1px solid rgba(74,55,40,0.12);border-radius:4px;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.15s;}
@@ -361,7 +394,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
       <div class="hero-stats">
         <div><div class="hstat-num">28</div><div class="hstat-lbl">Zones Covered</div></div>
         <div><div class="hstat-num">4</div><div class="hstat-lbl">Property Tiers</div></div>
-        <div><div class="hstat-num">7</div><div class="hstat-lbl">Interior Packages</div></div>
+        <div><div class="hstat-num">9</div><div class="hstat-lbl">Interior Packages</div></div>
         <div><div class="hstat-num">100%</div><div class="hstat-lbl">Legitimate</div></div>
       </div>
     </div>
@@ -379,7 +412,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
   <div class="steps-row">
     <div class="step"><div class="step-num">01</div><div class="step-title">Choose a Zone</div><div class="step-desc">Head to Listings. Each zone shows its available tiers and current prices — updated monthly against the economy.</div></div>
     <div class="step"><div class="step-num">02</div><div class="step-title">Select Your Tier</div><div class="step-desc">Budget zones offer Tier 1 only. Luxury zones open up Tier 3–4. Premium areas sit in between.</div></div>
-    <div class="step"><div class="step-num">03</div><div class="step-title">Pick an Interior</div><div class="step-desc">Optional upgrade. Choose from 7 interior packages. Each has a fixed price added on top of the property base.</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-title">Pick an Interior</div><div class="step-desc">Optional upgrade. Choose from 9 interior shells. Each has a fixed price added on top of the property base.</div></div>
     <div class="step"><div class="step-num">04</div><div class="step-title">Contact an Agent</div><div class="step-desc">DM a licensed XOXO Realestate agent. They generate your official quote and confirm the slot is available.</div></div>
   </div>
 
@@ -390,92 +423,43 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 <div class="view" id="view-listings">
 
   <div class="legend-bar">
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(247,243,237,0.25);border:1px solid rgba(247,243,237,0.3);"></div><div class="leg-label"><strong>Budget</strong> — Tier 1 only</div></div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--clay);"></div><div class="leg-label"><strong>Standard</strong> — Tier 1 &amp; 2</div></div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--gold);"></div><div class="leg-label"><strong>Premium</strong> — Tier 2 &amp; 3</div></div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--blush);"></div><div class="leg-label"><strong>Luxury</strong> — Tier 3 &amp; 4</div></div>
-    <div style="margin-left:auto;font-size:10px;color:rgba(247,243,237,0.3);">Base prices shown · interior add-ons separate</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(247,243,237,0.25);border:1px solid rgba(247,243,237,0.3);"></div><div class="leg-label"><strong>Budget</strong> ×0.60 – 0.75</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--clay);"></div><div class="leg-label"><strong>Standard</strong> ×0.78 – 1.05</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gold);"></div><div class="leg-label"><strong>Premium</strong> ×1.10 – 1.55</div></div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blush);"></div><div class="leg-label"><strong>Luxury</strong> ×1.65 – 2.60</div></div>
+    <div style="margin-left:auto;font-size:10px;color:rgba(247,243,237,0.3);">Zone base prices · tier applied in calculator</div>
   </div>
 
-  <!-- BUDGET -->
-  <div class="zone-section">
-    <div class="zone-section-head"><h2>Budget Areas</h2><span class="zone-chip chip-b">×0.60 – 0.75</span></div>
-    <div class="zone-grid">
-      <div class="zc"><div class="zc-head"><div class="zc-name">Cypress Flats</div><div class="zc-mult">×0.60</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-cypress-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Banning</div><div class="zc-mult">×0.62</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-banning-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Elysian Island</div><div class="zc-mult">×0.65</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-elysian-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">La Puerta</div><div class="zc-mult">×0.68</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-lapuerta-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Murrieta Heights</div><div class="zc-mult">×0.70</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-murrieta-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">El Burro Heights</div><div class="zc-mult">×0.70</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-elburro-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Chamberlain Hills</div><div class="zc-mult">×0.72</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-chamberlain-1">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Palomino Highlands</div><div class="zc-mult">×0.75</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-palomino-1">—</div></div></div></div>
-    </div>
-  </div>
-
-  <!-- STANDARD -->
-  <div class="zone-section">
-    <div class="zone-section-head"><h2>Standard Areas</h2><span class="zone-chip chip-s">×0.78 – 1.05</span></div>
-    <div class="zone-grid">
-      <div class="zc"><div class="zc-head"><div class="zc-name">Davis</div><div class="zc-mult">×0.78</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-davis-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-davis-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Rancho</div><div class="zc-mult">×0.80</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-rancho-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-rancho-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Strawberry</div><div class="zc-mult">×0.84</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-straw-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-straw-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">La Mesa</div><div class="zc-mult">×0.87</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-lamesa-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-lamesa-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci Beach</div><div class="zc-mult">×0.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vbeach-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vbeach-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci</div><div class="zc-mult">×0.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vespucci-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vespucci-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Vespucci Canals</div><div class="zc-mult">×0.95</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-vcanals-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-vcanals-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Mission Row</div><div class="zc-mult">×0.95</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-mission-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-mission-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Textile City</div><div class="zc-mult">×0.97</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-textile-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-textile-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Pillbox Hill</div><div class="zc-mult">×1.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-pillbox-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-pillbox-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Little Seoul</div><div class="zc-mult">×1.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-seoul-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-seoul-2">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Morningwood</div><div class="zc-mult">×1.05</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b1">Tier 1</span><div class="zt-desc">Standard Home</div></div><div class="zt-price" id="z-morningwood-1">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-morningwood-2">—</div></div></div></div>
-    </div>
-  </div>
-
-  <!-- PREMIUM -->
-  <div class="zone-section">
-    <div class="zone-section-head"><h2>Premium Areas</h2><span class="zone-chip chip-p">×1.10 – 1.55</span></div>
-    <div class="zone-grid">
-      <div class="zc"><div class="zc-head"><div class="zc-name">Mirror Park</div><div class="zc-mult">×1.10</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-mirrorpark-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-mirrorpark-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Alta</div><div class="zc-mult">×1.15</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-alta-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-alta-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Burton</div><div class="zc-mult">×1.20</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-burton-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-burton-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Hawick</div><div class="zc-mult">×1.25</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-hawick-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-hawick-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Richards Majestic</div><div class="zc-mult">×1.28</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-richards-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richards-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">East Vinewood</div><div class="zc-mult">×1.30</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-evinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-evinewood-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">West Vinewood</div><div class="zc-mult">×1.38</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-wvinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-wvinewood-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Downtown Vinewood</div><div class="zc-mult">×1.40</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-dtvinewood-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-dtvinewood-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Del Perro</div><div class="zc-mult">×1.45</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-delperro-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-delperro-3">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Rockford Hills</div><div class="zc-mult">×1.55</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b2">Tier 2</span><div class="zt-desc">Premium Home</div></div><div class="zt-price" id="z-rockford-2">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-rockford-3">—</div></div></div></div>
-    </div>
-  </div>
-
-  <!-- LUXURY -->
-  <div class="zone-section">
-    <div class="zone-section-head"><h2>Luxury Areas</h2><span class="zone-chip chip-l">×1.65 – 2.60</span></div>
-    <div class="zone-grid">
-      <div class="zc"><div class="zc-head"><div class="zc-name">Del Perro Beach</div><div class="zc-mult">×1.65</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-dpbeach-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-dpbeach-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Pacific Bluffs</div><div class="zc-mult">×1.75</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-pacific-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-pacific-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">GWC &amp; Golf Society</div><div class="zc-mult">×1.80</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-gwc-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-gwc-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Banham Canyon</div><div class="zc-mult">×1.90</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-banham-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-banham-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Chumash</div><div class="zc-mult">×2.00</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-chumash-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-chumash-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Richman Glen</div><div class="zc-mult">×2.15</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richmanglen-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-richmanglen-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Vinewood Hills</div><div class="zc-mult">×2.30</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-vhills-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-vhills-4">—</div></div></div></div>
-      <div class="zc"><div class="zc-head"><div class="zc-name">Richman</div><div class="zc-mult">×2.60</div></div><div class="zc-body"><div class="zt-row"><div class="zt-left"><span class="badge b3">Tier 3</span><div class="zt-desc">Luxury Home</div></div><div class="zt-price" id="z-richman-3">—</div></div><div class="zt-row"><div class="zt-left"><span class="badge b4">Tier 4</span><div class="zt-desc">Elite Estate</div></div><div class="zt-price" id="z-richman-4">—</div></div></div></div>
-    </div>
-  </div>
+  <div id="listingZones"></div>
 </div>
 
 <!-- ══════════ INTERIORS ══════════ -->
 <div class="view" id="view-interiors">
-  <p style="font-size:13px;font-weight:300;line-height:1.8;color:var(--muted);margin-bottom:20px;max-width:700px;">Interior packages are optional upgrades added on top of your property price. The prices below are fixed regardless of zone or tier. Speak to your agent to include one in your purchase quote.</p>
+  <p style="font-size:13px;font-weight:300;line-height:1.8;color:var(--muted);margin-bottom:6px;max-width:760px;">Interior shells are the in-game layout used for the property. The shell is chosen independently of the zone — a property in an expensive area can still use a starter shell (Tier 1), and a budget-zone property can have a luxury shell (higher tier). Shell costs are fixed and added on top of the base property price.</p>
+  <div class="notice" style="margin-bottom:20px;max-width:760px;"><span style="font-size:16px;">💡</span><p><strong>Zone ≠ Tier.</strong> Zone determines the location multiplier on the base price. Tier reflects how the property looks — the shell chosen. A house in Richman using Shell #9 is still a Tier 1 property, just in a luxury zone.</p></div>
+
+  <!-- Apartment Shells -->
+  <div class="section-label">Apartment Shells — High-Density &amp; Starter Housing</div>
+  <div class="int-grid" style="margin-bottom:24px;">
+    <div class="ic"><div class="ic-head"><div class="ic-name">Apartment Shell #5</div><div class="ic-price">+ $125,000</div></div><div class="ic-body"><div class="ic-desc">A modern, multi-room layout featuring a spacious kitchen area and sleek finishes.</div><div class="ic-tiers"><span class="tp tp-apt">Apartment</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Apartment Shell #6</div><div class="ic-price">+ $50,000</div></div><div class="ic-body"><div class="ic-desc">A compact and streamlined design, ideal for entry-level apartments.</div><div class="ic-tiers"><span class="tp tp-apt">Apartment</span></div></div></div>
+  </div>
+
+  <!-- House Shells -->
+  <div class="section-label">House Shells — Standard Residential</div>
+  <div class="int-grid" style="margin-bottom:24px;">
+    <div class="ic"><div class="ic-head"><div class="ic-name">House Shell #9</div><div class="ic-price">+ $200,000</div></div><div class="ic-body"><div class="ic-desc">Features a modern tiled hallway and updated bathroom fixtures.</div><div class="ic-tiers"><span class="tp tp-house">House</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">House Shell #10</div><div class="ic-price">+ $250,000</div></div><div class="ic-body"><div class="ic-desc">A contemporary residential design using a neutral color palette.</div><div class="ic-tiers"><span class="tp tp-house">House</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">House Shell #11</div><div class="ic-price">+ $375,000</div></div><div class="ic-body"><div class="ic-desc">Focused on an open-concept living area with premium finishes.</div><div class="ic-tiers"><span class="tp tp-house">House</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">House Shell #12</div><div class="ic-price">+ $300,000</div></div><div class="ic-body"><div class="ic-desc">A multi-room layout designed for family-style residential roleplay.</div><div class="ic-tiers"><span class="tp tp-house">House</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">House Shell #13</div><div class="ic-price">+ $500,000</div></div><div class="ic-body"><div class="ic-desc">A high-end, premium modern home layout.</div><div class="ic-tiers"><span class="tp tp-house">House</span></div></div></div>
+  </div>
+
+  <!-- Townhouse Shells -->
+  <div class="section-label">Townhouse Shells — Multi-Level Urban Row Houses</div>
   <div class="int-grid">
-    <div class="ic"><div class="ic-head"><div class="ic-name">Standard</div><div class="ic-price">Included Free</div></div><div class="ic-body"><div class="ic-desc">Base unfurnished fitout. Clean, functional, and ready to move in. Included with every property at no extra cost.</div><div class="ic-tiers"><span class="tp">All Tiers</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Modern Apartment</div><div class="ic-price">+ $125,000</div></div><div class="ic-body"><div class="ic-desc">Clean contemporary lines, fitted kitchen, recessed lighting, neutral palette. Perfect for city apartments and starter homes.</div><div class="ic-tiers"><span class="tp">Tier 1</span><span class="tp">Tier 2</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Open Plan Loft</div><div class="ic-price">+ $200,000</div></div><div class="ic-body"><div class="ic-desc">High ceilings, open layout, exposed brick and steel. Industrial-chic aesthetic with premium lighting and fixtures throughout.</div><div class="ic-tiers"><span class="tp">Tier 1</span><span class="tp">Tier 2</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Contemporary</div><div class="ic-price">+ $375,000</div></div><div class="ic-body"><div class="ic-desc">Designer furnishings throughout. Curated art pieces, marble surfaces, walk-in wardrobe, premium bathroom fitout.</div><div class="ic-tiers"><span class="tp">Tier 2</span><span class="tp">Tier 3</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Luxury Modern</div><div class="ic-price">+ $550,000</div></div><div class="ic-body"><div class="ic-desc">Premium imported materials, full smart home integration, private bar, cinema room, and heated bathroom floors.</div><div class="ic-tiers"><span class="tp">Tier 2</span><span class="tp">Tier 3</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Grand Estate</div><div class="ic-price">+ $850,000</div></div><div class="ic-body"><div class="ic-desc">Bespoke handcrafted interiors. Statement art collection, private gym, wine cellar, chef's kitchen, staff quarters.</div><div class="ic-tiers"><span class="tp">Tier 3</span><span class="tp">Tier 4</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Penthouse Suite</div><div class="ic-price">+ $1,100,000</div></div><div class="ic-body"><div class="ic-desc">Full sky-level penthouse package. Rooftop terrace, infinity pool access, private elevator, panoramic glazing, 24hr concierge setup.</div><div class="ic-tiers"><span class="tp">Tier 4</span></div></div></div>
-    <div class="ic"><div class="ic-head"><div class="ic-name">Custom Package</div><div class="ic-price">Agent Quoted</div></div><div class="ic-body"><div class="ic-desc">Fully bespoke design and sourcing. Speak directly to your XOXO Realestate agent for a tailored interior quote.</div><div class="ic-tiers"><span class="tp">All Tiers</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Townhouse Shell #3</div><div class="ic-price">+ $375,000</div></div><div class="ic-body"><div class="ic-desc">A larger townhouse option with expanded living space.</div><div class="ic-tiers"><span class="tp tp-town">Townhouse</span></div></div></div>
+    <div class="ic"><div class="ic-head"><div class="ic-name">Townhouse Shell #4</div><div class="ic-price">+ $425,000</div></div><div class="ic-body"><div class="ic-desc">The most prominent townhouse in the pack, featuring a distinct staircase and second-floor landing.</div><div class="ic-tiers"><span class="tp tp-town">Townhouse</span></div></div></div>
   </div>
 </div>
 
@@ -523,11 +507,22 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" style="overflow:visible;">
         <div class="card-head"><span class="orn">◉</span><h3>Zone</h3></div>
         <div class="card-body gap12">
           <div class="field"><label>Select Zone</label>
-            <select id="cZone" onchange="handleZone();liveCalc()">
+            <div class="zone-pick-wrap" id="zonePickWrap">
+              <div class="zone-pick-display" id="zoneDisplay" onclick="toggleZoneDrop()">
+                <span id="zoneDisplayTxt">Pillbox Hill ×1.00</span>
+                <span class="zone-pick-caret">▾</span>
+              </div>
+              <div class="zone-drop" id="zoneDrop">
+                <div class="zone-search-box"><input type="text" id="zoneSearchInput" placeholder="🔍  Search zones…" oninput="filterZones()" autocomplete="off"></div>
+                <div id="zoneDropList"></div>
+              </div>
+            </div>
+            <!-- Hidden select kept for JS compatibility -->
+            <select id="cZone" style="display:none" onchange="handleZone();liveCalc()">
               <optgroup label="── Budget ──">
                 <option value="0.60" data-n="Cypress Flats">Cypress Flats ×0.60</option>
                 <option value="0.62" data-n="Banning">Banning ×0.62</option>
@@ -587,6 +582,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
       <div class="card">
         <div class="card-head"><span class="orn">◆</span><h3>House Tier</h3></div>
         <div class="card-body gap12">
+          <p style="font-size:11px;color:var(--muted);line-height:1.6;"><strong style="color:var(--bark);">Tier = how the property looks</strong>, not where it is. A house in Richman using Shell #9 is still Tier 1. Zone only affects the price multiplier.</p>
           <div class="tier-sel-g">
             <div class="t-sel on" onclick="setTier(1,this)"><div class="tb">Tier 1</div><div class="tn">Standard</div><div class="tp2" id="ct1">—</div></div>
             <div class="t-sel" onclick="setTier(2,this)"><div class="tb">Tier 2</div><div class="tn">Premium</div><div class="tp2" id="ct2">—</div></div>
@@ -594,23 +590,30 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
             <div class="t-sel" onclick="setTier(4,this)"><div class="tb">Tier 4</div><div class="tn">Elite</div><div class="tp2" id="ct4">—</div></div>
           </div>
           <div class="row r2">
-            <div class="field"><label>Tier 1 Base This Month ($)</label><input type="number" id="cBase" value="1526300" oninput="updateTiers();liveCalc()"></div>
+            <div class="field"><label>Tier 1 Base This Month ($)</label><input type="number" id="cBase" value="1000000" oninput="updateTiers();liveCalc()"></div>
             <div class="field"><label>Manual Price Override</label><input type="number" id="cManual" placeholder="Overrides tier calc" oninput="liveCalc()"></div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head"><span class="orn">✦</span><h3>Interior Package</h3></div>
+        <div class="card-head"><span class="orn">✦</span><h3>Interior Shell</h3></div>
         <div class="card-body">
-          <div class="int-sel-g">
-            <div class="i-sel on" onclick="setInt('Standard',0,this)"><div><div class="in">Standard</div><div class="idesc">Base fitout, included free</div></div><div class="ip">Included</div></div>
-            <div class="i-sel" onclick="setInt('Modern Apartment',125000,this)"><div><div class="in">Modern Apartment</div><div class="idesc">Fitted kitchen, clean lines</div></div><div class="ip">+$125,000</div></div>
-            <div class="i-sel" onclick="setInt('Open Plan Loft',200000,this)"><div><div class="in">Open Plan Loft</div><div class="idesc">High ceilings, exposed brick</div></div><div class="ip">+$200,000</div></div>
-            <div class="i-sel" onclick="setInt('Contemporary',375000,this)"><div><div class="in">Contemporary</div><div class="idesc">Designer furnishings</div></div><div class="ip">+$375,000</div></div>
-            <div class="i-sel" onclick="setInt('Luxury Modern',550000,this)"><div><div class="in">Luxury Modern</div><div class="idesc">Smart home, premium materials</div></div><div class="ip">+$550,000</div></div>
-            <div class="i-sel" onclick="setInt('Grand Estate',850000,this)"><div><div class="in">Grand Estate</div><div class="idesc">Bespoke handcrafted</div></div><div class="ip">+$850,000</div></div>
-            <div class="i-sel" onclick="setInt('Penthouse Suite',1100000,this)"><div><div class="in">Penthouse Suite</div><div class="idesc">Full sky penthouse package</div></div><div class="ip">+$1,100,000</div></div>
+          <div class="int-search-box"><input type="text" id="intSearch" placeholder="🔍  Search shells…" oninput="filterInteriors()" autocomplete="off"></div>
+          <div class="int-sel-g" id="intSelG">
+            <div class="i-sel on" onclick="setInt('No Shell / Standard',0,this)"><div><div class="in">No Shell / Standard</div><div class="idesc">Base fitout, included free</div></div><div class="ip">Included</div></div>
+            <div class="i-grp" data-grp="apartment">Apartment Shells</div>
+            <div class="i-sel" data-int="apartment" onclick="setInt('Apartment Shell #5',125000,this)"><div><div class="in">Apartment Shell #5</div><div class="idesc">Modern multi-room, sleek finishes</div></div><div class="ip">+$125,000</div></div>
+            <div class="i-sel" data-int="apartment" onclick="setInt('Apartment Shell #6',50000,this)"><div><div class="in">Apartment Shell #6</div><div class="idesc">Compact, entry-level</div></div><div class="ip">+$50,000</div></div>
+            <div class="i-grp" data-grp="house">House Shells</div>
+            <div class="i-sel" data-int="house" onclick="setInt('House Shell #9',200000,this)"><div><div class="in">House Shell #9</div><div class="idesc">Tiled hallway, updated fixtures</div></div><div class="ip">+$200,000</div></div>
+            <div class="i-sel" data-int="house" onclick="setInt('House Shell #10',250000,this)"><div><div class="in">House Shell #10</div><div class="idesc">Contemporary neutral palette</div></div><div class="ip">+$250,000</div></div>
+            <div class="i-sel" data-int="house" onclick="setInt('House Shell #11',375000,this)"><div><div class="in">House Shell #11</div><div class="idesc">Open-concept, premium finishes</div></div><div class="ip">+$375,000</div></div>
+            <div class="i-sel" data-int="house" onclick="setInt('House Shell #12',300000,this)"><div><div class="in">House Shell #12</div><div class="idesc">Multi-room, family residential</div></div><div class="ip">+$300,000</div></div>
+            <div class="i-sel" data-int="house" onclick="setInt('House Shell #13',500000,this)"><div><div class="in">House Shell #13</div><div class="idesc">High-end premium modern</div></div><div class="ip">+$500,000</div></div>
+            <div class="i-grp" data-grp="townhouse">Townhouse Shells</div>
+            <div class="i-sel" data-int="townhouse" onclick="setInt('Townhouse Shell #3',375000,this)"><div><div class="in">Townhouse Shell #3</div><div class="idesc">Larger, expanded living space</div></div><div class="ip">+$375,000</div></div>
+            <div class="i-sel" data-int="townhouse" onclick="setInt('Townhouse Shell #4',425000,this)"><div><div class="in">Townhouse Shell #4</div><div class="idesc">Distinct staircase, second-floor landing</div></div><div class="ip">+$425,000</div></div>
             <div class="i-sel" onclick="openCustomI(this)"><div><div class="in">Custom</div><div class="idesc">Set your own price</div></div><div class="ip" id="cIL">—</div></div>
           </div>
           <div id="cIW" style="display:none;margin-top:10px;" class="row r2">
@@ -672,13 +675,13 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
         <div class="card-body gap12">
           <p style="font-size:12px;color:var(--muted);line-height:1.7;">Pull these figures from the server database at month end. The calculator clamps the result between $800K and $3M to protect against economy extremes.</p>
           <div class="row r3">
-            <div class="field"><label>Cash in Circulation ($)</label><input type="number" id="eMoney" value="11600000" oninput="calcEco()"></div>
-            <div class="field"><label>Active Players</label><input type="number" id="ePlayers" value="152" oninput="calcEco()"></div>
-            <div class="field"><label>Multiplier (default 20)</label><input type="number" id="eMult" value="20" min="10" max="35" oninput="calcEco()"></div>
+            <div class="field"><label>Cash in Circulation ($)</label><input type="number" id="eMoney" value="20000000" oninput="calcEco()"></div>
+            <div class="field"><label>Active Players</label><input type="number" id="ePlayers" value="200" oninput="calcEco()"></div>
+            <div class="field"><label>Multiplier (default 10)</label><input type="number" id="eMult" value="10" min="10" max="35" oninput="calcEco()"></div>
           </div>
           <div class="formula-box">
             <div class="fl">Formula</div>
-            <div class="ff">Tier 1 = (Cash ÷ Players) × <em id="eMultD">20</em></div>
+            <div class="ff">Tier 1 = (Cash ÷ Players) × <em id="eMultD">10</em></div>
             <div class="fd">Lower multiplier = cheaper houses (casual). Higher = harder to afford (grindy). Safety cap: $800K minimum, $3M maximum.</div>
           </div>
         </div>
@@ -687,9 +690,9 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
         <div class="card-head"><span class="orn">◆</span><h3>Results — This Month</h3></div>
         <div class="card-body gap12">
           <div class="eco-results">
-            <div class="eco-num"><div class="en-l">Cash Per Player</div><div class="en-v" id="eLiquid">$76,315</div><div class="en-s">liquidity per player</div></div>
-            <div class="eco-num"><div class="en-l">Raw Tier 1</div><div class="en-v" id="eRaw">$1,526,300</div><div class="en-s">before safety cap</div></div>
-            <div class="eco-num hi"><div class="en-l">✦ Tier 1 Base</div><div class="en-v" id="eClamped">$1,526,300</div><div class="en-s">use this in calculator</div></div>
+            <div class="eco-num"><div class="en-l">Cash Per Player</div><div class="en-v" id="eLiquid">$100,000</div><div class="en-s">liquidity per player</div></div>
+            <div class="eco-num"><div class="en-l">Raw Tier 1</div><div class="en-v" id="eRaw">$1,000,000</div><div class="en-s">before safety cap</div></div>
+            <div class="eco-num hi"><div class="en-l">✦ Tier 1 Base</div><div class="en-v" id="eClamped">$1,000,000</div><div class="en-s">use this in calculator</div></div>
             <div class="eco-num"><div class="en-l">Economy Health</div><div class="en-v" id="eHealth" style="font-size:16px;">Balanced</div><div class="en-s" id="eHealthS">multiplier healthy</div></div>
           </div>
           <table class="tier-ref-table">
@@ -752,8 +755,8 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-var G={tier:1,iName:'Standard',iPrice:0,stat:'av',saleType:'Purchase',expText:'',tier1:1526300};
-var TM={1:1,2:2.2,3:4.5,4:9};
+var G={tier:1,iName:'No Shell / Standard',iPrice:0,stat:'av',saleType:'Purchase',expText:'',tier1:1000000};
+var TM={1:1,2:2,3:3,4:4.5};
 var TN={1:'Standard',2:'Premium',3:'Luxury',4:'Elite'};
 
 // All zones: id, name, multiplier, tiers available
@@ -808,12 +811,29 @@ function go(id,el){
   window.scrollTo(0,0);
 }
 
+function buildListings(){
+  var secs=[
+    {label:'Budget Areas',chip:'chip-b',range:'×0.60 – 0.75',test:function(m){return m<=0.75;}},
+    {label:'Standard Areas',chip:'chip-s',range:'×0.78 – 1.05',test:function(m){return m>=0.78&&m<=1.05;}},
+    {label:'Premium Areas',chip:'chip-p',range:'×1.10 – 1.55',test:function(m){return m>=1.10&&m<=1.55;}},
+    {label:'Luxury Areas',chip:'chip-l',range:'×1.65 – 2.60',test:function(m){return m>=1.65;}}
+  ];
+  var cont=document.getElementById('listingZones');
+  var html='';
+  secs.forEach(function(sec){
+    var zs=ZONES.filter(function(z){return sec.test(z.m);});
+    html+='<div class="zone-section"><div class="zone-section-head"><h2>'+sec.label+'</h2><span class="zone-chip '+sec.chip+'">'+sec.range+'</span></div><div class="zone-grid">';
+    zs.forEach(function(z){
+      html+='<div class="zc"><div class="zc-head"><div class="zc-name">'+z.n+'</div><div class="zc-mult">×'+z.m.toFixed(2)+'</div></div><div class="zc-body"><div class="zc-base-price" id="z-'+z.id+'">—</div></div></div>';
+    });
+    html+='</div></div>';
+  });
+  cont.innerHTML=html;
+}
 function updateListings(base){
   ZONES.forEach(function(z){
-    z.t.forEach(function(tier){
-      var el=document.getElementById('z-'+z.id+'-'+tier);
-      if(el) el.textContent=fmt(base*TM[tier]*z.m);
-    });
+    var el=document.getElementById('z-'+z.id);
+    if(el) el.textContent=fmt(base*z.m);
   });
 }
 
@@ -842,7 +862,7 @@ function calcEco(){
   document.querySelectorAll('.dial-item').forEach(function(r,i){r.classList.toggle('di-on',i===di);});
   var tbody=document.getElementById('eTierBody');
   tbody.innerHTML='';
-  var bgs=['tr1','tr2','tr3','tr4'],ms=[1,2.2,4.5,9],ml=['Base','×2.2','×4.5','×9'];
+  var bgs=['tr1','tr2','tr3','tr4'],ms=[1,2,3,4.5],ml=['Base','×2','×3','×4.5'];
   for(var i=1;i<=4;i++){tbody.innerHTML+='<tr><td><span class="tr-badge '+bgs[i-1]+'">Tier '+i+'</span></td><td style="color:var(--bark);font-weight:500;">'+TN[i]+'</td><td style="color:var(--muted);">'+ml[i-1]+'</td><td class="tr-price">'+fmt(c*ms[i-1])+'</td></tr>';}
   var grid=document.getElementById('eZoneGrid');
   grid.innerHTML='';
@@ -857,7 +877,6 @@ function applyEco(){
 }
 
 function setTier(n,el){G.tier=n;document.querySelectorAll('.t-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cManual').value='';liveCalc();}
-function handleZone(){var v=document.getElementById('cZone').value;document.getElementById('customZW').style.display=(v==='custom')?'grid':'none';}
 function setInt(name,price,el){G.iName=name;G.iPrice=price;document.querySelectorAll('.i-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cIW').style.display='none';liveCalc();}
 function openCustomI(el){document.querySelectorAll('.i-sel').forEach(function(b){b.classList.remove('on');});el.classList.add('on');document.getElementById('cIW').style.display='grid';syncCI();liveCalc();}
 function syncCI(){G.iName=document.getElementById('cIN').value||'Custom Interior';G.iPrice=parseFloat(document.getElementById('cIP').value)||0;document.getElementById('cIL').textContent=G.iPrice?fmt(G.iPrice):'—';}
@@ -870,12 +889,6 @@ function updateTiers(){
   document.getElementById('ct2').textContent=fmt(c*2.2);
   document.getElementById('ct3').textContent=fmt(c*4.5);
   document.getElementById('ct4').textContent=fmt(c*9);
-}
-
-function getZone(){
-  var sel=document.getElementById('cZone');
-  if(sel.value==='custom'){return{m:parseFloat(document.getElementById('cZM').value)||1.0,n:document.getElementById('cZN').value||'Custom Zone'};}
-  return{m:parseFloat(sel.value),n:sel.options[sel.selectedIndex].getAttribute('data-n')};
 }
 
 function getCalc(){
@@ -1139,10 +1152,122 @@ function sendWebhook(){
   });
 }
 
+// ── ZONE PICKER ──
+var ZONE_GROUPS=[
+  {label:'Budget',  test:function(m){return m<=0.75;}},
+  {label:'Standard',test:function(m){return m>=0.78&&m<=1.05;}},
+  {label:'Premium', test:function(m){return m>=1.10&&m<=1.55;}},
+  {label:'Luxury',  test:function(m){return m>=1.65;}}
+];
+var _selZoneId='pillbox';
+var _zoneData={m:1.00,n:'Pillbox Hill',id:'pillbox'};
+
+function buildZoneDrop(){
+  var list=document.getElementById('zoneDropList');
+  var html='';
+  ZONE_GROUPS.forEach(function(g){
+    var zs=ZONES.filter(function(z){return g.test(z.m);});
+    if(!zs.length)return;
+    html+='<div class="zd-grp-label">'+g.label+'</div>';
+    zs.forEach(function(z){
+      var sel=(z.id===_selZoneId)?' zd-sel':'';
+      html+='<div class="zd-row'+sel+'" data-zid="'+z.id+'" data-zm="'+z.m+'" data-zn="'+z.n+'" onclick="selectZone(this)"><span class="zdn">'+z.n+'</span><span class="zdm">×'+z.m.toFixed(2)+'</span></div>';
+    });
+  });
+  html+='<div class="zd-grp-label">Custom</div>';
+  html+='<div class="zd-row" data-zid="custom" data-zm="1.00" data-zn="Custom Zone" onclick="selectZone(this)"><span class="zdn">⚙ Custom Zone</span><span class="zdm">manual</span></div>';
+  list.innerHTML=html;
+}
+
+function toggleZoneDrop(){
+  var drop=document.getElementById('zoneDrop');
+  var disp=document.getElementById('zoneDisplay');
+  if(drop.classList.contains('open')){closeZoneDrop();return;}
+  drop.classList.add('open');disp.classList.add('open');
+  document.getElementById('zoneSearchInput').value='';
+  filterZones();
+  setTimeout(function(){document.getElementById('zoneSearchInput').focus();},60);
+}
+
+function closeZoneDrop(){
+  document.getElementById('zoneDrop').classList.remove('open');
+  document.getElementById('zoneDisplay').classList.remove('open');
+}
+
+function selectZone(el){
+  var id=el.getAttribute('data-zid');
+  var m=parseFloat(el.getAttribute('data-zm'));
+  var n=el.getAttribute('data-zn');
+  _selZoneId=id;
+  _zoneData={m:m,n:n,id:id};
+  document.getElementById('zoneDisplayTxt').textContent=(id==='custom')?'⚙ Custom Zone':n+' ×'+m.toFixed(2);
+  document.querySelectorAll('#zoneDropList .zd-row').forEach(function(r){r.classList.remove('zd-sel');});
+  el.classList.add('zd-sel');
+  document.getElementById('customZW').style.display=(id==='custom')?'grid':'none';
+  liveCalc();
+  closeZoneDrop();
+}
+
+function filterZones(){
+  var q=document.getElementById('zoneSearchInput').value.toLowerCase().trim();
+  document.querySelectorAll('#zoneDropList .zd-row').forEach(function(r){
+    var n=r.getAttribute('data-zn').toLowerCase();
+    r.classList.toggle('zd-hidden',q!==''&&n.indexOf(q)===-1);
+  });
+  document.querySelectorAll('#zoneDropList .zd-grp-label').forEach(function(lbl){
+    var sib=lbl.nextElementSibling,vis=false;
+    while(sib&&!sib.classList.contains('zd-grp-label')){
+      if(!sib.classList.contains('zd-hidden'))vis=true;
+      sib=sib.nextElementSibling;
+    }
+    lbl.classList.toggle('zd-hidden',!vis);
+  });
+}
+
+document.addEventListener('click',function(e){
+  var w=document.getElementById('zonePickWrap');
+  if(w&&!w.contains(e.target))closeZoneDrop();
+});
+
+// Override getZone to read from _zoneData directly — no hidden select dependency
+function getZone(){
+  if(_zoneData.id==='custom'){
+    return{m:parseFloat(document.getElementById('cZM').value)||1.0,n:document.getElementById('cZN').value||'Custom Zone'};
+  }
+  return{m:_zoneData.m,n:_zoneData.n};
+}
+
+// Override handleZone (no longer reads the hidden select)
+function handleZone(){
+  document.getElementById('customZW').style.display=(_selZoneId==='custom')?'grid':'none';
+}
+
+// ── INTERIOR SEARCH ──
+function filterInteriors(){
+  var q=document.getElementById('intSearch').value.toLowerCase().trim();
+  document.querySelectorAll('#intSelG .i-sel').forEach(function(r){
+    var n=r.querySelector('.in').textContent.toLowerCase();
+    var d=r.querySelector('.idesc').textContent.toLowerCase();
+    r.style.display=(q===''||n.indexOf(q)!==-1||d.indexOf(q)!==-1)?'':'none';
+  });
+  document.querySelectorAll('#intSelG .i-grp').forEach(function(g){
+    var grp=g.getAttribute('data-grp');
+    if(!grp){g.style.display='';return;}
+    var sib=g.nextElementSibling,vis=false;
+    while(sib&&!sib.classList.contains('i-grp')){
+      if(sib.style.display!=='none')vis=true;
+      sib=sib.nextElementSibling;
+    }
+    g.style.display=vis?'':'none';
+  });
+}
+
 // Init
 calcEco();
 updateTiers();
 updateListings(G.tier1);
+buildZoneDrop();
+buildListings();
 liveCalc();
 </script>
 </body>
