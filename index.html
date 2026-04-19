@@ -494,7 +494,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
         <div class="card-body gap12">
           <div class="row r3">
             <div class="field"><label>Buyer Full Name</label><input type="text" id="bName" placeholder="e.g. Michael De Santa" oninput="liveCalc()"></div>
-            <div class="field"><label>Citizen ID / SSN</label><input type="text" id="bCitizen" placeholder="e.g. #304827" oninput="liveCalc()"></div>
+
             <div class="field"><label>Buyer Contact #</label><input type="text" id="bContact" placeholder="In-game number" oninput="liveCalc()"></div>
           </div>
           <div class="field"><label>Sale Type</label>
@@ -604,7 +604,7 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
             <div class="i-sel on" onclick="setInt('No Shell / Standard',0,this)"><div><div class="in">No Shell / Standard</div><div class="idesc">Base fitout, included free</div></div><div class="ip">Included</div></div>
             <div class="i-grp" data-grp="apartment">Apartment Shells</div>
             <div class="i-sel" data-int="apartment" onclick="setInt('Apartment Shell #5',125000,this)"><div><div class="in">Apartment Shell #5</div><div class="idesc">Modern multi-room, sleek finishes</div></div><div class="ip">+$125,000</div></div>
-            <div class="i-sel" data-int="apartment" onclick="setInt('Apartment Shell #6',50000,this)"><div><div class="in">Apartment Shell #6</div><div class="idesc">Compact, entry-level</div></div><div class="ip">+$50,000</div></div>
+            <div class="i-sel" data-int="apartment" onclick="setInt('Apartment Shell #6',150000,this)"><div><div class="in">Apartment Shell #6</div><div class="idesc">Compact, entry-level</div></div><div class="ip">+$150,000</div></div>
             <div class="i-grp" data-grp="house">House Shells</div>
             <div class="i-sel" data-int="house" onclick="setInt('House Shell #9',200000,this)"><div><div class="in">House Shell #9</div><div class="idesc">Tiled hallway, updated fixtures</div></div><div class="ip">+$200,000</div></div>
             <div class="i-sel" data-int="house" onclick="setInt('House Shell #10',250000,this)"><div><div class="in">House Shell #10</div><div class="idesc">Contemporary neutral palette</div></div><div class="ip">+$250,000</div></div>
@@ -654,11 +654,21 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
           <div class="bk-line bk-total"><span class="bl">Total Price</span><span class="br" id="bkTotal">—</span></div>
         </div>
         <div class="export-pre" id="expPre"></div>
+        <div style="background:rgba(247,243,237,0.05);border:1px solid rgba(247,243,237,0.1);border-radius:5px;padding:10px 12px;display:flex;flex-direction:column;gap:5px;">
+          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:3px;">Agent Commission</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="number" id="cComm" value="4" min="0" max="100" step="0.5" style="width:70px;background:rgba(255,255,255,0.08);border:1px solid rgba(194,139,110,0.3);border-radius:3px;color:var(--cream);font-family:'Jost',sans-serif;font-size:13px;font-weight:600;padding:5px 8px;outline:none;" oninput="liveCalc()">
+            <span style="font-size:11px;color:rgba(247,243,237,0.45);">% of total sale price</span>
+          </div>
+          <div style="font-size:10px;color:var(--clay);font-weight:600;" id="commPreview">Commission: —</div>
+        </div>
         <div class="sum-btns">
           <button class="btn btn-clay btn-full" onclick="liveCalc()">⚡ Calculate</button>
           <button class="btn btn-green btn-full" onclick="buildPost()">📋 Generate Chat Post</button>
           <button class="btn btn-bark btn-full" onclick="generateDoc()">📄 Export Official Agreement</button>
           <button class="btn btn-ghost btn-full" onclick="doCopy()">⧉ Copy Post to Clipboard</button>
+          <button class="btn btn-full" style="background:rgba(88,101,242,0.15);border:1px solid rgba(88,101,242,0.4);color:#8B9EF5;" onclick="sendQuoteDiscord()">🏷️ Send Quote to Discord</button>
+          <button class="btn btn-full" style="background:rgba(122,50,50,0.15);border:1px solid rgba(122,50,50,0.4);color:#CF6679;" onclick="markSoldAndNotify()">✅ Mark as SOLD &amp; Notify Discord</button>
         </div>
       </div>
     </div>
@@ -675,9 +685,9 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
         <div class="card-body gap12">
           <p style="font-size:12px;color:var(--muted);line-height:1.7;">Pull these figures from the server database at month end. The calculator clamps the result between $800K and $3M to protect against economy extremes.</p>
           <div class="row r3">
-            <div class="field"><label>Cash in Circulation ($)</label><input type="number" id="eMoney" value="20000000" oninput="calcEco()"></div>
-            <div class="field"><label>Active Players</label><input type="number" id="ePlayers" value="200" oninput="calcEco()"></div>
-            <div class="field"><label>Multiplier (default 10)</label><input type="number" id="eMult" value="10" min="10" max="35" oninput="calcEco()"></div>
+            <div class="field"><label>Cash in Circulation ($)</label><input type="number" id="eMoney" value="18000000" oninput="calcEco()"></div>
+            <div class="field"><label>Active Players</label><input type="number" id="ePlayers" value="209" oninput="calcEco()"></div>
+            <div class="field"><label>Multiplier (default 18)</label><input type="number" id="eMult" value="18" min="10" max="35" oninput="calcEco()"></div>
           </div>
           <div class="formula-box">
             <div class="fl">Formula</div>
@@ -743,10 +753,9 @@ body{font-family:'Jost',sans-serif;background:var(--parch);color:var(--ink);font
     <button class="doc-close" onclick="document.getElementById('docOverlay').classList.remove('on')">✕ Close</button>
     <div id="docContent"></div>
     <div class="webhook-bar">
-      <div class="wh-label">Discord Webhook</div>
+      <div class="wh-label">&#10022; Property Contracts Channel</div>
       <div class="wh-row">
-        <input type="text" id="whUrl" placeholder="https://discord.com/api/webhooks/..." class="wh-input" value="https://discord.com/api/webhooks/1493687845007917252/7DZAU3puJgdx5rc7QmwKx9lB-gvnCVCkXshekORG3ftKZEwlHbuKUkGguGjFwMMahtZC">
-        <button class="wh-btn" id="whBtn" onclick="sendWebhook()">Send to Discord</button>
+        <button class="wh-btn" id="whBtn" onclick="sendWebhook()" style="width:100%;font-size:11px;padding:11px;">Send Contract Image to Discord</button>
       </div>
       <div class="wh-status" id="whStatus"></div>
     </div>
@@ -899,7 +908,7 @@ function getCalc(){
   var zone=getZone(),zp=tb*zone.m;
   var sub=zp+G.iPrice,dp=parseFloat(document.getElementById('cDisc').value)||0;
   var disc=sub*(dp/100),total=sub-disc;
-  return{tb,zone,zp,sub,dp,disc,total};
+  return{tb:tb,zone:zone,zp:zp,sub:sub,dp:dp,disc:disc,total:total};
 }
 
 function liveCalc(){
@@ -918,6 +927,9 @@ function liveCalc(){
   document.getElementById('bkTotal').textContent=fmt(c.total);
   if(c.disc>0){document.getElementById('bkDRow').style.display='flex';document.getElementById('bkDisc').textContent='-'+fmt(c.disc)+' ('+c.dp+'%)';}
   else{document.getElementById('bkDRow').style.display='none';}
+  var commPct=parseFloat(document.getElementById('cComm').value)||4;
+  var commEl=document.getElementById('commPreview');
+  if(commEl&&c.total>0){commEl.textContent='Commission ('+commPct+'%): '+fmt(c.total*(commPct/100));}
 }
 
 function buildPost(){
@@ -958,7 +970,6 @@ function generateDoc(){
   var aContact = document.getElementById('cContact').value.trim() || 'N/A';
   var notes    = document.getElementById('cNotes').value.trim();
   var bName    = document.getElementById('bName').value.trim()    || 'N/A';
-  var bCitizen = document.getElementById('bCitizen').value.trim() || 'N/A';
   var bContact = document.getElementById('bContact').value.trim() || 'N/A';
   var dr       = document.getElementById('cDR').value.trim();
   var c        = getCalc();
@@ -1002,7 +1013,7 @@ function generateDoc(){
   p.push('<div class="doc-section"><div class="doc-section-title">Parties to the Agreement</div>');
   p.push('<div class="doc-2col"><div>');
   p.push('<div class="doc-field"><div class="df-label">Buyer / Lessee</div><div class="df-val big">' + bName + '</div></div>');
-  p.push('<div class="doc-field"><div class="df-label">Citizen ID / SSN</div><div class="df-val">' + bCitizen + '</div></div>');
+
   p.push('<div class="doc-field"><div class="df-label">Contact Number</div><div class="df-val">' + bContact + '</div></div>');
   p.push('</div><div>');
   p.push('<div class="doc-field"><div class="df-label">Selling Agent</div><div class="df-val big">' + agent + '</div></div>');
@@ -1083,19 +1094,9 @@ function fallbackDownload(canvas, btn){
 }
 
 function sendWebhook(){
-  var url = document.getElementById('whUrl').value.trim();
+  var CONTRACT_URL = 'https://discord.com/api/webhooks/1495497620884291850/GKIUFZWcbxEKoednxEmND9g6nIxOTmtBhsLcZV5oCIJbRvbW7Bi1eQpe7eQ7U2EUbh6d';
   var btn = document.getElementById('whBtn');
   var status = document.getElementById('whStatus');
-  if(!url){
-    status.className = 'wh-status err';
-    status.textContent = 'Please enter a Discord webhook URL.';
-    return;
-  }
-  if(url.indexOf('discord.com/api/webhooks') === -1 && url.indexOf('discordapp.com/api/webhooks') === -1){
-    status.className = 'wh-status err';
-    status.textContent = 'That does not look like a valid Discord webhook URL.';
-    return;
-  }
   btn.disabled = true;
   status.className = 'wh-status pending';
   status.textContent = 'Rendering document...';
@@ -1110,27 +1111,40 @@ function sendWebhook(){
         return;
       }
       var addr = document.getElementById('cAddr').value.trim() || 'Property';
+      var postal = document.getElementById('cPostal').value.trim() || 'N/A';
+      var agent = document.getElementById('cAgent').value.trim() || 'XOXO Agent';
+      var buyer = document.getElementById('bName').value.trim() || 'N/A';
+      var c = getCalc();
       var refEl = document.getElementById('docContent').querySelector('.doc-ref strong');
       var ref = refEl ? refEl.textContent : 'XR-REF';
       var now = new Date();
       var dateStr = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+      var commPct = parseFloat(document.getElementById('cComm').value) || 4;
+      var commAmt = c.total * (commPct / 100);
       var fd = new FormData();
       fd.append('file', blob, ref + '.png');
       var payload = {
         username: 'XOXO Realestate',
         embeds:[{
-          title: 'Property Agreement — ' + addr,
-          description: 'Reference: **' + ref + '**\nIssued: ' + dateStr + '\n\nSee the attached agreement image below.',
-          color: 4934440,
-          footer:{text:'XOXO Realestate · Los Santos, San Andreas'}
+          title: '🔴  PROPERTY SOLD — ' + addr,
+          description: '**Property was sold by ' + agent + '**\n\n' +
+            '📍 **Address:** ' + addr + '\n' +
+            '📮 **Postal:** ' + postal + '\n' +
+            '🗺️ **Zone:** ' + c.zone.n + ' (×' + c.zone.m.toFixed(2) + ')\n' +
+            '👤 **Buyer:** ' + buyer + '\n' +
+            '💰 **Sale Price:** **' + fmt(c.total) + '**\n' +
+            '📋 **Reference:** ' + ref + '\n' +
+            '📅 **Date:** ' + dateStr,
+          color: 7877898,
+          footer:{text:'XOXO Realestate · Los Santos, San Andreas · ' + ref}
         }]
       };
       fd.append('payload_json', JSON.stringify(payload));
-      fetch(url, {method:'POST', body:fd})
+      fetch(CONTRACT_URL, {method:'POST', body:fd})
         .then(function(r){
           if(r.ok){
             status.className = 'wh-status ok';
-            status.textContent = 'Sent to Discord successfully!';
+            status.textContent = 'Contract sent to #property-contracts!';
           } else {
             r.text().then(function(t){
               status.className = 'wh-status err';
@@ -1150,6 +1164,164 @@ function sendWebhook(){
     status.textContent = 'Render error: ' + e.message;
     btn.disabled = false;
   });
+}
+
+// ── QUOTE WEBHOOK ──
+function sendQuoteDiscord(){
+  var QUOTE_URL = 'https://discord.com/api/webhooks/1495498635134238740/hLPpzCJqxU1FkRPmgguL7Id5o8cCU3iXcjkYTN1tdaNj4M3D5FMiattdSv6Kctnz6wLA';
+  var addr    = document.getElementById('cAddr').value.trim()    || 'N/A';
+  var postal  = document.getElementById('cPostal').value.trim()  || 'N/A';
+  var agent   = document.getElementById('cAgent').value.trim()   || 'XOXO Agent';
+  var contact = document.getElementById('cContact').value.trim() || 'N/A';
+  var notes   = document.getElementById('cNotes').value.trim();
+  var c = getCalc();
+  var now = new Date();
+  var dateStr = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var desc =
+    '> 🏷️  **PROPERTY QUOTE**\n\n' +
+    '📍 **Address:** ' + addr + '\n' +
+    '📮 **Postal:** ' + postal + '\n' +
+    '🗺️ **Zone:** ' + c.zone.n + ' (' + c.zone.m.toFixed(2) + '×)\n' +
+    '🏡 **Tier:** Tier ' + G.tier + ' — ' + TN[G.tier] + '\n' +
+    '🛋️ **Interior:** ' + G.iName + (G.iPrice ? '  (+' + fmt(G.iPrice) + ')' : '') + '\n\n' +
+    '━━━━━━━━━━━━━━━━━━\n' +
+    '💵  **Tier Base:** ' + fmt(c.tb) + '\n' +
+    '📌  **Zone Price:** ' + fmt(c.zp) + '\n' +
+    '🪟  **Interior:** ' + (G.iPrice ? fmt(G.iPrice) : 'Included') + '\n' +
+    (c.disc > 0 ? '🏷️  **Discount (' + c.dp + '%):** -' + fmt(c.disc) + '\n' : '') +
+    '━━━━━━━━━━━━━━━━━━\n' +
+    '✅  **QUOTED PRICE: ' + fmt(c.total) + '**\n\n' +
+    (notes ? '📝 ' + notes + '\n\n' : '') +
+    '👤 **Agent:** ' + agent + '\n' +
+    '📞 **Contact:** ' + contact + '\n' +
+    '_Quote valid for current month · ' + dateStr + '_';
+
+  var payload = {
+    username: 'XOXO Realestate — Quote',
+    embeds:[{
+      title: '🏷️  Property Quote — ' + addr,
+      description: desc,
+      color: 5793266,
+      thumbnail: {url: 'https://i.imgur.com/yNqGTEv.png'},
+      footer: {text: 'XOXO Realestate · Quote Request · ' + dateStr}
+    }]
+  };
+  fetch(QUOTE_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){
+    if(r.ok){ showToast2('Quote sent to Discord!'); }
+    else { r.text().then(function(t){ alert('Quote Discord error: ' + r.status + ' ' + t.substring(0,100)); }); }
+  }).catch(function(e){ alert('Network error: ' + e.message); });
+}
+
+// ── PAYROLL WEBHOOK ──
+function sendPayrollWebhook(addr, postal, agent, total, commPct, commAmt, ref){
+  var PAYROLL_URL = 'https://discord.com/api/webhooks/1495497924954554400/pa2mN05g-0Yo5BPqDmvsJiwlqEjkIe0pJCkEixMxh4jMyQpOEOhNcwYKfa2HQfKxpfeW';
+  var now = new Date();
+  var dateStr = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var desc =
+    '> 💼  **AGENT COMMISSION — PROPERTY SALE**\n\n' +
+    '📍 **Property:** ' + addr + '\n' +
+    '📮 **Postal:** ' + postal + '\n' +
+    '👤 **Selling Agent:** ' + agent + '\n' +
+    '📋 **Ref:** ' + ref + '\n\n' +
+    '━━━━━━━━━━━━━━━━━━\n' +
+    '💰 **Property Lot Sold At:** ' + fmt(total) + '\n' +
+    '📊 **Commission Rate:** ' + commPct + '%\n' +
+    '💵 **Commission Owed: ' + fmt(commAmt) + '**\n' +
+    '━━━━━━━━━━━━━━━━━━\n\n' +
+    '_Payment due to agent upon sale confirmation · ' + dateStr + '_';
+
+  var payload = {
+    username: 'XOXO Payroll',
+    embeds:[{
+      title: '💼  Commission Log — ' + agent,
+      description: desc,
+      color: 3910464,
+      footer: {text: 'XOXO Realestate · Payroll · ' + ref + ' · ' + dateStr}
+    }]
+  };
+  fetch(PAYROLL_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).catch(function(e){ console.warn('Payroll webhook error:', e.message); });
+}
+
+// ── MARK AS SOLD & NOTIFY ──
+function markSoldAndNotify(){
+  // Set status to SOLD
+  var soldBtn = document.querySelector('.st-btn.sl') || Array.from(document.querySelectorAll('.st-btn')).find(function(b){ return b.textContent.toUpperCase().indexOf('SOLD') !== -1; });
+  if(soldBtn){ soldBtn.classList.add('on','sl'); setStat('sl',soldBtn); }
+
+  var addr    = document.getElementById('cAddr').value.trim()   || 'Property';
+  var postal  = document.getElementById('cPostal').value.trim() || 'N/A';
+  var agent   = document.getElementById('cAgent').value.trim()  || 'XOXO Agent';
+  var buyer   = document.getElementById('bName').value.trim()   || 'N/A';
+  var c       = getCalc();
+  var commPct = parseFloat(document.getElementById('cComm').value) || 4;
+  var commAmt = c.total * (commPct / 100);
+  var now     = new Date();
+  var ref     = 'XR-' + now.getFullYear() + '-' + String(Math.floor(Math.random()*90000)+10000);
+
+  // Generate the doc and open overlay first so html2canvas can render it
+  generateDoc();
+
+  // Then after a tick, send to contract channel (with image) + payroll channel
+  setTimeout(function(){
+    var CONTRACT_URL = 'https://discord.com/api/webhooks/1495497620884291850/GKIUFZWcbxEKoednxEmND9g6nIxOTmtBhsLcZV5oCIJbRvbW7Bi1eQpe7eQ7U2EUbh6d';
+    var sheet = document.getElementById('docContent');
+    var wbStatus = document.getElementById('whStatus');
+    if(wbStatus){ wbStatus.className='wh-status pending'; wbStatus.textContent='Sending sold notification...'; }
+    html2canvas(sheet, {scale:2, useCORS:true, backgroundColor:'#ffffff', logging:false}).then(function(canvas){
+      canvas.toBlob(function(blob){
+        if(!blob){ if(wbStatus){ wbStatus.className='wh-status err'; wbStatus.textContent='Image render failed.'; } return; }
+        var fd = new FormData();
+        fd.append('file', blob, ref + '-SOLD.png');
+        var dateStr = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+        var payload = {
+          username: 'XOXO Realestate',
+          embeds:[{
+            title: '🔴  PROPERTY SOLD — ' + addr,
+            description:
+              '**Property was sold by ' + agent + '**\n\n' +
+              '📍 **Address:** ' + addr + '\n' +
+              '📮 **Postal:** ' + postal + '\n' +
+              '🗺️ **Zone:** ' + c.zone.n + ' (×' + c.zone.m.toFixed(2) + ')\n' +
+              '👤 **Buyer:** ' + buyer + '\n' +
+              '💰 **Sale Price:** **' + fmt(c.total) + '**\n' +
+              '📋 **Reference:** ' + ref + '\n' +
+              '📅 **Date:** ' + dateStr,
+            color: 7877898,
+            footer:{text:'XOXO Realestate · Los Santos, San Andreas · ' + ref}
+          }]
+        };
+        fd.append('payload_json', JSON.stringify(payload));
+        fetch(CONTRACT_URL, {method:'POST', body:fd}).then(function(r){
+          if(r.ok){
+            if(wbStatus){ wbStatus.className='wh-status ok'; wbStatus.textContent='Sold notice sent to contracts & payroll!'; }
+            sendPayrollWebhook(addr, postal, agent, c.total, commPct, commAmt, ref);
+            showToast2('SOLD! Notified contracts + payroll!');
+          } else {
+            r.text().then(function(t){
+              if(wbStatus){ wbStatus.className='wh-status err'; wbStatus.textContent='Error '+r.status+': '+t.substring(0,80); }
+            });
+          }
+        }).catch(function(e){
+          if(wbStatus){ wbStatus.className='wh-status err'; wbStatus.textContent='Network error: '+e.message; }
+        });
+      }, 'image/png');
+    });
+  }, 400);
+}
+
+function showToast2(msg){
+  var t=document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); t.textContent='✓ Copied to clipboard'; }, 3200);
 }
 
 // ── ZONE PICKER ──
@@ -1265,9 +1437,9 @@ function filterInteriors(){
 // Init
 calcEco();
 updateTiers();
-updateListings(G.tier1);
 buildZoneDrop();
 buildListings();
+updateListings(G.tier1);
 liveCalc();
 </script>
 </body>
